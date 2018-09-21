@@ -7,11 +7,11 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class Builty {
 
-	private Integer builtyNo;
-	private Integer doId;
+	private Long builtyNo;
+	private Long doId;
 	private String doDisplay;
 	private Party party;
-	private Date builtyDate;
+	private String builtyDate;
 	private String otBuiltyCompany;
 	private Integer otBuiltyNumber;
 	private String vehicleNo;
@@ -22,31 +22,39 @@ public class Builty {
 	private String pumpName;
 	private Integer freight;
 	private Integer totalAdvance;
-	private Integer permitNo;
-	private Integer permitBalance;
-	private Date permitEndDate;
-	private Integer igpNo;
-	private Integer invoiceNo;
+	private Long permitNo;
+	private Double permitBalance;
+	private String permitEndDate;
+	private Long igpNo;
+	private Long invoiceNo;
 	private Double invoiceValue;
 	private String driverName;
-	private Integer driverMobile;
+	private Long driverMobile;
 	private Double grossWeight;
+	private Double tierWeight;
 	private Double doBalance;
 	private User transporter;
 	private User subTransporter;
 	private String waybillNo;
 	private String tpNo;
+	private String receivedDate;
+	private Double receivedQuantity;
+	private Double netWeight;
+	private Double refund;
+	private Double assesibleValue;
+	private String freightToBePaidBy;
+	private Integer inAdvanceLimit;
 	
-	public Integer getBuiltyNo() {
+	public Long getBuiltyNo() {
 		return builtyNo;
 	}
-	public void setBuiltyNo(Integer builtyNo) {
+	public void setBuiltyNo(Long builtyNo) {
 		this.builtyNo = builtyNo;
 	}
-	public Integer getDoId() {
+	public Long getDoId() {
 		return doId;
 	}
-	public void setDoId(Integer doId) {
+	public void setDoId(Long doId) {
 		this.doId = doId;
 	}
 	public String getDoDisplay() {
@@ -61,10 +69,10 @@ public class Builty {
 	public void setParty(Party party) {
 		this.party = party;
 	}
-	public Date getBuiltyDate() {
+	public String getBuiltyDate() {
 		return builtyDate;
 	}
-	public void setBuiltyDate(Date builtyDate) {
+	public void setBuiltyDate(String builtyDate) {
 		this.builtyDate = builtyDate;
 	}
 	public String getOtBuiltyCompany() {
@@ -127,34 +135,34 @@ public class Builty {
 	public void setTotalAdvance(Integer totalAdvance) {
 		this.totalAdvance = totalAdvance;
 	}
-	public Integer getPermitNo() {
+	public Long getPermitNo() {
 		return permitNo;
 	}
-	public void setPermitNo(Integer permitNo) {
+	public void setPermitNo(Long permitNo) {
 		this.permitNo = permitNo;
 	}
-	public Integer getPermitBalance() {
+	public Double getPermitBalance() {
 		return permitBalance;
 	}
-	public void setPermitBalance(Integer permitBalance) {
+	public void setPermitBalance(Double permitBalance) {
 		this.permitBalance = permitBalance;
 	}
-	public Date getPermitEndDate() {
+	public String getPermitEndDate() {
 		return permitEndDate;
 	}
-	public void setPermitEndDate(Date permitEndDate) {
+	public void setPermitEndDate(String permitEndDate) {
 		this.permitEndDate = permitEndDate;
 	}
-	public Integer getIgpNo() {
+	public Long getIgpNo() {
 		return igpNo;
 	}
-	public void setIgpNo(Integer igpNo) {
+	public void setIgpNo(Long igpNo) {
 		this.igpNo = igpNo;
 	}
-	public Integer getInvoiceNo() {
+	public Long getInvoiceNo() {
 		return invoiceNo;
 	}
-	public void setInvoiceNo(Integer invoiceNo) {
+	public void setInvoiceNo(Long invoiceNo) {
 		this.invoiceNo = invoiceNo;
 	}
 	public Double getInvoiceValue() {
@@ -169,10 +177,10 @@ public class Builty {
 	public void setDriverName(String driverName) {
 		this.driverName = driverName;
 	}
-	public Integer getDriverMobile() {
+	public Long getDriverMobile() {
 		return driverMobile;
 	}
-	public void setDriverMobile(Integer driverMobile) {
+	public void setDriverMobile(Long driverMobile) {
 		this.driverMobile = driverMobile;
 	}
 	public Double getGrossWeight() {
@@ -180,6 +188,18 @@ public class Builty {
 	}
 	public void setGrossWeight(Double grossWeight) {
 		this.grossWeight = grossWeight;
+	}
+	public Double getTierWeight() {
+		return tierWeight;
+	}
+	public void setTierWeight(Double tierWeight) {
+		this.tierWeight = tierWeight;
+	}
+	public Integer getInAdvanceLimit() {
+		return inAdvanceLimit;
+	}
+	public void setInAdvanceLimit(Integer inAdvanceLimit) {
+		this.inAdvanceLimit = inAdvanceLimit;
 	}
 	public Double getDoBalance() {
 		return doBalance;
@@ -211,7 +231,41 @@ public class Builty {
 	public void setTpNo(String tpNo) {
 		this.tpNo = tpNo;
 	}
-	
-	
+	public String getReceivedDate() {
+		return receivedDate;
+	}
+	public void setReceivedDate(String receivedDate) {
+		this.receivedDate = receivedDate;
+	}
+	public Double getReceivedQuantity() {
+		return receivedQuantity;
+	}
+	public void setReceivedQuantity(Double receivedQuantity) {
+		this.receivedQuantity = receivedQuantity;
+	}
+	public Double getNetWeight() {
+		return netWeight;
+	}
+	public void setNetWeight(Double netWeight) {
+		this.netWeight = netWeight;
+	}
+	public Double getRefund() {
+		return refund;
+	}
+	public void setRefund(Double refund) {
+		this.refund = refund;
+	}
+	public Double getAssesibleValue() {
+		return assesibleValue;
+	}
+	public void setAssesibleValue(Double assesibleValue) {
+		this.assesibleValue = assesibleValue;
+	}
+	public String getFreightToBePaidBy() {
+		return freightToBePaidBy;
+	}
+	public void setFreightToBePaidBy(String freightToBePaidBy) {
+		this.freightToBePaidBy = freightToBePaidBy;
+	}
 	
 }

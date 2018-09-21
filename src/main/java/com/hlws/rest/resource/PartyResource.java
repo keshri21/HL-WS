@@ -3,6 +3,7 @@ package com.hlws.rest.resource;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -10,11 +11,13 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hlws.model.Party;
 import com.hlws.response.APIResponse;
 import com.hlws.response.ResponseUtil;
+import com.hlws.util.DummyBuilder;
 
 
 @RestController
@@ -22,6 +25,7 @@ import com.hlws.response.ResponseUtil;
 public class PartyResource {
 
 	@PostMapping
+	@ResponseStatus(HttpStatus.CREATED)
 	@ResponseBody
 	public APIResponse<Long> register(@RequestBody Party party){
 		String message;
@@ -43,6 +47,7 @@ public class PartyResource {
 		List<Party> data = new ArrayList<Party>();
 		try {
 			message = "party list retrieved successfully";
+			data = DummyBuilder.createDummyParty(4);
 		}catch(Exception e) {
 			e.printStackTrace();
 			message = "Some error occurred while retrieving party list";
@@ -58,6 +63,7 @@ public class PartyResource {
 		Party data = new Party();
 		try {
 			message = "Party retrieved successfully";
+			data = DummyBuilder.createDummyParty(1).get(0);
 		}catch(Exception e) {
 			e.printStackTrace();
 			message = "Some error occurred while retrieving party";

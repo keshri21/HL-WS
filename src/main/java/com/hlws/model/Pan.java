@@ -14,7 +14,7 @@ public class Pan {
 	private String declarationLink;
 	private boolean tds;
 	private List<Account> accounts;
-	private Integer mobile;
+	private Long mobile;
 	private String address;
 	private String city;
 	private String district;
@@ -56,10 +56,10 @@ public class Pan {
 	public void setAccounts(List<Account> accounts) {
 		this.accounts = accounts;
 	}
-	public Integer getMobile() {
+	public Long getMobile() {
 		return mobile;
 	}
-	public void setMobile(Integer mobile) {
+	public void setMobile(Long mobile) {
 		this.mobile = mobile;
 	}
 	public String getAddress() {

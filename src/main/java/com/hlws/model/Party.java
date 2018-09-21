@@ -25,7 +25,7 @@ public class Party {
 		this.name = name;
 	}
 	public List<String> getDestinations() {
-		return destinations == null ? new ArrayList<String>(): destinations;
+		return destinations == null ? new ArrayList<String>() : destinations;
 	}
 	public void setDestinations(List<String> destinations) {
 		this.destinations = destinations;

@@ -10,9 +10,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.hlws.model.Pan;
 import com.hlws.model.Vehicle;
 import com.hlws.response.APIResponse;
 import com.hlws.response.ResponseUtil;
+import com.hlws.util.DummyBuilder;
 
 @RestController
 @RequestMapping("vehicle")
@@ -25,6 +27,7 @@ public class VehicleResource {
 		List<Vehicle> data = new ArrayList<Vehicle>();
 		try {
 			message = "Vehicle retrieved successfully";
+			data = DummyBuilder.createDummyVehicles(2);
 		}catch(Exception e) {
 			e.printStackTrace();
 			message = "Some error ocurred while looking for vehicle number";
@@ -35,11 +38,12 @@ public class VehicleResource {
 	
 	@GetMapping(value = "/{vehicleId}")
 	@ResponseBody
-	public APIResponse<Vehicle> getOne(@PathVariable("vehicleId") Long vehicleId){
+	public APIResponse<Pan> getOne(@PathVariable("vehicleId") Long vehicleId){
 		String message;
-		Vehicle data = new Vehicle();
+		Pan data = new Pan();
 		try {
 			message = "Vehicle retrieved successfully";
+			data = DummyBuilder.createDummyPan(1).get(0);
 		}catch(Exception e) {
 			e.printStackTrace();
 			message = "Some error ocurred while looking for vehicle id";

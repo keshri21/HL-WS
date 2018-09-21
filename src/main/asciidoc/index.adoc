@@ -1,0 +1,254 @@
+This is an example input and output for a service running at http://localhost:8080:
+
+USER Service
+
+CREATE
+
+.request
+include::{snippets}/user/create/http-request.adoc[]
+
+.response
+include::{snippets}/user/create/http-response.adoc[]
+
+	GET ALL
+
+.request
+include::{snippets}/user/get-all/http-request.adoc[]
+
+.response
+include::{snippets}/user/get-all/http-response.adoc[]
+
+	GET ONE
+
+.request
+include::{snippets}/user/get-one/http-request.adoc[]
+
+.response
+include::{snippets}/user/get-one/http-response.adoc[]
+
+	UPDATE
+
+.request
+include::{snippets}/user/update/http-request.adoc[]
+
+.response
+include::{snippets}/user/update/http-response.adoc[]
+
+	DELETE
+
+.request
+include::{snippets}/user/delete/http-request.adoc[]
+
+.response
+include::{snippets}/user/delete/http-response.adoc[]
+
+
+DO Service
+	
+	CREATE
+
+.request
+include::{snippets}/do/create/http-request.adoc[]
+
+.response
+include::{snippets}/do/create/http-response.adoc[]
+
+	GET ACTIVE
+
+.request
+include::{snippets}/do/get-active/http-request.adoc[]
+
+.response
+include::{snippets}/do/get-active/http-response.adoc[]
+
+	GET ALL
+
+.request
+include::{snippets}/do/get-all/http-request.adoc[]
+
+.response
+include::{snippets}/do/get-all/http-response.adoc[]
+
+	GET COMPLETED
+
+.request
+include::{snippets}/do/get-completed/http-request.adoc[]
+
+.response
+include::{snippets}/do/get-completed/http-response.adoc[]
+
+	GET ONE
+
+.request
+include::{snippets}/do/get-one/http-request.adoc[]
+
+.response
+include::{snippets}/do/get-one/http-response.adoc[]
+
+	UPDATE
+
+.request
+include::{snippets}/do/update/http-request.adoc[]
+
+.response
+include::{snippets}/do/update/http-response.adoc[]
+
+
+BUILTY Service
+	
+	CREATE
+
+.request
+include::{snippets}/builty/create/http-request.adoc[]
+
+.response
+include::{snippets}/builty/create/http-response.adoc[]
+
+	GET ACTIVE
+
+.request
+include::{snippets}/builty/get-active/http-request.adoc[]
+
+.response
+include::{snippets}/builty/get-active/http-response.adoc[]
+
+	get-all
+
+.request
+include::{snippets}/builty/get-all/http-request.adoc[]
+
+.response
+include::{snippets}/builty/get-all/http-response.adoc[]
+
+	GET COMPLETED
+
+.request
+include::{snippets}/builty/get-completed/http-request.adoc[]
+
+.response
+include::{snippets}/builty/get-completed/http-response.adoc[]
+
+	GET ONE
+
+.request
+include::{snippets}/builty/get-one/http-request.adoc[]
+
+.response
+include::{snippets}/builty/get-one/http-response.adoc[]
+
+	APPROVE
+
+.request
+include::{snippets}/builty/approve/http-request.adoc[]
+
+.response
+include::{snippets}/builty/approve/http-response.adoc[]
+
+	RECEIPT
+
+.request
+include::{snippets}/builty/receipt/http-request.adoc[]
+
+.response
+include::{snippets}/builty/receipt/http-response.adoc[]
+
+	UPDATE
+
+.request
+include::{snippets}/builty/update/http-request.adoc[]
+
+.response
+include::{snippets}/builty/update/http-response.adoc[]
+
+
+PAN Service
+
+	REGISTER
+
+.request
+include::{snippets}/pan/register/http-request.adoc[]
+
+.response
+include::{snippets}/pan/register/http-response.adoc[]
+
+	GET ALL
+
+.request
+include::{snippets}/pan/get-all/http-request.adoc[]
+
+.response
+include::{snippets}/pan/get-all/http-response.adoc[]
+
+	GET ONE
+
+.request
+include::{snippets}/pan/get-one/http-request.adoc[]
+
+.response
+include::{snippets}/pan/get-one/http-response.adoc[]
+
+	UPDATE
+
+.request
+include::{snippets}/pan/update/http-request.adoc[]
+
+.response
+include::{snippets}/pan/update/http-response.adoc[]
+
+
+PARTY Service
+
+	CREATE
+
+.request
+include::{snippets}/party/create/http-request.adoc[]
+
+.response
+include::{snippets}/party/create/http-response.adoc[]
+
+
+	GET ALL
+
+.request
+include::{snippets}/party/get-all/http-request.adoc[]
+
+.response
+include::{snippets}/party/get-all/http-response.adoc[]
+
+
+	GET ONE
+
+.request
+include::{snippets}/party/get-one/http-request.adoc[]
+
+.response
+include::{snippets}/party/get-one/http-response.adoc[]
+
+
+	UPDATE
+
+.request
+include::{snippets}/party/update/http-request.adoc[]
+
+.response
+include::{snippets}/party/update/http-response.adoc[]
+
+
+VEHICLE Service
+
+	GET MATCHING
+
+.request
+include::{snippets}/vehicle/get-matching/http-request.adoc[]
+
+.response
+include::{snippets}/vehicle/get-matching/http-response.adoc[]
+
+	GET ONE
+
+.request
+include::{snippets}/vehicle/get-one/http-request.adoc[]
+
+.response
+include::{snippets}/vehicle/get-one/http-response.adoc[]
+

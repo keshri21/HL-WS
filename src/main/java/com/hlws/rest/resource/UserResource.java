@@ -3,6 +3,7 @@ package com.hlws.rest.resource;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,18 +12,20 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.hlws.UserResourceTests;
 import com.hlws.model.User;
 import com.hlws.response.APIResponse;
 import com.hlws.response.ResponseUtil;
+import com.hlws.util.DummyBuilder;
 
 @RestController
 @RequestMapping("user")
 public class UserResource {
 
 	@PostMapping
+	@ResponseStatus(HttpStatus.CREATED)
 	@ResponseBody
 	public APIResponse<Long> create(@RequestBody User user){
 		String message;
@@ -43,7 +46,7 @@ public class UserResource {
 		List<User> data  = new ArrayList<User>();
 		try {
 			message = "user list retrieved successfully";
-			data = UserResourceTests.createDummyUsers(4);
+			data = DummyBuilder.createDummyUsers(4);
 		}catch(Exception e) {
 			message = "Some error occurred while retrieving user list";
 			return ResponseUtil.createFailedResponse(message, data);
@@ -73,7 +76,7 @@ public class UserResource {
 		User data  = new User();
 		try {
 			message = "user retrieved successfully";
-			data = UserResourceTests.createDummyUsers(1).get(0);
+			data = DummyBuilder.createDummyUsers(1).get(0);
 		}catch(Exception e) {
 			message = "Some error occurred while retrieving user";
 			return ResponseUtil.createFailedResponse(message, data);

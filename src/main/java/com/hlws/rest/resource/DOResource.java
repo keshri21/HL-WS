@@ -15,11 +15,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.hlws.DOResourceTests;
 import com.hlws.model.DO;
 import com.hlws.response.APIResponse;
 import com.hlws.response.ResponseUtil;
 import com.hlws.service.DOService;
+import com.hlws.util.DummyBuilder;
 
 @RestController
 @RequestMapping("do")
@@ -54,7 +54,7 @@ public class DOResource {
 		
 		String message = "DO created successfully";
 		DO data = new DO();
-		data = DOResourceTests.createDummyDO(1).get(0);
+		data = DummyBuilder.createDummyDO(1).get(0);
 		return ResponseUtil.createSuccessResponse(message, data);
 	}
 	
@@ -64,7 +64,7 @@ public class DOResource {
 		
 		String message = "DO retrieved successfully";
 		List<DO> data = new ArrayList<DO>();
-		data = DOResourceTests.createDummyDO(3);
+		data = DummyBuilder.createDummyDO(3);
 		
 		return ResponseUtil.createSuccessResponse(message, data);
 	}
@@ -75,7 +75,7 @@ public class DOResource {
 		
 		String message = "DO retrieved successfully";
 		List<DO> data = new ArrayList<DO>();
-		data = DOResourceTests.createDummyDO(2);
+		data = DummyBuilder.createDummyDO(2);
 		return ResponseUtil.createSuccessResponse(message, data);
 	}
 	
@@ -85,7 +85,7 @@ public class DOResource {
 		
 		String message = "DO retrieved successfully";
 		List<DO> data = new ArrayList<DO>();
-		data = DOResourceTests.createDummyDO(2);
+		data = DummyBuilder.createDummyDO(2);
 		return ResponseUtil.createSuccessResponse(message, data);
 	}
 }

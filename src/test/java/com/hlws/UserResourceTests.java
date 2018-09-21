@@ -27,12 +27,13 @@ import java.util.Random;
 
 import com.hlws.model.User;
 import com.hlws.rest.resource.UserResource;
+import com.hlws.util.DummyBuilder;
 
 import net.bytebuddy.utility.RandomString;
 import net.minidev.json.JSONUtil;
 
 @RunWith(SpringRunner.class)
-@WebMvcTest()
+@WebMvcTest
 @AutoConfigureRestDocs(outputDir = "target/restdocs/user")
 public class UserResourceTests {
 
@@ -55,16 +56,16 @@ public class UserResourceTests {
 	
 	@Test
 	public void shouldCreateUser() throws Exception{
-		User user = createDummyUsers(1).get(0);
+		User user = DummyBuilder.createDummyUsers(1).get(0);
 		this.mockMvc.perform(post("/user")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(com.hlws.util.JSONUtil.toJson(user)))
-			.andDo(print()).andExpect(status().isOk()).andDo(document("create"));
+			.andDo(print()).andExpect(status().isCreated()).andDo(document("create"));
 	}
 	
 	@Test
 	public void shouldUpdateUser() throws Exception{
-		User user = createDummyUsers(1).get(0);
+		User user = DummyBuilder.createDummyUsers(1).get(0);
 		user.setLastName("kumar");
 		this.mockMvc.perform(put("/user/username")
 				.contentType(MediaType.APPLICATION_JSON)
@@ -80,20 +81,6 @@ public class UserResourceTests {
 		.andDo(print()).andExpect(status().isOk()).andDo(document("delete"));
 	}
 	
-	public static List<User> createDummyUsers(int count){
-		List<User> list = new ArrayList<User>();
-		while(count > 0) {
-			User user = new User();
-			user.setActive(true);
-			user.setFirstName("vikas" + count);
-			user.setLastName("keshri");
-			user.setUserName(RandomString.make(8));
-			user.setRoleName("OFFICE");
-			user.setPassword("{password}");
-			list.add(user);
-			count--;
-		}
-		return list;
-	}
+	
 
 }

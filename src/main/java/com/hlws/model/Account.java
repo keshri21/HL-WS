@@ -5,15 +5,15 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class Account {
 
-	private Integer accountNo;
+	private String accountNo;
 	private String accountHolderName;
 	private String ifscCode;
 	private String bankName;
 	
-	public Integer getAccountNo() {
+	public String getAccountNo() {
 		return accountNo;
 	}
-	public void setAccountNo(Integer accountNo) {
+	public void setAccountNo(String accountNo) {
 		this.accountNo = accountNo;
 	}
 	public String getAccountHolderName() {

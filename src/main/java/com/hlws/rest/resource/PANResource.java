@@ -3,6 +3,7 @@ package com.hlws.rest.resource;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -10,11 +11,13 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hlws.model.Pan;
 import com.hlws.response.APIResponse;
 import com.hlws.response.ResponseUtil;
+import com.hlws.util.DummyBuilder;
 
 
 @RestController
@@ -22,10 +25,11 @@ import com.hlws.response.ResponseUtil;
 public class PANResource {
 
 	@PostMapping
+	@ResponseStatus(HttpStatus.CREATED)
 	@ResponseBody
-	public APIResponse<Long> register(@RequestBody Pan pan){
+	public APIResponse<String> register(@RequestBody Pan pan){
 		String message;
-		Long data = 123l;
+		String data = "ASAFJ3739K";
 		try {
 			message = "PAN data registered successfully";
 		}catch(Exception e) {
@@ -43,6 +47,7 @@ public class PANResource {
 		List<Pan> panList = new ArrayList<Pan>();
 		try {
 			message = "PAN data retrieved successfully";
+			panList = DummyBuilder.createDummyPan(4);
 		}catch(Exception e) {
 			e.printStackTrace();
 			message = "Some error occurred while retrieving PAN data";
@@ -58,6 +63,7 @@ public class PANResource {
 		Pan data = new Pan();
 		try {
 			message = "PAN data retrieved successfully";
+			data = DummyBuilder.createDummyPan(1).get(0);
 		}catch(Exception e) {
 			e.printStackTrace();
 			message = "Some error occurred while retrieving PAN data";
@@ -66,9 +72,9 @@ public class PANResource {
 		return ResponseUtil.createSuccessResponse(message, data);
 	}
 	
-	@PutMapping(value = "/{panId}")
+	@PutMapping(value = "/{panNo}")
 	@ResponseBody
-	public APIResponse<String> update(@PathVariable("panId") String panNo, 
+	public APIResponse<String> update(@PathVariable("panNo") String panNo, 
 			@RequestBody Pan panData){
 		String message;
 		String data = "";

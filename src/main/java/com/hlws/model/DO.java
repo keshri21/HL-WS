@@ -1,7 +1,10 @@
 package com.hlws.model;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
+
+import org.springframework.util.CollectionUtils;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -10,7 +13,7 @@ public class DO {
 
 	private Integer bspDoNo;
 	private Integer areaDoNo;
-	private String auctionNo;
+	private Integer auctionNo;
 	private Double quantity;
 	private String doDate;
 	private String receivedDate;
@@ -18,7 +21,7 @@ public class DO {
 	private String size;
 	private Party party;
 	private List<String> destinations;
-	private Party destinationParty;
+	private List<Party> destinationParty;
 	private FreightRange freight;
 	private Integer permissionNo;
 	private String area;
@@ -45,6 +48,9 @@ public class DO {
 	private String website;
 	private String finishDate;
 	private String remarks;
+	private List<Integer> inAdvanceLimit;
+	private List<String> freightToBePaidBy;
+	
 	public Integer getBspDoNo() {
 		return bspDoNo;
 	}
@@ -61,10 +67,10 @@ public class DO {
 		return quantity;
 	}
 	
-	public String getAuctionNo() {
+	public Integer getAuctionNo() {
 		return auctionNo;
 	}
-	public void setAuctionNo(String auctionNo) {
+	public void setAuctionNo(Integer auctionNo) {
 		this.auctionNo = auctionNo;
 	}
 	public void setQuantity(Double quantity) {
@@ -101,15 +107,15 @@ public class DO {
 		this.party = party;
 	}
 	public List<String> getDestinations() {
-		return destinations;
+		return CollectionUtils.isEmpty(destinations) ? new ArrayList<>() : destinations;
 	}
 	public void setDestinations(List<String> destinations) {
 		this.destinations = destinations;
 	}
-	public Party getDestinationParty() {
-		return destinationParty;
+	public List<Party> getDestinationParty() {
+		return CollectionUtils.isEmpty(destinationParty) ? new ArrayList<>() : destinationParty;
 	}
-	public void setDestinationParty(Party destinationParty) {
+	public void setDestinationParty(List<Party> destinationParty) {
 		this.destinationParty = destinationParty;
 	}
 	public FreightRange getFreight() {
@@ -268,5 +274,19 @@ public class DO {
 	public void setRemarks(String remarks) {
 		this.remarks = remarks;
 	}
+	public List<Integer> getInAdvanceLimit() {
+		return CollectionUtils.isEmpty(inAdvanceLimit) ? new ArrayList<>() : inAdvanceLimit;
+	}
+	public void setInAdvanceLimit(List<Integer> inAdvanceLimit) {
+		this.inAdvanceLimit = inAdvanceLimit;
+	}
+	public List<String> getFreightToBePaidBy() {
+		return CollectionUtils.isEmpty(freightToBePaidBy) ? new ArrayList<>() : freightToBePaidBy;
+	}
+	public void setFreightToBePaidBy(List<String> freightToBePaidBy) {
+		this.freightToBePaidBy = freightToBePaidBy;
+	}
+	
+	
 	
 }

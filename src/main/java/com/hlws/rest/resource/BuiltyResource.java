@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,14 +20,15 @@ import com.hlws.model.Builty;
 import com.hlws.response.APIResponse;
 import com.hlws.response.ResponseUtil;
 import com.hlws.service.BuiltyService;
+import com.hlws.util.DummyBuilder;
 
 
 @RestController
 @RequestMapping("builty")
 public class BuiltyResource {
 
-//	@Autowired
-//	private BuiltyService builtyService;
+	@Autowired
+	private BuiltyService builtyService;
 	
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
@@ -34,17 +36,25 @@ public class BuiltyResource {
 	public APIResponse<Long> create(@RequestBody Builty builty){
 		
 		String message = "Builty created successfully";
-		Long data = 123l;
+		Long data;
+		try {
+			data = builtyService.createBuilty(builty);
+		}catch(Exception e) {
+			message = "Internal Server Error: " + e.getMessage();
+			return ResponseUtil.createFailedResponse(message, -1l);
+		}
 		return ResponseUtil.createSuccessResponse(message, data); //TODO return created builty nummber
 	}
 	
 	@GetMapping
 	@ResponseBody
-	public APIResponse<List<Builty>> get(){
-		String message;
+	public APIResponse<List<Builty>> get(@RequestParam(value = "get", defaultValue = "active") String filter){
+		String message = "Builties retrieved successfully";
+		
+		//TODO use filter query param to return all or complete list else return active builties
 		List<Builty> builtyList = new ArrayList<Builty>();
 		try {
-			message = "Builties retrieved successfully";
+			builtyList = builtyService.getBuiltyList(filter);
 		}catch(Exception e) {
 			e.printStackTrace();
 			message = "Some error occured while retrieving builties";	
@@ -56,10 +66,10 @@ public class BuiltyResource {
 	@PutMapping(value = "/receipt")
 	@ResponseBody
 	public APIResponse<String> updateReceipt(@RequestBody List<Builty> builtyList){
-		String message;
+		String message = "Builty receipt updated successfully";
 		String data = "";
 		try {
-			message = "Builty receipt updated successfully";
+			builtyService.updateReceipt(builtyList);
 		}catch(Exception e) {
 			e.printStackTrace();
 			message = "Some error occured while updating receipt";	
@@ -75,6 +85,7 @@ public class BuiltyResource {
 		Builty builty = new Builty();
 		try {
 			message = "Builty retrieved successfully";
+			builty = DummyBuilder.createDummyBuilty(1).get(0);
 		}catch(Exception e) {
 			e.printStackTrace();
 			message = "Some error occured while retrieving builty";	
