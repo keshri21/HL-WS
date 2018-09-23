@@ -3,10 +3,13 @@ package com.hlws.model;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.Document;
 
+@Document
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class Pan {
-	
+	private String id;
 	private String panNo;
 	private String panHolderName;
 	private String fatherName;
@@ -92,8 +95,12 @@ public class Pan {
 	public void setTds(boolean tds) {
 		this.tds = tds;
 	}
-	
-	
-	
 
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
 }

@@ -27,9 +27,9 @@ public class PartyResource {
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	@ResponseBody
-	public APIResponse<Long> register(@RequestBody Party party){
+	public APIResponse<String> register(@RequestBody Party party){
 		String message;
-		Long data = 123l;
+		String data = "123l";
 		try {
 			message = "Party registered successfully";
 		}catch(Exception e) {

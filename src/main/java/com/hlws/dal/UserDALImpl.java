@@ -9,8 +9,10 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 
 import com.hlws.model.User;
+import org.springframework.stereotype.Repository;
 
-public class UserDALImpl implements UserDAL {
+@Repository
+public class UserDALImpl implements IUserDAL {
 
 	private final MongoTemplate mongoTemplate;
 	private String collectionName = "hl-users";
@@ -41,17 +43,17 @@ public class UserDALImpl implements UserDAL {
 	}
 
 	@Override
-	public List<User> getActiveUsers() {
+	public List<User> findActiveUsers() {
 		Query query = new Query();
 		query.addCriteria(Criteria.where("active").is(true));
 		return mongoTemplate.find(query, User.class, collectionName);
 	}
 
 	@Override
-	public List<User> findByUserName(String userName) {
+	public User findByUserName(String userName) {
 		Query query = new Query();
 		query.addCriteria(Criteria.where("userName").regex(userName));
-		return mongoTemplate.find(query, User.class, collectionName);
+		return mongoTemplate.findOne(query, User.class, collectionName);
 	}
 
 	@Override
@@ -60,7 +62,7 @@ public class UserDALImpl implements UserDAL {
 	}
 
 	@Override
-	public void delete(User user) {
+	public void deactivate(User user) {
 		Query query = new Query();
 		query.addCriteria(Criteria.where("userName").is(user.getUserName()));
 		Update update = new Update().set("active", false);

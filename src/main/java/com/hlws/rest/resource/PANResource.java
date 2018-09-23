@@ -3,6 +3,8 @@ package com.hlws.rest.resource;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.hlws.service.PanService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,13 +26,17 @@ import com.hlws.util.DummyBuilder;
 @RequestMapping("pan")
 public class PANResource {
 
+	@Autowired
+	PanService service;
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	@ResponseBody
 	public APIResponse<String> register(@RequestBody Pan pan){
 		String message;
-		String data = "ASAFJ3739K";
+		String data = "";
 		try {
+			service.save(pan, false);
+			data = pan.getPanNo();
 			message = "PAN data registered successfully";
 		}catch(Exception e) {
 			e.printStackTrace();
@@ -63,7 +69,7 @@ public class PANResource {
 		Pan data = new Pan();
 		try {
 			message = "PAN data retrieved successfully";
-			data = DummyBuilder.createDummyPan(1).get(0);
+			data = service.getOne(panNo);
 		}catch(Exception e) {
 			e.printStackTrace();
 			message = "Some error occurred while retrieving PAN data";
@@ -79,6 +85,7 @@ public class PANResource {
 		String message;
 		String data = "";
 		try {
+			service.save(panData, true);
 			message = "PAN data updated successfully";
 		}catch(Exception e) {
 			e.printStackTrace();

@@ -31,17 +31,17 @@ public class DOResource {
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	@ResponseBody
-	public APIResponse<Long> create(@RequestBody DO doObj) {
+	public APIResponse<String> create(@RequestBody DO doObj) {
 		
 		String message = "DO created successfully";
-		Long data = 123l;
+		String data = "123";
 		return ResponseUtil.createSuccessResponse(message, data); //TODO return created doId
 	}
 	
 	@PutMapping(value = "/{doId}")
 	@ResponseStatus(HttpStatus.OK)
 	@ResponseBody
-	public APIResponse<String> update(@PathVariable("doId") Long doId, @RequestBody DO doObj) {
+	public APIResponse<String> update(@PathVariable("doId") String doId, @RequestBody DO doObj) {
 		
 		String message = "DO created successfully";
 		String data = "updated";
@@ -50,7 +50,7 @@ public class DOResource {
 	
 	@GetMapping(value = "/{doId}")
 	@ResponseBody
-	public APIResponse<DO> getOne(@PathVariable("doId") Long doId){
+	public APIResponse<DO> getOne(@PathVariable("doId") String doId){
 		
 		String message = "DO created successfully";
 		DO data = new DO();

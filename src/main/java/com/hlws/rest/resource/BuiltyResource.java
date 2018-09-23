@@ -33,15 +33,15 @@ public class BuiltyResource {
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	@ResponseBody
-	public APIResponse<Long> create(@RequestBody Builty builty){
+	public APIResponse<String> create(@RequestBody Builty builty){
 		
 		String message = "Builty created successfully";
-		Long data;
+		String data;
 		try {
 			data = builtyService.createBuilty(builty);
 		}catch(Exception e) {
 			message = "Internal Server Error: " + e.getMessage();
-			return ResponseUtil.createFailedResponse(message, -1l);
+			return ResponseUtil.createFailedResponse(message, "");
 		}
 		return ResponseUtil.createSuccessResponse(message, data); //TODO return created builty nummber
 	}

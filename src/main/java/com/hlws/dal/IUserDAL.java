@@ -4,13 +4,13 @@ import java.util.List;
 
 import com.hlws.model.User;
 
-public interface UserDAL {
+public interface IUserDAL {
 
 	User save(User user);
 	void updatePassword(String userName, String password);
 	List<User> getAll();
-	List<User> getActiveUsers();
-	List<User> findByUserName(String userName);
+	List<User> findActiveUsers();
+	User findByUserName(String userName);
 	User findById(String id);
-	void delete(User user);
+	void deactivate(User user);
 }

@@ -3,10 +3,14 @@ package com.hlws.model;
 import java.sql.Date;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.Document;
 
+@Document
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class Builty {
 
+	private String id;
 	private Long builtyNo;
 	private Long doId;
 	private String doDisplay;
@@ -44,6 +48,7 @@ public class Builty {
 	private Double assesibleValue;
 	private String freightToBePaidBy;
 	private Integer inAdvanceLimit;
+	private Long savedReferenceNumber;
 	
 	public Long getBuiltyNo() {
 		return builtyNo;
@@ -267,5 +272,20 @@ public class Builty {
 	public void setFreightToBePaidBy(String freightToBePaidBy) {
 		this.freightToBePaidBy = freightToBePaidBy;
 	}
-	
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public Long getSavedReferenceNumber() {
+		return savedReferenceNumber;
+	}
+
+	public void setSavedReferenceNumber(Long savedReferenceNumber) {
+		this.savedReferenceNumber = savedReferenceNumber;
+	}
 }

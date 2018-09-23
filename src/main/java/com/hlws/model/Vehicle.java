@@ -1,11 +1,16 @@
 package com.hlws.model;
 
+import org.springframework.data.annotation.Id;
+
 public class Vehicle {
 
+	@Id
 	private Long vehicleId;
 	private String vehicleNo;
 	private String rcNo;
 	private String rcCopyLink;
+	private String addedDate;
+	private boolean isOld;
 	
 	public Long getVehicleId() {
 		return vehicleId;
@@ -31,8 +36,20 @@ public class Vehicle {
 	public void setRcCopyLink(String rcCopyLink) {
 		this.rcCopyLink = rcCopyLink;
 	}
-	
-	
-	
-	
+
+	public String getAddedDate() {
+		return addedDate;
+	}
+
+	public void setAddedDate(String addedDate) {
+		this.addedDate = addedDate;
+	}
+
+	public boolean isOld() {
+		return isOld;
+	}
+
+	public void setOld(boolean old) {
+		isOld = old;
+	}
 }

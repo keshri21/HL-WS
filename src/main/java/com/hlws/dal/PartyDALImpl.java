@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 import com.hlws.model.Party;
 
 @Repository
-public class PartyDALImpl implements PartyDAL {
+public class PartyDALImpl implements IPartyDAL {
 	
 	private final MongoTemplate mongoTemplate;
 	private String collectionName = "hl-party";

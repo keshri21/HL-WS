@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.hlws.model.Party;
 
-public interface PartyDAL {
+public interface IPartyDAL {
 	
 	Party save(Party party);
 	List<Party> getAll();

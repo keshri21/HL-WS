@@ -11,6 +11,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class DO {
 
+	private String id;
 	private Integer bspDoNo;
 	private Integer areaDoNo;
 	private Integer auctionNo;
@@ -286,7 +287,12 @@ public class DO {
 	public void setFreightToBePaidBy(List<String> freightToBePaidBy) {
 		this.freightToBePaidBy = freightToBePaidBy;
 	}
-	
-	
-	
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
 }

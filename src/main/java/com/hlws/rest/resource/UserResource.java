@@ -27,9 +27,9 @@ public class UserResource {
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	@ResponseBody
-	public APIResponse<Long> create(@RequestBody User user){
+	public APIResponse<String> create(@RequestBody User user){
 		String message;
-		Long data  = 123l;
+		String data  = "123l";
 		try {
 			message = "user created successfully";
 		}catch(Exception e) {

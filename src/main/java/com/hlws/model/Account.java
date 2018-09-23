@@ -34,6 +34,6 @@ public class Account {
 	public void setBankName(String bankName) {
 		this.bankName = bankName;
 	}
-	
-	
+
+
 }
