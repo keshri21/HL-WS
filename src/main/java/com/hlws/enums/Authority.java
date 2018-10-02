@@ -6,7 +6,7 @@ public enum Authority implements GrantedAuthority {
     ROLE_ADMIN,
     ROLE_FIELD,
     ROLE_OFFICE,
-    ROLE_PASSIVE_OFFICE,
+    ROLE_PASSIVE,
     ROLE_OWNER,
     ROLE_CUSTOMER,
     ROLE_TRUCK_OWNER,

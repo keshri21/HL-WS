@@ -1,7 +1,5 @@
 package com.hlws.config;
 
-import com.hlws.security.filter.AuthenticationTokenFilter;
-import com.hlws.security.service.ITokenAuthenticationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -11,6 +9,9 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import com.hlws.security.filter.AuthenticationTokenFilter;
+import com.hlws.security.service.ITokenAuthenticationService;
 
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
@@ -27,8 +28,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(final HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers("/auth").permitAll()
-                .anyRequest().permitAll()
+                .anyRequest().authenticated()
                 .and()
+                .addFilterBefore(new AuthenticationTokenFilter(tokenAuthenticationService),
+                        UsernamePasswordAuthenticationFilter.class)
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .csrf().disable();
