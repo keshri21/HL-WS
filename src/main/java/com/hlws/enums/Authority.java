@@ -1,6 +1,5 @@
 package com.hlws.enums;
 
-import com.sun.xml.internal.ws.api.model.wsdl.WSDLBoundOperation;
 import org.springframework.security.core.GrantedAuthority;
 
 public enum Authority implements GrantedAuthority {
