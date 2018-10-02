@@ -1,5 +1,6 @@
 package com.hlws.dal;
 
+import com.hlws.dto.BuiltyDTO;
 import com.hlws.model.Builty;
 import com.hlws.model.DO;
 
@@ -17,4 +18,6 @@ public interface IBuiltyDAL {
     List<Builty> getAllFromTemp();
     Builty getOneFromTemp(String id);
     void removeFromTemp(Builty builty);
+    void updateReceipt(List<BuiltyDTO> builtyList);
+    void approve(String id);
 }

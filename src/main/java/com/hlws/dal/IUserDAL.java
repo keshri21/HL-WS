@@ -10,7 +10,7 @@ public interface IUserDAL {
 	void updatePassword(String userName, String password);
 	List<User> getAll();
 	List<User> findActiveUsers();
-	User findByUserName(String userName);
+	User findByUserName(String userName, String companyId);
 	User findById(String id);
-	void deactivate(User user);
+	void deactivate(String username);
 }

@@ -31,7 +31,7 @@ public class UserDALImpl implements IUserDAL {
 	@Override
 	public void updatePassword(String userName, String password) {
 		Query query = new Query();
-		query.addCriteria(Criteria.where("userName").is(userName));
+		query.addCriteria(Criteria.where("username").is(userName));
 		Update update = new Update().push("password", password);
 		mongoTemplate.updateFirst(query, update, collectionName);
 
@@ -50,10 +50,10 @@ public class UserDALImpl implements IUserDAL {
 	}
 
 	@Override
-	public User findByUserName(String userName) {
+	public User findByUserName(String userName, String companyId) {
 		Query query = new Query();
-		query.addCriteria(Criteria.where("userName").regex(userName));
-		return mongoTemplate.findOne(query, User.class, collectionName);
+		query.addCriteria(Criteria.where("username").regex(userName));
+		return mongoTemplate.findOne(query, User.class, companyId + "-users");
 	}
 
 	@Override
@@ -62,11 +62,11 @@ public class UserDALImpl implements IUserDAL {
 	}
 
 	@Override
-	public void deactivate(User user) {
+	public void deactivate(String username) {
 		Query query = new Query();
-		query.addCriteria(Criteria.where("userName").is(user.getUserName()));
+		query.addCriteria(Criteria.where("username").is(username));
 		Update update = new Update().set("active", false);
-		mongoTemplate.updateFirst(query, update, collectionName);
+		mongoTemplate.updateFirst(query, update, User.class, collectionName);
 	}
 
 }

@@ -17,5 +17,9 @@ public class ResponseUtil {
 		response.setData(data);
 		return response;
 	}
+	
+	public static <T> APIResponse<T> createFailedResponse(String message) {
+		return createFailedResponse(message, null);
+	}
 
 }

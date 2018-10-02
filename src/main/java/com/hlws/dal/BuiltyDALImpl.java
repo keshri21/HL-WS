@@ -1,10 +1,12 @@
 package com.hlws.dal;
 
+import com.hlws.dto.BuiltyDTO;
 import com.hlws.model.Builty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -77,4 +79,28 @@ public class BuiltyDALImpl implements IBuiltyDAL {
         Query query = new Query(Criteria.where("_id").in(ids));
         return mongoTemplate.find(query, Builty.class, collectionName);
     }
+
+	@Override
+	public void updateReceipt(List<BuiltyDTO> builtyList) {
+		builtyList.forEach(builty -> {
+			Query query = new Query();
+			query.addCriteria(Criteria.where("_id").is(builty.getId()));
+			Update update = new Update().set("receivedDate", builty.getReceivedDate())
+					.set("receivedQuantity", builty.getReceivedQuantity());
+			mongoTemplate.updateFirst(query, update, Builty.class, collectionName);
+		});
+		
+	}
+
+	@Override
+	public void approve(String id) {
+		Query query = new Query();
+		query.addCriteria(Criteria.where("_id").is(id));
+		Update update = new Update().set("approved", true);
+		mongoTemplate.updateFirst(query, update, Builty.class, collectionName);
+	}
+	
+	
+    
+    
 }

@@ -31,6 +31,8 @@ public class User extends BaseEntity implements UserDetails {
 	
 	@JsonProperty("active")
 	private boolean active;
+	
+	private String companyId;
 
 	private boolean accountNonExpired;
 	private boolean accountNonLocked;
@@ -73,7 +75,13 @@ public class User extends BaseEntity implements UserDetails {
 	public void setActive(boolean active) {
 		this.active = active;
 	}
-
+	
+	public String getCompanyId() {
+		return companyId;
+	}
+	public void setCompanyId(String companyId) {
+		this.companyId = companyId;
+	}
 	@Override
 	public boolean isAccountNonExpired() {
 		return accountNonExpired;
@@ -118,4 +126,6 @@ public class User extends BaseEntity implements UserDetails {
 	public void setEnabled(boolean enabled) {
 		isEnabled = enabled;
 	}
+	
+	
 }

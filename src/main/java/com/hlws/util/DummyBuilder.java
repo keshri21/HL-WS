@@ -41,10 +41,10 @@ public class DummyBuilder {
 			
 			User user = new User();
 			user.setFirstName("Rahul");
-			user.setUserName("raga");
+			user.setUsername("raga");
 			builty.setTransporter(user);
 			user.setFirstName("Sonia");
-			user.setUserName("sona");
+			user.setUsername("sona");
 			builty.setSubTransporter(user);
 			builty.setOtBuiltyCompany("Surya Logistics");
 			builty.setOtBuiltyNumber(234221);
@@ -206,7 +206,7 @@ public class DummyBuilder {
 			user.setActive(true);
 			user.setFirstName("vikas" + count);
 			user.setLastName("keshri");
-			user.setUserName("ABC_XYZ12");
+			user.setUsername("ABC_XYZ12");
 			user.setRoleName("OFFICE");
 			user.setPassword("{password}");
 			list.add(user);

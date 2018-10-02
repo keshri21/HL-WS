@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,17 +26,24 @@ import com.hlws.util.DummyBuilder;
 @RequestMapping("do")
 public class DOResource {
 	
-//	@Autowired
-//	private DOService doService;
+	@Autowired
+	private DOService doService;
 
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	@ResponseBody
-	public APIResponse<String> create(@RequestBody DO doObj) {
+	public APIResponse<DO> create(@RequestBody DO doObj) {
 		
 		String message = "DO created successfully";
-		String data = "123";
-		return ResponseUtil.createSuccessResponse(message, data); //TODO return created doId
+		DO data;
+		try {
+			data = doService.create(doObj);
+		}catch(Exception e) {
+			e.printStackTrace();
+			message = "Some problem occured while creating DO";
+			return ResponseUtil.createFailedResponse(message);
+		}
+		return ResponseUtil.createSuccessResponse(message, data); 
 	}
 	
 	@PutMapping(value = "/{doId}")
@@ -43,8 +51,15 @@ public class DOResource {
 	@ResponseBody
 	public APIResponse<String> update(@PathVariable("doId") String doId, @RequestBody DO doObj) {
 		
-		String message = "DO created successfully";
+		String message = "DO updated successfully";
 		String data = "updated";
+		try {
+			doService.update(doObj);
+		}catch(Exception e) {
+			e.printStackTrace();
+			message = "Some problem occured while updating DO";
+			return ResponseUtil.createFailedResponse(message);
+		}
 		return ResponseUtil.createSuccessResponse(message, data); 
 	}
 	
@@ -52,20 +67,31 @@ public class DOResource {
 	@ResponseBody
 	public APIResponse<DO> getOne(@PathVariable("doId") String doId){
 		
-		String message = "DO created successfully";
-		DO data = new DO();
-		data = DummyBuilder.createDummyDO(1).get(0);
+		String message = "DO retrieved successfully";
+		DO data;
+		try {
+			data = doService.getOne(doId);
+		}catch(Exception e) {
+			e.printStackTrace();
+			message = "Some problem occured while retrieving DO";
+			return ResponseUtil.createFailedResponse(message);
+		}
 		return ResponseUtil.createSuccessResponse(message, data);
 	}
 	
 	@GetMapping
 	@ResponseBody
-	public APIResponse<List<DO>> getAll(){
+	public APIResponse<List<DO>> get(@RequestParam(value = "get", defaultValue = "active") String filter){
 		
 		String message = "DO retrieved successfully";
-		List<DO> data = new ArrayList<DO>();
-		data = DummyBuilder.createDummyDO(3);
-		
+		List<DO> data;
+		try {
+			data = doService.getDOList(filter);
+		}catch(Exception e) {
+			e.printStackTrace();
+			message = "Some problem occured while retrieving all DO";
+			return ResponseUtil.createFailedResponse(message);
+		}
 		return ResponseUtil.createSuccessResponse(message, data);
 	}
 	
@@ -74,8 +100,14 @@ public class DOResource {
 	public APIResponse<List<DO>> getActive(){
 		
 		String message = "DO retrieved successfully";
-		List<DO> data = new ArrayList<DO>();
-		data = DummyBuilder.createDummyDO(2);
+		List<DO> data;
+		try {
+			data = doService.getRunning();
+		}catch(Exception e) {
+			e.printStackTrace();
+			message = "Some problem occured while retrieving active DO";
+			return ResponseUtil.createFailedResponse(message);
+		}
 		return ResponseUtil.createSuccessResponse(message, data);
 	}
 	
@@ -84,8 +116,14 @@ public class DOResource {
 	public APIResponse<List<DO>> getCompleted(){
 		
 		String message = "DO retrieved successfully";
-		List<DO> data = new ArrayList<DO>();
-		data = DummyBuilder.createDummyDO(2);
+		List<DO> data;
+		try {
+			data = doService.getCompleted();
+		}catch(Exception e) {
+			e.printStackTrace();
+			message = "Some problem occured while retrieving completed DO";
+			return ResponseUtil.createFailedResponse(message);
+		}
 		return ResponseUtil.createSuccessResponse(message, data);
 	}
 }

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.hlws.dto.BuiltyDTO;
 import com.hlws.model.Builty;
 import com.hlws.response.APIResponse;
 import com.hlws.response.ResponseUtil;
@@ -65,7 +66,7 @@ public class BuiltyResource {
 	
 	@PutMapping(value = "/receipt")
 	@ResponseBody
-	public APIResponse<String> updateReceipt(@RequestBody List<Builty> builtyList){
+	public APIResponse<String> updateReceipt(@RequestBody List<BuiltyDTO> builtyList){
 		String message = "Builty receipt updated successfully";
 		String data = "";
 		try {
@@ -80,12 +81,11 @@ public class BuiltyResource {
 	
 	@GetMapping(value = "/{builtyId}")
 	@ResponseBody
-	public APIResponse<Builty> getOne(@PathVariable("builtyId") Long builtyId){
-		String message;
+	public APIResponse<Builty> getOne(@PathVariable("builtyId") String builtyId){
+		String message = "Builty retrieved successfully";
 		Builty builty = new Builty();
 		try {
-			message = "Builty retrieved successfully";
-			builty = DummyBuilder.createDummyBuilty(1).get(0);
+			builty = builtyService.getOne(builtyId);
 		}catch(Exception e) {
 			e.printStackTrace();
 			message = "Some error occured while retrieving builty";	
@@ -98,10 +98,10 @@ public class BuiltyResource {
 	@ResponseBody
 	public APIResponse<String> update(@PathVariable("builtyId") Long builtyId, 
 			@RequestBody Builty builty){
-		String message;
+		String message = "Builty updated successfully";
 		String data = "";
 		try {
-			message = "Builty updated successfully";
+			builtyService.update(builty);
 		}catch(Exception e) {
 			e.printStackTrace();
 			message = "Some error occured while updating builty";	
@@ -112,15 +112,61 @@ public class BuiltyResource {
 	
 	@PutMapping(value = "/{builtyId}/approve")
 	@ResponseBody
-	public APIResponse<String> approve(@PathVariable("builtyId") Long builtyId){
-		String message;
+	public APIResponse<String> approve(@PathVariable("builtyId") String builtyId){
+		String message = "Builty approved successfully";
 		String data = "";
 		try {
-			message = "Builty approved successfully";
+			builtyService.approve(builtyId);
 		}catch(Exception e) {
 			e.printStackTrace();
 			message = "Some error occured while approving builty";	
 			return ResponseUtil.createFailedResponse(message, data);
+		}
+		return ResponseUtil.createSuccessResponse(message, data);
+	}
+	
+	@PutMapping("/temp")
+	@ResponseBody
+	public APIResponse<Builty> save(@RequestBody Builty builty){
+		String message = "Builty saved temporarily";
+		Builty data;
+		try {
+			data = builtyService.saveBuilty(builty);
+		}catch(Exception e) {
+			e.printStackTrace();
+			message = "Some prooblem occured while saving builty";
+			return ResponseUtil.createFailedResponse(message, null);
+		}
+		return ResponseUtil.createSuccessResponse(message, data);
+	}
+	
+	
+	@GetMapping("/temp")
+	@ResponseBody
+	public APIResponse<List<Builty>> getSavedList(){
+		String message = "Saved list retrieved successfully";
+		List<Builty> data;
+		try {
+			data = builtyService.getAllFromTemp();
+		}catch(Exception e) {
+			e.printStackTrace();
+			message = "Some problem ocucred while retriving saved list";
+			return ResponseUtil.createFailedResponse(message, null);
+		}
+		return ResponseUtil.createSuccessResponse(message, data);
+	}
+	
+	@GetMapping("/temp/{tempBuiltyId}")
+	@ResponseBody
+	public APIResponse<Builty> getOneFromTemp(@PathVariable("tempBuiltyId") String builtyId){
+		String message = "Saved builty retrieved successfully";
+		Builty data;
+		try {
+			data = builtyService.getOneFromTemp(builtyId);
+		}catch(Exception e) {
+			e.printStackTrace();
+			message = "Some problem ocucred while retriving saved builty";
+			return ResponseUtil.createFailedResponse(message, null);
 		}
 		return ResponseUtil.createSuccessResponse(message, data);
 	}

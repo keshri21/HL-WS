@@ -7,7 +7,6 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document
-@JsonIgnoreProperties(ignoreUnknown=true)
 public class Builty {
 
 	private String id;
@@ -49,6 +48,7 @@ public class Builty {
 	private String freightToBePaidBy;
 	private Integer inAdvanceLimit;
 	private Long savedReferenceNumber;
+	private boolean approved;
 	
 	public Long getBuiltyNo() {
 		return builtyNo;
@@ -288,4 +288,20 @@ public class Builty {
 	public void setSavedReferenceNumber(Long savedReferenceNumber) {
 		this.savedReferenceNumber = savedReferenceNumber;
 	}
+	
+	public boolean isApproved() {
+		return approved;
+	}
+	public void setApproved(boolean approved) {
+		this.approved = approved;
+	}
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return "(" + this.id +
+				", " + this.builtyNo +
+				", " + this.receivedDate +")";
+	}
+	
+	
 }

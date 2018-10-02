@@ -13,9 +13,8 @@ public class DOService {
     @Autowired
     IDoDAL doRepository;
 
-    public String create(DO doObj){
-        doRepository.save(doObj);
-        return doObj.getId();
+    public DO create(DO doObj){
+        return doRepository.save(doObj);
     }
 
     public String update(DO doObj){
@@ -35,8 +34,15 @@ public class DOService {
         return doRepository.findCompleted();
     }
 
-    public List<DO> getAll(){
-        return doRepository.getAll();
+    public List<DO> getDOList(String filter){
+    	switch(filter) {
+	    	case "all": 
+	    		return doRepository.getAll();
+	    	case "completed": 
+	    		return this.getCompleted();
+	    	default: 
+	    		return this.getRunning(); 
+    	}
     }
 
 }

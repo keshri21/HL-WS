@@ -1,6 +1,9 @@
 package com.hlws.security.service;
 
+import com.hlws.enums.Authority;
 import com.hlws.model.User;
+import com.hlws.util.AppConstants;
+
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -9,6 +12,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import java.time.LocalDateTime;
 import java.util.Calendar;
@@ -37,9 +41,10 @@ public class JsonWebTokenService implements ITokenService {
         final User user = (User) userDetailsService.loadUserByUsername(username);
         Map<String, Object> tokenData = new HashMap<>();
         if (password.equals(user.getPassword())) {
-            tokenData.put("clientType", "user");
-            tokenData.put("userID", user.getId());
-            tokenData.put("username", user.getUserName());
+            tokenData.put("username", user.getUsername() + 
+            		AppConstants.USERNAME_DELIMETER + user.getCompanyId());
+            tokenData.put("role", CollectionUtils.isEmpty(user.getAuthorities()) ? 
+            		Authority.ANONYMOUS.getAuthority() :user.getAuthorities().get(0).getAuthority());
             tokenData.put("token_create_date", LocalDateTime.now());
             Calendar calendar = Calendar.getInstance();
             calendar.add(Calendar.MINUTE, tokenExpirationTime);
