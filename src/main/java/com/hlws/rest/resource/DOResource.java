@@ -1,6 +1,5 @@
 package com.hlws.rest.resource;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +19,6 @@ import com.hlws.model.DO;
 import com.hlws.response.APIResponse;
 import com.hlws.response.ResponseUtil;
 import com.hlws.service.DOService;
-import com.hlws.util.DummyBuilder;
 
 @RestController
 @RequestMapping("do")
@@ -46,11 +44,13 @@ public class DOResource {
 		return ResponseUtil.createSuccessResponse(message, data); 
 	}
 	
-	@PutMapping(value = "/{doId}")
+	@PutMapping
 	@ResponseStatus(HttpStatus.OK)
 	@ResponseBody
-	public APIResponse<String> update(@PathVariable("doId") String doId, @RequestBody DO doObj) {
-		
+	public APIResponse<String> update(@RequestBody DO doObj) {
+		if(doObj.getId() == null) {
+			return ResponseUtil.createFailedResponse("Do id must be set while updating DO details");
+		}
 		String message = "DO updated successfully";
 		String data = "updated";
 		try {

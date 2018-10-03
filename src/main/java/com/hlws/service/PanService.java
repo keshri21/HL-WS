@@ -21,11 +21,11 @@ public class PanService {
     @Autowired
     private IVehicleDAL vehicleRepository;
 
-    public Pan save(Pan pan, boolean update) throws Exception{
+    public Pan save(Pan pan, boolean createFlag) throws Exception{
         if(CollectionUtils.isEmpty(pan.getVehicles())){
-            throw new Exception("Vehicle number is mandatory to with pan registration");
+            throw new Exception("Vehicle number is mandatory with pan registration");
         }
-        if(!update && getOne(pan.getPanNo()) != null) {
+        if(createFlag && getOne(pan.getPanNo()) != null) {
             throw new Exception("PAN already registered");
         }
         List<Vehicle> vehicles = pan.getVehicles();
@@ -43,6 +43,10 @@ public class PanService {
 
     public Pan getOne(String panNo){
         return panRepository.getOne(panNo);
+    }
+    
+    public List<Pan> getAll(){
+    	return panRepository.getAll();
     }
 
 

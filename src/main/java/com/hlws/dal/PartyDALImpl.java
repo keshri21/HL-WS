@@ -40,7 +40,7 @@ public class PartyDALImpl implements IPartyDAL {
 	}
 
 	@Override
-	public Party findById(String id) {
+	public Party findById(Integer id) {
 		return mongoTemplate.findById(id, Party.class);
 	}
 

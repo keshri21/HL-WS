@@ -9,6 +9,6 @@ public interface IPartyDAL {
 	Party save(Party party);
 	List<Party> getAll();
 	List<Party> findByPartyName(String name);
-	Party findById(String id);
+	Party findById(Integer id);
 	void delete(Party party);
 }

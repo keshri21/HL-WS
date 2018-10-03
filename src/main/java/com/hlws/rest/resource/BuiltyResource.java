@@ -21,7 +21,6 @@ import com.hlws.model.Builty;
 import com.hlws.response.APIResponse;
 import com.hlws.response.ResponseUtil;
 import com.hlws.service.BuiltyService;
-import com.hlws.util.DummyBuilder;
 
 
 @RestController
@@ -94,18 +93,20 @@ public class BuiltyResource {
 		return ResponseUtil.createSuccessResponse(message, builty);
 	}
 	
-	@PutMapping(value = "/{builtyId}")
+	@PutMapping
 	@ResponseBody
-	public APIResponse<String> update(@PathVariable("builtyId") Long builtyId, 
-			@RequestBody Builty builty){
+	public APIResponse<String> update(@RequestBody Builty builty){
+		if(builty.getId() == null) {
+			return ResponseUtil.createFailedResponse("Builty id must be set while updating builty details");
+		}
 		String message = "Builty updated successfully";
-		String data = "";
+		String data = "updated";
 		try {
 			builtyService.update(builty);
 		}catch(Exception e) {
 			e.printStackTrace();
 			message = "Some error occured while updating builty";	
-			return ResponseUtil.createFailedResponse(message, data);
+			return ResponseUtil.createFailedResponse(message);
 		}
 		return ResponseUtil.createSuccessResponse(message, data);
 	}
@@ -158,11 +159,11 @@ public class BuiltyResource {
 	
 	@GetMapping("/temp/{tempBuiltyId}")
 	@ResponseBody
-	public APIResponse<Builty> getOneFromTemp(@PathVariable("tempBuiltyId") String builtyId){
+	public APIResponse<Builty> getOneFromTemp(@PathVariable("tempBuiltyId") String id){
 		String message = "Saved builty retrieved successfully";
 		Builty data;
 		try {
-			data = builtyService.getOneFromTemp(builtyId);
+			data = builtyService.getOneFromTemp(id);
 		}catch(Exception e) {
 			e.printStackTrace();
 			message = "Some problem ocucred while retriving saved builty";

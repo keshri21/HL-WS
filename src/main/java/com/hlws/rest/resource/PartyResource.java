@@ -1,8 +1,8 @@
 package com.hlws.rest.resource;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,25 +17,28 @@ import org.springframework.web.bind.annotation.RestController;
 import com.hlws.model.Party;
 import com.hlws.response.APIResponse;
 import com.hlws.response.ResponseUtil;
-import com.hlws.util.DummyBuilder;
+import com.hlws.service.PartyService;
 
 
 @RestController
 @RequestMapping("party")
 public class PartyResource {
 
+	@Autowired
+	PartyService partyService;
+	
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	@ResponseBody
-	public APIResponse<String> register(@RequestBody Party party){
-		String message;
-		String data = "123l";
+	public APIResponse<Party> register(@RequestBody Party party){
+		String message = "Party registered successfully";
+		Party data;
 		try {
-			message = "Party registered successfully";
+			data = partyService.save(party, true);
 		}catch(Exception e) {
 			e.printStackTrace();
 			message = "Some error occurred while registering party";
-			return ResponseUtil.createFailedResponse(message, data);
+			return ResponseUtil.createFailedResponse(message);
 		}
 		return ResponseUtil.createSuccessResponse(message, data);
 	}
@@ -43,47 +46,47 @@ public class PartyResource {
 	@GetMapping
 	@ResponseBody
 	public APIResponse<List<Party>> get(){
-		String message;
-		List<Party> data = new ArrayList<Party>();
+		String message = "party list retrieved successfully";
+		List<Party> data;
 		try {
-			message = "party list retrieved successfully";
-			data = DummyBuilder.createDummyParty(4);
+			data = partyService.getAll();
 		}catch(Exception e) {
 			e.printStackTrace();
 			message = "Some error occurred while retrieving party list";
-			return ResponseUtil.createFailedResponse(message, data);
+			return ResponseUtil.createFailedResponse(message);
 		}
 		return ResponseUtil.createSuccessResponse(message, data);
 	}
 	
 	@GetMapping(value = "/{partyId}")
 	@ResponseBody
-	public APIResponse<Party> getOne(@PathVariable("partyId") Long partyId){
-		String message;
-		Party data = new Party();
+	public APIResponse<Party> getOne(@PathVariable("partyId") Integer partyId){
+		String message = "Party retrieved successfully";
+		Party data;
 		try {
-			message = "Party retrieved successfully";
-			data = DummyBuilder.createDummyParty(1).get(0);
+			data = partyService.getOne(partyId);
 		}catch(Exception e) {
 			e.printStackTrace();
 			message = "Some error occurred while retrieving party";
-			return ResponseUtil.createFailedResponse(message, data);
+			return ResponseUtil.createFailedResponse(message);
 		}
 		return ResponseUtil.createSuccessResponse(message, data);
 	}
 	
-	@PutMapping(value = "/{partyId}")
+	@PutMapping
 	@ResponseBody
-	public APIResponse<String> update(@PathVariable("partyId") Long partyId, 
-			@RequestBody Party party){
-		String message;
-		String data = "";
+	public APIResponse<String> update(@RequestBody Party party){
+		String message = "Party data updated successfully";
+		String data = "updated";
+		if(party.getId() == null) {
+			return ResponseUtil.createFailedResponse("Party id not set while updating");
+		}
 		try {
-			message = "PAN data updated successfully";
+			partyService.save(party, false);
 		}catch(Exception e) {
 			e.printStackTrace();
-			message = "Some error occurred while updating PAN data";
-			return ResponseUtil.createFailedResponse(message, data);
+			message = "Some error occurred while updating Party data";
+			return ResponseUtil.createFailedResponse(message);
 		}
 		return ResponseUtil.createSuccessResponse(message, data);
 	}

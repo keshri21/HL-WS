@@ -1,9 +1,7 @@
 package com.hlws.rest.resource;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import com.hlws.service.PanService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.hlws.model.Pan;
 import com.hlws.response.APIResponse;
 import com.hlws.response.ResponseUtil;
-import com.hlws.util.DummyBuilder;
+import com.hlws.service.PanService;
 
 
 @RestController
@@ -28,20 +26,20 @@ public class PANResource {
 
 	@Autowired
 	PanService service;
+	
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	@ResponseBody
-	public APIResponse<String> register(@RequestBody Pan pan){
-		String message;
-		String data = "";
+	public APIResponse<Pan> register(@RequestBody Pan pan){
+		String message = "PAN data registered successfully";
+		Pan data;
 		try {
-			service.save(pan, false);
-			data = pan.getPanNo();
-			message = "PAN data registered successfully";
+			data = service.save(pan, true);
+			
 		}catch(Exception e) {
 			e.printStackTrace();
 			message = "Some error occurred while registering PAN";
-			return ResponseUtil.createFailedResponse(message, data);
+			return ResponseUtil.createFailedResponse(message);
 		}
 		return ResponseUtil.createSuccessResponse(message, data);
 	}
@@ -49,15 +47,15 @@ public class PANResource {
 	@GetMapping
 	@ResponseBody
 	public APIResponse<List<Pan>> get(){
-		String message;
-		List<Pan> panList = new ArrayList<Pan>();
+		String message = "PAN data retrieved successfully";
+		List<Pan> panList;
 		try {
-			message = "PAN data retrieved successfully";
-			panList = DummyBuilder.createDummyPan(4);
+			
+			panList = service.getAll();
 		}catch(Exception e) {
 			e.printStackTrace();
 			message = "Some error occurred while retrieving PAN data";
-			return ResponseUtil.createFailedResponse(message, panList);
+			return ResponseUtil.createFailedResponse(message);
 		}
 		return ResponseUtil.createSuccessResponse(message, panList);
 	}
@@ -65,15 +63,14 @@ public class PANResource {
 	@GetMapping(value = "/{panId}")
 	@ResponseBody
 	public APIResponse<Pan> getOne(@PathVariable("panId") String panNo){
-		String message;
-		Pan data = new Pan();
-		try {
-			message = "PAN data retrieved successfully";
+		String message = "PAN data retrieved successfully";
+		Pan data;
+		try {			
 			data = service.getOne(panNo);
 		}catch(Exception e) {
 			e.printStackTrace();
 			message = "Some error occurred while retrieving PAN data";
-			return ResponseUtil.createFailedResponse(message, data);
+			return ResponseUtil.createFailedResponse(message);
 		}
 		return ResponseUtil.createSuccessResponse(message, data);
 	}
@@ -82,15 +79,14 @@ public class PANResource {
 	@ResponseBody
 	public APIResponse<String> update(@PathVariable("panNo") String panNo, 
 			@RequestBody Pan panData){
-		String message;
-		String data = "";
+		String message = "PAN data updated successfully";;
+		String data = "updated";
 		try {
-			service.save(panData, true);
-			message = "PAN data updated successfully";
+			service.save(panData, false);			
 		}catch(Exception e) {
 			e.printStackTrace();
 			message = "Some error occurred while updating PAN data";
-			return ResponseUtil.createFailedResponse(message, data);
+			return ResponseUtil.createFailedResponse(message);
 		}
 		return ResponseUtil.createSuccessResponse(message, data);
 	}
