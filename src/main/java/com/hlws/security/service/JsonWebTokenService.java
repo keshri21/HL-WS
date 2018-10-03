@@ -1,12 +1,10 @@
 package com.hlws.security.service;
 
-import com.hlws.enums.Authority;
-import com.hlws.model.User;
-import com.hlws.util.AppConstants;
+import java.time.LocalDateTime;
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
-import io.jsonwebtoken.JwtBuilder;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationServiceException;
@@ -14,10 +12,14 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
-import java.time.LocalDateTime;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.Map;
+import com.hlws.dto.TokenDTO;
+import com.hlws.enums.Authority;
+import com.hlws.model.User;
+import com.hlws.util.AppConstants;
+
+import io.jsonwebtoken.JwtBuilder;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 
 @Service
 public class JsonWebTokenService implements ITokenService {
@@ -34,11 +36,12 @@ public class JsonWebTokenService implements ITokenService {
     }
 
     @Override
-    public String getToken(final String username, final String password) {
+    public TokenDTO getToken(final String username, final String password) {
         if (username == null || password == null) {
             return null;
         }
         final User user = (User) userDetailsService.loadUserByUsername(username);
+        TokenDTO tokenDTO;
         Map<String, Object> tokenData = new HashMap<>();
         if (password.equals(user.getPassword())) {
             tokenData.put("username", user.getUsername() + 
@@ -52,7 +55,10 @@ public class JsonWebTokenService implements ITokenService {
             JwtBuilder jwtBuilder = Jwts.builder();
             jwtBuilder.setExpiration(calendar.getTime());
             jwtBuilder.setClaims(tokenData);
-            return jwtBuilder.signWith(SignatureAlgorithm.HS512, tokenKey).compact();
+            tokenDTO = new TokenDTO();
+            tokenDTO.setToken(jwtBuilder.signWith(SignatureAlgorithm.HS512, tokenKey).compact());
+            tokenDTO.setRole(tokenData.get("role").toString());
+            return tokenDTO;
 
         } else {
             throw new AuthenticationServiceException("Authentication error");

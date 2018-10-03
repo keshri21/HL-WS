@@ -1,5 +1,7 @@
 package com.hlws.security.service;
 
+import com.hlws.dto.TokenDTO;
+
 public interface ITokenService {
-    String getToken(String username, String password);
+    TokenDTO getToken(String username, String password);
 }
