@@ -1,5 +1,6 @@
 package com.hlws.dal;
 
+import com.hlws.model.Pan;
 import com.hlws.model.Vehicle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -34,13 +35,14 @@ public class VehicleDALImpl implements IVehicleDAL {
 
     @Override
     public List<Vehicle> findBySearchText(String searchText) {
-        Query query = new Query().addCriteria(Criteria.where("vehicleNo").regex(searchText));
+        Query query = new Query().addCriteria(Criteria.where("vehicleNo").regex(searchText)
+        		.and("isOldOwner").is(false));
 
         return mongoTemplate.find(query, Vehicle.class, collectionName);
     }
 
     @Override
-    public void updateIsOld(String vehicleNo) {
+    public void updateOwner(String vehicleNo) {
         Update update = new Update(); //TODO complete this method
     }
 }

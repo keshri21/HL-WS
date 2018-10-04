@@ -29,7 +29,7 @@ public class AuthenticationResource {
 	}
 	
 	@PostMapping
-	public ResponseEntity<?> authenticate(@RequestBody LoginDTO dto, Authentication authentication){
+	public ResponseEntity<?> authenticate(@RequestBody LoginDTO dto){
 		final TokenDTO response = tokenService.getToken(dto.getUsername(), dto.getPassword());
 		if(response != null) {
 			

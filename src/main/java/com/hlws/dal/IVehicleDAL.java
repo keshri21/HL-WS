@@ -7,7 +7,7 @@ import java.util.List;
 public interface IVehicleDAL {
 
     Vehicle save(Vehicle vehicle);
-    void updateIsOld(String vehicleNo);
+    void updateOwner(String vehicleNo);
     //Vehicle insert(Vehicle vehicle);
     List<Vehicle> findBySearchText(String searchText);
 }

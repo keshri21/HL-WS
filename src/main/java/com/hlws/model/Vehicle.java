@@ -10,7 +10,7 @@ public class Vehicle {
 	private String rcNo;
 	private String rcCopyLink;
 	private String addedDate;
-	private boolean isOld;
+	private boolean isOldOwner;
 	
 	public Long getVehicleId() {
 		return vehicleId;
@@ -45,11 +45,11 @@ public class Vehicle {
 		this.addedDate = addedDate;
 	}
 
-	public boolean isOld() {
-		return isOld;
+	public boolean isOldOwner() {
+		return isOldOwner;
 	}
 
-	public void setOld(boolean old) {
-		isOld = old;
+	public void setOldOwner(boolean old) {
+		isOldOwner = old;
 	}
 }

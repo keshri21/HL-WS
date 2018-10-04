@@ -34,7 +34,7 @@ public class PanService {
             // this means new vehicle is being added to pan. So put added date and update idOld flag if same vehicle is already present against different pan
             if(vehicle.getAddedDate() == null){
                 vehicle.setAddedDate(DateUtil.format(new Date()));
-                vehicleRepository.updateIsOld(vehicle.getVehicleNo());
+                vehicleRepository.updateOwner(vehicle.getVehicleNo());
             }
            // vehicleRepository.save(vehicle);
         }
