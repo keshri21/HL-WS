@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
@@ -43,7 +44,7 @@ public class JsonWebTokenService implements ITokenService {
         final User user = (User) userDetailsService.loadUserByUsername(username);
         TokenDTO tokenDTO;
         Map<String, Object> tokenData = new HashMap<>();
-        if (password.equals(user.getPassword())) {
+        if (BCrypt.checkpw(password, user.getPassword())) {
             tokenData.put("username", user.getUsername() + 
             		AppConstants.USERNAME_DELIMETER + user.getCompanyId());
             tokenData.put("role", CollectionUtils.isEmpty(user.getAuthorities()) ? 

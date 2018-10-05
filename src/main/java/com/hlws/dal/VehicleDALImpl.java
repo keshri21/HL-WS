@@ -43,7 +43,10 @@ public class VehicleDALImpl implements IVehicleDAL {
 
     @Override
     public void updateOwner(String vehicleNo) {
-        Update update = new Update(); //TODO complete this method
+    	Query query = new Query().addCriteria(Criteria.where("vehicleNo").regex(vehicleNo)
+        		.and("isOldOwner").is(false));
+        Update update = new Update().set("isOldOwner", true);
+        mongoTemplate.updateMulti(query, update, collectionName);
     }
 }
 
