@@ -8,7 +8,6 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 
-import com.hlws.exceptions.DALInitiationException;
 import com.hlws.model.Party;
 
 @Repository

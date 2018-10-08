@@ -10,7 +10,6 @@ import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
 
 import com.hlws.dto.BuiltyDTO;
-import com.hlws.exceptions.DALInitiationException;
 import com.hlws.model.Builty;
 
 @Repository

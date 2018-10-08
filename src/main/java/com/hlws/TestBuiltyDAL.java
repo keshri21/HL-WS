@@ -1,33 +1,20 @@
 package com.hlws;
 
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.mongodb.config.EnableMongoAuditing;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.jsonFormatVisitors.JsonFormatTypes;
-import com.fasterxml.jackson.databind.node.JsonNodeType;
-import com.hlws.dal.BuiltyDALImpl;
-import com.hlws.dto.BuiltyDTO;
-import com.hlws.exceptions.DALInitiationException;
-import com.hlws.model.Builty;
-import com.hlws.util.DummyBuilder;
 import com.mongodb.MongoClient;
-import com.mongodb.MongoClientOptions;
-import com.mongodb.MongoClientURI;
 import com.mongodb.MongoCredential;
-import com.mongodb.ServerAddress;
 
 @SpringBootApplication
 @EnableMongoAuditing
