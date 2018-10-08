@@ -81,7 +81,7 @@ public class DOResourceTests {
 		
 		DO doOrder = DummyBuilder.createDummyDO(1).get(0);
 		doOrder.setRefundAmt(120.0);
-		doOrder.setRefundDate(DateUtil.addAndFormat(55));
+		doOrder.setRefundDate(new Date());
 		this.mockMvc.perform(put("/do/2345")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(JSONUtil.toJson(doOrder))).andDo(print())

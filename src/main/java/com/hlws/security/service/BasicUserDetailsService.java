@@ -31,6 +31,8 @@ public class BasicUserDetailsService implements UserDetailsService {
     	System.out.println("User parts: " + usernameAndDomain[0] + " and " + usernameAndDomain[1]);
         final User user = userService.findByUserName(usernameAndDomain[0], usernameAndDomain[1]);
         if (user != null) {
+        	// set company id on user. Ideally it should be stored in database but to be safer side if it doesn't flow from DB
+        	user.setCompanyId(usernameAndDomain[1]);
             return user;
         } else {
             throw new UsernameNotFoundException("User with username:" + username + " not found");

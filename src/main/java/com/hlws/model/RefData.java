@@ -25,6 +25,4 @@ public class RefData {
 		this.collaryList = collaryList;
 	}
 	
-	
-
 }

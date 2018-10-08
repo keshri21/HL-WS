@@ -20,8 +20,8 @@ public class DummyBuilder {
 		List<Builty> list = new ArrayList<>();
 		while(count > 0) {
 			Builty builty = new Builty();
-			builty.setBuiltyDate(DateUtil.format(new Date()));
-			builty.setDoId(23234l);
+			builty.setBuiltyDate(new Date());
+			builty.setDoId("23234l");
 			builty.setDoDisplay("1231/34342-HASDEO-2000");
 			builty.setVehicleNo("MH12ER332");
 			builty.setQuantity(100.0);
@@ -81,9 +81,9 @@ public class DummyBuilder {
 			doOrder.setArea("HASDEO");
 			doOrder.setCollary("WEST JKD");
 			doOrder.setQuantity(2200.0);
-			doOrder.setDoDate(DateUtil.format(currDate));
+			doOrder.setDoDate(currDate);
 			doOrder.setReceivedDate(DateUtil.format(currDate));
-			doOrder.setDueDate(DateUtil.addAndFormat(45));
+			doOrder.setDueDate(new Date());
 			doOrder.setBuiltyCompany("Hindustan Logistic");
 			doOrder.setBy("Courier");
 			doOrder.setDoAmt(1200000.0);
@@ -94,7 +94,7 @@ public class DummyBuilder {
 			doOrder.setEmd(200.0);
 			doOrder.setEmdAmt(0.0);
 			doOrder.setRefundAmt(0.0);
-			doOrder.setRefundDate(DateUtil.addAndFormat(55));
+			doOrder.setRefundDate(new Date());
 			doOrder.setTotalRefundAmt(0.0);
 			doOrder.setRemarks("OK, WP");
 			doOrder.setDoRate(0.0);
@@ -104,7 +104,7 @@ public class DummyBuilder {
 			doOrder.setGrade("G-5");
 			doOrder.setAuctionNo(155);
 			doOrder.setPermissionNo(23434322);
-			doOrder.setFinishDate(DateUtil.addAndFormat(42));
+			doOrder.setFinishDate(new Date());
 			
 			Party party = new Party();
 			party.setId(1122);

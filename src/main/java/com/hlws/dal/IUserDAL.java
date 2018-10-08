@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.hlws.model.User;
 
-public interface IUserDAL {
+public interface IUserDAL extends IBaseDAL {
 
 	User save(User user);
 	void updatePassword(String userName, String password);

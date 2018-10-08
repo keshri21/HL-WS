@@ -13,7 +13,7 @@ import java.util.List;
 public class DoDALImpl implements IDoDAL {
 
     private final MongoTemplate mongoTemplate;
-    private String collectionName = "hl-do";
+    private static final String FIXED_COLLECTION_NAME = "do";
 
     @Autowired
     public DoDALImpl(MongoTemplate mongoTemplate) {
@@ -22,40 +22,40 @@ public class DoDALImpl implements IDoDAL {
 
     @Override
     public DO save(DO doObj) {
-        mongoTemplate.save(doObj, collectionName);
+        mongoTemplate.save(doObj, getSpecificCollectionName(FIXED_COLLECTION_NAME));
         return doObj;
     }
 
     @Override
     public List<DO> findRunning() {
         Query query = new Query().addCriteria(Criteria.where("finishDate").is(null));
-        return mongoTemplate.find(query, DO.class, collectionName);
+        return mongoTemplate.find(query, DO.class, getSpecificCollectionName(FIXED_COLLECTION_NAME));
     }
 
     @Override
     public List<DO> findCompleted() {
         Query query = new Query().addCriteria(Criteria.where("finishDate").ne(null));
-        return mongoTemplate.find(query, DO.class, collectionName);
+        return mongoTemplate.find(query, DO.class, getSpecificCollectionName(FIXED_COLLECTION_NAME));
     }
 
     @Override
     public List<DO> getAll() {
-        return mongoTemplate.findAll(DO.class, collectionName);
+        return mongoTemplate.findAll(DO.class, getSpecificCollectionName(FIXED_COLLECTION_NAME));
     }
 
     @Override
     public DO findById(String id) {
-        return mongoTemplate.findById(id, DO.class, collectionName);
+        return mongoTemplate.findById(id, DO.class, getSpecificCollectionName(FIXED_COLLECTION_NAME));
     }
 
     @Override
     public void delete(DO doObj) {
-        mongoTemplate.remove(doObj, collectionName);
+        mongoTemplate.remove(doObj, getSpecificCollectionName(FIXED_COLLECTION_NAME));
     }
 
     @Override
     public List<DO> getAllSelected(List<String> ids) {
         Query query = new Query(Criteria.where("_id").in(ids));
-        return mongoTemplate.find(query, DO.class, collectionName);
+        return mongoTemplate.find(query, DO.class, getSpecificCollectionName(FIXED_COLLECTION_NAME));
     }
 }

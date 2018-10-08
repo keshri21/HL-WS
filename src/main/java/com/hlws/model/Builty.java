@@ -1,20 +1,22 @@
 package com.hlws.model;
 
-import java.sql.Date;
+import java.util.Date;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.hlws.util.AppConstants;
 
 @Document
 public class Builty {
 
 	private String id;
 	private Long builtyNo;
-	private Long doId;
+	private String doId;
 	private String doDisplay;
 	private Party party;
-	private String builtyDate;
+	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern=AppConstants.DATE_FORMAT, timezone="IST")
+	private Date builtyDate;
 	private String otBuiltyCompany;
 	private Integer otBuiltyNumber;
 	private String vehicleNo;
@@ -40,7 +42,8 @@ public class Builty {
 	private User subTransporter;
 	private String waybillNo;
 	private String tpNo;
-	private String receivedDate;
+	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern=AppConstants.DATE_FORMAT, timezone="IST")
+	private Date receivedDate;
 	private Double receivedQuantity;
 	private Double netWeight;
 	private Double refund;
@@ -56,10 +59,10 @@ public class Builty {
 	public void setBuiltyNo(Long builtyNo) {
 		this.builtyNo = builtyNo;
 	}
-	public Long getDoId() {
+	public String getDoId() {
 		return doId;
 	}
-	public void setDoId(Long doId) {
+	public void setDoId(String doId) {
 		this.doId = doId;
 	}
 	public String getDoDisplay() {
@@ -74,10 +77,10 @@ public class Builty {
 	public void setParty(Party party) {
 		this.party = party;
 	}
-	public String getBuiltyDate() {
+	public Date getBuiltyDate() {
 		return builtyDate;
 	}
-	public void setBuiltyDate(String builtyDate) {
+	public void setBuiltyDate(Date builtyDate) {
 		this.builtyDate = builtyDate;
 	}
 	public String getOtBuiltyCompany() {
@@ -236,10 +239,10 @@ public class Builty {
 	public void setTpNo(String tpNo) {
 		this.tpNo = tpNo;
 	}
-	public String getReceivedDate() {
+	public Date getReceivedDate() {
 		return receivedDate;
 	}
-	public void setReceivedDate(String receivedDate) {
+	public void setReceivedDate(Date receivedDate) {
 		this.receivedDate = receivedDate;
 	}
 	public Double getReceivedQuantity() {

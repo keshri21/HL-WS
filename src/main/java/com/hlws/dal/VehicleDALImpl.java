@@ -1,7 +1,7 @@
 package com.hlws.dal;
 
-import com.hlws.model.Pan;
-import com.hlws.model.Vehicle;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -9,13 +9,13 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
+import com.hlws.model.Vehicle;
 
 @Repository
 public class VehicleDALImpl implements IVehicleDAL {
 
     private final MongoTemplate mongoTemplate;
-    private String collectionName = "pan";
+    private static final String FIXED_COLLECTION_NAME = "pan";
 
     @Autowired
     public VehicleDALImpl(MongoTemplate mongoTemplate) {
@@ -38,7 +38,7 @@ public class VehicleDALImpl implements IVehicleDAL {
         Query query = new Query().addCriteria(Criteria.where("vehicleNo").regex(searchText)
         		.and("isOldOwner").is(false));
 
-        return mongoTemplate.find(query, Vehicle.class, collectionName);
+        return mongoTemplate.find(query, Vehicle.class, FIXED_COLLECTION_NAME);
     }
 
     @Override
@@ -46,7 +46,7 @@ public class VehicleDALImpl implements IVehicleDAL {
     	Query query = new Query().addCriteria(Criteria.where("vehicleNo").regex(vehicleNo)
         		.and("isOldOwner").is(false));
         Update update = new Update().set("isOldOwner", true);
-        mongoTemplate.updateMulti(query, update, collectionName);
+        mongoTemplate.updateMulti(query, update, FIXED_COLLECTION_NAME);
     }
 }
 

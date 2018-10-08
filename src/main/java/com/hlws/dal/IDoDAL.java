@@ -4,7 +4,7 @@ import com.hlws.model.DO;
 
 import java.util.List;
 
-public interface IDoDAL {
+public interface IDoDAL extends IBaseDAL{
     DO save(DO doObj);
     List<DO> findRunning();
     List<DO> findCompleted();

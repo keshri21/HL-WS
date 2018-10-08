@@ -13,7 +13,7 @@ import java.util.List;
 public class PanDALImpl implements IPanDAL{
 
     private final MongoTemplate mongoTemplate;
-    private String collectionName = "pan";
+    private static final String FIXED_COLLECTION_NAME = "pan";
 
     @Autowired
     public PanDALImpl(MongoTemplate mongoTemplate) {
@@ -22,24 +22,24 @@ public class PanDALImpl implements IPanDAL{
 
     @Override
     public Pan save(Pan pan) {
-        mongoTemplate.save(pan, collectionName);
+        mongoTemplate.save(pan, FIXED_COLLECTION_NAME);
         return pan;
     }
 
     @Override
     public List<Pan> getAll() {
-        return mongoTemplate.findAll(Pan.class, collectionName);
+        return mongoTemplate.findAll(Pan.class, FIXED_COLLECTION_NAME);
     }
 
     @Override
     public List<Pan> findBySearchText(String searchText) {
         Query query = new Query().addCriteria(Criteria.where("panNo").regex(searchText));
-        return mongoTemplate.find(query, Pan.class, collectionName);
+        return mongoTemplate.find(query, Pan.class, FIXED_COLLECTION_NAME);
     }
 
     @Override
     public Pan getOne(String panNo) {
         Query query = new Query().addCriteria(Criteria.where("panNo").is(panNo));
-        return mongoTemplate.findOne(query, Pan.class, collectionName);
+        return mongoTemplate.findOne(query, Pan.class, FIXED_COLLECTION_NAME);
     }
 }

@@ -1,12 +1,14 @@
 package com.hlws.model;
 
-import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.util.CollectionUtils;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.hlws.util.AppConstants;
 
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class DO {
@@ -16,9 +18,11 @@ public class DO {
 	private Integer areaDoNo;
 	private Integer auctionNo;
 	private Double quantity;
-	private String doDate;
+	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern=AppConstants.DATE_FORMAT, timezone="IST")
+	private Date doDate;
 	private String receivedDate;
-	private String dueDate;
+	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern=AppConstants.DATE_FORMAT, timezone="IST")
+	private Date dueDate;
 	private String size;
 	private Party party;
 	private List<String> destinations;
@@ -43,11 +47,13 @@ public class DO {
 	private Double lepseQuantity;
 	private String doStatus;
 	private Double refundAmt;
-	private String refundDate;
+	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern=AppConstants.DATE_FORMAT, timezone="IST")
+	private Date refundDate;
 	private Double emdAmt;
 	private Double totalRefundAmt;
 	private String website;
-	private String finishDate;
+	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern=AppConstants.DATE_FORMAT, timezone="IST")
+	private Date finishDate;
 	private String remarks;
 	private List<Integer> inAdvanceLimit;
 	private List<String> freightToBePaidBy;
@@ -77,10 +83,10 @@ public class DO {
 	public void setQuantity(Double quantity) {
 		this.quantity = quantity;
 	}
-	public String getDoDate() {
+	public Date getDoDate() {
 		return doDate;
 	}
-	public void setDoDate(String doDate) {
+	public void setDoDate(Date doDate) {
 		this.doDate = doDate;
 	}
 	public String getReceivedDate() {
@@ -89,10 +95,10 @@ public class DO {
 	public void setReceivedDate(String receivedDate) {
 		this.receivedDate = receivedDate;
 	}
-	public String getDueDate() {
+	public Date getDueDate() {
 		return dueDate;
 	}
-	public void setDueDate(String dueDate) {
+	public void setDueDate(Date dueDate) {
 		this.dueDate = dueDate;
 	}
 	public String getSize() {
@@ -239,10 +245,10 @@ public class DO {
 	public void setRefundAmt(Double refundAmt) {
 		this.refundAmt = refundAmt;
 	}
-	public String getRefundDate() {
+	public Date getRefundDate() {
 		return refundDate;
 	}
-	public void setRefundDate(String refundDate) {
+	public void setRefundDate(Date refundDate) {
 		this.refundDate = refundDate;
 	}
 	public Double getEmdAmt() {
@@ -263,10 +269,10 @@ public class DO {
 	public void setWebsite(String website) {
 		this.website = website;
 	}
-	public String getFinishDate() {
+	public Date getFinishDate() {
 		return finishDate;
 	}
-	public void setFinishDate(String finishDate) {
+	public void setFinishDate(Date finishDate) {
 		this.finishDate = finishDate;
 	}
 	public String getRemarks() {
