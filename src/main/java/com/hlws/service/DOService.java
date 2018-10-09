@@ -2,9 +2,12 @@ package com.hlws.service;
 
 import com.hlws.dal.IDoDAL;
 import com.hlws.model.DO;
+import com.hlws.util.AppUtil;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -14,10 +17,14 @@ public class DOService {
     IDoDAL doRepository;
 
     public DO create(DO doObj){
+    	doObj.setCreatedDateTime(new Date());
+    	doObj.setCreatedBy(AppUtil.getLoggedInUser().getUsername());
         return doRepository.save(doObj);
     }
 
     public String update(DO doObj){
+    	doObj.setLastModifiedDateTime(new Date());
+    	doObj.setLastModifiedBy(AppUtil.getLoggedInUser().getUsername());
         doRepository.save(doObj);
         return doObj.getId();
     }

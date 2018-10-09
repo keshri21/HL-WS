@@ -36,7 +36,7 @@ public class UserService {
     	if(createFlag) {
     		user.setPassword(BCrypt.hashpw(user.getPassword(), BCrypt.gensalt()));
     		user.setActive(true);
-    		user.setCompanyId(AppUtil.getCompanyIdFromLoggedInUser());
+    		user.setCompanyId(AppUtil.getLoggedInUser().getCompanyId());
     	}
 		return userRepository.save(user);
 	}

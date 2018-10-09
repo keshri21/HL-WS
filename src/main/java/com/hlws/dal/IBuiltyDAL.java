@@ -29,7 +29,7 @@ public interface IBuiltyDAL extends IBaseDAL {
 		return builder.append(AppConstants.COLLECTION_DELIMETER)
 				.append("temp")
 				.append(AppConstants.COLLECTION_DELIMETER)
-				.append(AppUtil.getCompanyIdFromLoggedInUser())
+				.append(AppUtil.getLoggedInUser().getCompanyId())
 				.toString();
     }
 }

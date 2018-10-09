@@ -17,6 +17,7 @@ public class RefDataResource {
 
 	@Autowired
 	RefDataService refDataService;
+	
 	@GetMapping
 	@ResponseBody
 	public APIResponse<RefData> getRefData(){

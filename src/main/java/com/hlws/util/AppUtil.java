@@ -7,13 +7,13 @@ import com.hlws.model.User;
 
 public class AppUtil {
 	
-	public static String getCompanyIdFromLoggedInUser() {
+	public static User getLoggedInUser() {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		if(authentication != null) {
-			return ((User)authentication.getDetails()).getCompanyId();
+			return ((User)authentication.getDetails());
 		}else {
 			System.out.println("This should not happen");
-			return null;
+			return new User();
 		}
 	}
 

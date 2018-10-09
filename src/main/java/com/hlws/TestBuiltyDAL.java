@@ -1,16 +1,19 @@
 package com.hlws;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.hlws.model.Collary;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoCredential;
 
@@ -43,6 +46,20 @@ public class TestBuiltyDAL implements CommandLineRunner {
 		for (MyPojo myPojo : pojoList) {
 			System.out.println(mapper.writeValueAsString(myPojo));
 		}
+		
+		List<Collary> ar = new ArrayList<>();
+		List<String> areas = new ArrayList<>();
+		Collary c1 = new Collary();
+		c1.setName("HASEO");
+		ar.add(c1);
+		Collary c2 = new Collary();
+		c2.setName("BHATA");
+		ar.add(c2);
+		c1.setName("PARA");
+		ar.add(c1);
+		template.insert(ar, "area");
+		template.findAll(Collary.class, "area").forEach(area -> areas.add(area.getName()));
+		System.out.println(areas);
 		
 	}
 

@@ -4,19 +4,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import org.springframework.data.annotation.Id;
 
 @JsonIgnoreProperties(ignoreUnknown=true)
-public class Party {
+public class DestinationParty {
 
-	@Id
-	private Integer id;
+	private String id;
 	private String name;
-	private List<String> destinations;
-	public Integer getId() {
+	private List<Destination> destinations;
+	
+	public String getId() {
 		return id;
 	}
-	public void setId(Integer id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 	public String getName() {
@@ -25,12 +24,10 @@ public class Party {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public List<String> getDestinations() {
+	public List<Destination> getDestinations() {
 		return destinations == null ? new ArrayList<>() : destinations;
 	}
-	public void setDestinations(List<String> destinations) {
+	public void setDestinations(List<Destination> destinations) {
 		this.destinations = destinations;
 	}
-	
-	
 }

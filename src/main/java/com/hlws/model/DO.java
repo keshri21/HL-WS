@@ -26,7 +26,7 @@ public class DO {
 	private String size;
 	private Party party;
 	private List<String> destinations;
-	private List<Party> destinationParty;
+	private List<DestinationParty> destinationparty;
 	private FreightRange freight;
 	private Integer permissionNo;
 	private String area;
@@ -57,6 +57,12 @@ public class DO {
 	private String remarks;
 	private List<Integer> inAdvanceLimit;
 	private List<String> freightToBePaidBy;
+	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern=AppConstants.DATE_TIME_FORMAT, timezone="IST")
+	private Date createdDateTime;
+	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern=AppConstants.DATE_TIME_FORMAT, timezone="IST")
+	private Date lastModifiedDateTime;
+	private String createdBy;
+	private String lastModified;
 	
 	public Integer getBspDoNo() {
 		return bspDoNo;
@@ -119,11 +125,11 @@ public class DO {
 	public void setDestinations(List<String> destinations) {
 		this.destinations = destinations;
 	}
-	public List<Party> getDestinationParty() {
-		return CollectionUtils.isEmpty(destinationParty) ? new ArrayList<>() : destinationParty;
+	public List<DestinationParty> getDestinationParty() {
+		return CollectionUtils.isEmpty(destinationparty) ? new ArrayList<>() : destinationparty;
 	}
-	public void setDestinationParty(List<Party> destinationParty) {
-		this.destinationParty = destinationParty;
+	public void setDestinationParty(List<DestinationParty> destinationParty) {
+		this.destinationparty = destinationParty;
 	}
 	public FreightRange getFreight() {
 		return freight;
@@ -301,4 +307,30 @@ public class DO {
 	public void setId(String id) {
 		this.id = id;
 	}
+	public Date getCreatedDateTime() {
+		return createdDateTime;
+	}
+	public void setCreatedDateTime(Date createdDateTime) {
+		this.createdDateTime = createdDateTime;
+	}
+	public Date getLastModifiedDateTime() {
+		return lastModifiedDateTime;
+	}
+	public void setLastModifiedDateTime(Date lastModifiedDateTime) {
+		this.lastModifiedDateTime = lastModifiedDateTime;
+	}
+	public String getCreatedBy() {
+		return createdBy;
+	}
+	public void setCreatedBy(String createdBy) {
+		this.createdBy = createdBy;
+	}
+	public String getLastModifiedBy() {
+		return lastModified;
+	}
+	public void setLastModifiedBy(String lastModified) {
+		this.lastModified = lastModified;
+	}
+	
+	
 }

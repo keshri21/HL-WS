@@ -9,7 +9,7 @@ public interface IBaseDAL {
 		StringBuilder builder = new StringBuilder(fixedCollectionName);
 		
 		return builder.append(AppConstants.COLLECTION_DELIMETER)
-				.append(AppUtil.getCompanyIdFromLoggedInUser())
+				.append(AppUtil.getLoggedInUser().getCompanyId())
 				.toString();
 	}
 

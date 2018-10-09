@@ -8,6 +8,8 @@ import java.util.Random;
 import com.hlws.model.Account;
 import com.hlws.model.Builty;
 import com.hlws.model.DO;
+import com.hlws.model.Destination;
+import com.hlws.model.DestinationParty;
 import com.hlws.model.FreightRange;
 import com.hlws.model.Pan;
 import com.hlws.model.Party;
@@ -113,16 +115,9 @@ public class DummyBuilder {
 			List<String> destinations = new ArrayList<>();
 			destinations.add("BHILAI");
 			destinations.add("RAIPUR");
-			FreightRange range = new FreightRange();
-			range.setMin(1000);
-			range.setMax(1100);
-			doOrder.setFreight(range);
 			doOrder.setParty(party);
 			
-			List<Party> dList = new ArrayList<>();
-			dList.add(party);
-			
-			doOrder.setDestinationParty(dList);
+			//doOrder.setDestinationParty(destinations);
 			doOrder.setDestinations(destinations);
 			
 			doOrder.getInAdvanceLimit().add(1000);
@@ -180,18 +175,12 @@ public class DummyBuilder {
 			Party party = new Party();
 			party.setId(1234);
 			party.setName("MONNT ISPAT & ENERGY LTD.");
-			party.getDestinations().add("RAIPUR");
-			party.getDestinations().add("DURG");
-			FreightRange range = new FreightRange();
-			range.setMax(1100);
-			range.setMin(1000);
-			
-			FreightRange range2 = new FreightRange();
-			range2.setMin(1150);
-			range2.setMax(1200);
-			
-			party.getFreightRanges().add(range);
-			party.getFreightRanges().add(range2);
+			Destination d1= new Destination();
+			d1.setName("Raipur");
+			party.getDestinations().add("Raipur");
+			Destination d2= new Destination();
+			d1.setName("Durg");
+			party.getDestinations().add("Durg");
 			list.add(party);
 			count--;
 		}
