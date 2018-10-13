@@ -1,6 +1,7 @@
 package com.hlws.dal;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +11,6 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.hlws.model.Collary;
-import com.hlws.model.Party;
 import com.hlws.model.RefData;
 
 @Repository
@@ -31,6 +31,7 @@ public class RefDataDALImpl implements IRefDataDAL{
 	public RefData get() {
 		RefData refData = new RefData();
 		refData.setPartyList(partyRepository.getAll());
+		Collections.sort(refData.getPartyList());
 		refData.setAreaList(getAreas());
 		refData.setCollaryList(getCollaries());
 		return refData;
@@ -41,6 +42,7 @@ public class RefDataDALImpl implements IRefDataDAL{
 		List<String> collaries = new ArrayList<>();
 		mongoTemplate.findAll(Collary.class, "collary")
 			.forEach(collary -> collaries.add(collary.getName()));
+		Collections.sort(collaries);
 		return collaries;
 	}
 	
@@ -49,6 +51,7 @@ public class RefDataDALImpl implements IRefDataDAL{
 		List<String> areas = new ArrayList<>();
 		mongoTemplate.findAll(Collary.class, "area")
 			.forEach(area -> areas.add(area.getName()));
+		Collections.sort(areas);
 		return areas;
 	}
 

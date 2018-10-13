@@ -20,12 +20,12 @@ public class DO {
 	private Double quantity;
 	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern=AppConstants.DATE_FORMAT, timezone="IST")
 	private Date doDate;
-	private String receivedDate;
+	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern=AppConstants.DATE_FORMAT, timezone="IST")
+	private Date receivedDate;
 	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern=AppConstants.DATE_FORMAT, timezone="IST")
 	private Date dueDate;
 	private String size;
 	private Party party;
-	private List<String> destinations;
 	private List<DestinationParty> destinationparty;
 	private FreightRange freight;
 	private Integer permissionNo;
@@ -95,10 +95,10 @@ public class DO {
 	public void setDoDate(Date doDate) {
 		this.doDate = doDate;
 	}
-	public String getReceivedDate() {
+	public Date getReceivedDate() {
 		return receivedDate;
 	}
-	public void setReceivedDate(String receivedDate) {
+	public void setReceivedDate(Date receivedDate) {
 		this.receivedDate = receivedDate;
 	}
 	public Date getDueDate() {
@@ -119,16 +119,10 @@ public class DO {
 	public void setParty(Party party) {
 		this.party = party;
 	}
-	public List<String> getDestinations() {
-		return CollectionUtils.isEmpty(destinations) ? new ArrayList<>() : destinations;
-	}
-	public void setDestinations(List<String> destinations) {
-		this.destinations = destinations;
-	}
-	public List<DestinationParty> getDestinationParty() {
+	public List<DestinationParty> getDestinationparty() {
 		return CollectionUtils.isEmpty(destinationparty) ? new ArrayList<>() : destinationparty;
 	}
-	public void setDestinationParty(List<DestinationParty> destinationParty) {
+	public void setDestinationparty(List<DestinationParty> destinationParty) {
 		this.destinationparty = destinationParty;
 	}
 	public FreightRange getFreight() {

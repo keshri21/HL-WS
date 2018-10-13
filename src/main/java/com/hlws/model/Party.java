@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.data.annotation.Id;
 
 @JsonIgnoreProperties(ignoreUnknown=true)
-public class Party {
+public class Party implements Comparable<Party>{
 
 	@Id
 	private String id;
@@ -30,6 +30,12 @@ public class Party {
 	}
 	public void setDestinations(List<String> destinations) {
 		this.destinations = destinations;
+	}
+	@Override
+	public int compareTo(Party o) {
+		// TODO Auto-generated method stub
+		
+		return this.name.compareTo(o != null ? o.name : null);
 	}
 	
 	
