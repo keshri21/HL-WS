@@ -13,4 +13,5 @@ public interface IUserDAL extends IBaseDAL {
 	User findByUserName(String userName, String companyId);
 	User findById(String id);
 	void deactivate(String username);
+	List<User> getByRole(String role);
 }

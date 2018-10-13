@@ -3,6 +3,8 @@ package com.hlws.dal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -23,6 +25,7 @@ public class UserDALImpl implements IUserDAL {
 	}
 
 	@Override
+	@CacheEvict(value="users", allEntries=true)
 	public User save(User user) {
 		mongoTemplate.save(user, getSpecificCollectionName(FIXED_COLLECTION_NAME));
 		return user;
@@ -59,6 +62,14 @@ public class UserDALImpl implements IUserDAL {
 	@Override
 	public User findById(String id) {
 		return mongoTemplate.findById(id, User.class, getSpecificCollectionName(FIXED_COLLECTION_NAME));
+	}
+	
+	@Override
+	@Cacheable(value="users", key="#role")
+	public List<User> getByRole(String role){
+		Query query = new Query();
+		query.addCriteria(Criteria.where("roleName").is(role).and("active").is(true));
+		return mongoTemplate.find(query, User.class, getSpecificCollectionName(FIXED_COLLECTION_NAME));
 	}
 
 	@Override

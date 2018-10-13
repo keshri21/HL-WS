@@ -101,4 +101,18 @@ public class UserResource {
 		}
 		return ResponseUtil.createSuccessResponse(message, data);
 	}
+	
+	@GetMapping(value = "/role/{rolename}")
+	@ResponseBody
+	public APIResponse<List<User>> getByRole(@PathVariable("rolename") String role){
+		String message = "user list retrieved successfully";
+		List<User> data;
+		try {
+			data = userService.getByRole(role);
+		}catch(Exception e) {
+			message = "Some error occurred while retrieving users";
+			return ResponseUtil.createFailedResponse(message);
+		}
+		return ResponseUtil.createSuccessResponse(message, data);
+	}
 }

@@ -146,7 +146,6 @@ public class DummyBuilder {
 			panData.setTds(false);
 			Vehicle v1 = new Vehicle();
 			v1.setVehicleNo("MH12HG342");
-			v1.setVehicleId(32421231l);
 			List<Vehicle> vList = new ArrayList<>();
 			vList.add(v1);
 			panData.setVehicles(vList);
@@ -210,7 +209,6 @@ public class DummyBuilder {
 		Random random = new Random();
 		while(count > 0) {
 			Vehicle v = new Vehicle();
-			v.setVehicleId(232323232l);
 			
 			v.setVehicleNo(vArr[random.nextInt(vArr.length) - 1]);
 			
