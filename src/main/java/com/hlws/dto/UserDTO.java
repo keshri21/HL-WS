@@ -8,24 +8,20 @@ public class UserDTO {
 	
 	private static final long serialVersionUID = 7954325925563724664L;
 
-	@JsonProperty("username")
+	private String id;
 	private String username;
 	
-	@JsonProperty("firstName")
 	private String firstName;
 	
-	@JsonProperty("lastName")
 	private String lastName;
 	
-	@JsonProperty("password")
-	private String password;
 	
-	@JsonProperty("role")
-	private String roleName;
-	
-	@JsonProperty("active")
-	private boolean active;
-	
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
 	public String getUsername() {
 		return username;
 	}
@@ -43,24 +39,6 @@ public class UserDTO {
 	}
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
-	}
-	public String getPassword() {
-		return password;
-	}
-	public void setPassword(String password) {
-		this.password = password;
-	}
-	public String getRoleName() {
-		return roleName;
-	}
-	public void setRoleName(String roleName) {
-		this.roleName = roleName;
-	}
-	public boolean isActive() {
-		return active;
-	}
-	public void setActive(boolean active) {
-		this.active = active;
 	}
 
 }

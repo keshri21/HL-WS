@@ -11,6 +11,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
 
+import com.hlws.dto.UserDTO;
 import com.hlws.model.User;
 
 @Repository
@@ -66,10 +67,10 @@ public class UserDALImpl implements IUserDAL {
 	
 	@Override
 	@Cacheable(value="users", key="#role")
-	public List<User> getByRole(String role){
+	public List<UserDTO> getByRole(String role){
 		Query query = new Query();
 		query.addCriteria(Criteria.where("roleName").is(role).and("active").is(true));
-		return mongoTemplate.find(query, User.class, getSpecificCollectionName(FIXED_COLLECTION_NAME));
+		return mongoTemplate.find(query, UserDTO.class, getSpecificCollectionName(FIXED_COLLECTION_NAME));
 	}
 
 	@Override

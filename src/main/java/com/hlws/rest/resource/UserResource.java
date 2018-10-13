@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.hlws.dto.UserDTO;
 import com.hlws.model.User;
 import com.hlws.response.APIResponse;
 import com.hlws.response.ResponseUtil;
@@ -104,9 +105,9 @@ public class UserResource {
 	
 	@GetMapping(value = "/role/{rolename}")
 	@ResponseBody
-	public APIResponse<List<User>> getByRole(@PathVariable("rolename") String role){
+	public APIResponse<List<UserDTO>> getByRole(@PathVariable("rolename") String role){
 		String message = "user list retrieved successfully";
-		List<User> data;
+		List<UserDTO> data;
 		try {
 			data = userService.getByRole(role);
 		}catch(Exception e) {

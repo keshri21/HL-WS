@@ -8,6 +8,7 @@ import org.springframework.util.CollectionUtils;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.hlws.dto.UserDTO;
 import com.hlws.util.AppConstants;
 
 @JsonIgnoreProperties(ignoreUnknown=true)
@@ -34,7 +35,7 @@ public class DO {
 	private String grade;
 	private String by;
 	private String builtyCompany;
-	private User transporter;	// should be one with FIELD role
+	private UserDTO transporter;	// should be one with FIELD role
 	private Double emd;
 	private Double doAmt;
 	private Double doAmtpmt;
@@ -167,10 +168,10 @@ public class DO {
 	public void setBuiltyCompany(String builtyCompany) {
 		this.builtyCompany = builtyCompany;
 	}
-	public User getTransporter() {
+	public UserDTO getTransporter() {
 		return transporter;
 	}
-	public void setTransporter(User transporter) {
+	public void setTransporter(UserDTO transporter) {
 		this.transporter = transporter;
 	}
 	public Double getEmd() {

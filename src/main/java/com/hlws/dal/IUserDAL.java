@@ -2,6 +2,7 @@ package com.hlws.dal;
 
 import java.util.List;
 
+import com.hlws.dto.UserDTO;
 import com.hlws.model.User;
 
 public interface IUserDAL extends IBaseDAL {
@@ -13,5 +14,5 @@ public interface IUserDAL extends IBaseDAL {
 	User findByUserName(String userName, String companyId);
 	User findById(String id);
 	void deactivate(String username);
-	List<User> getByRole(String role);
+	List<UserDTO> getByRole(String role);
 }

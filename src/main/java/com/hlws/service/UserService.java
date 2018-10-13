@@ -8,6 +8,7 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
 import com.hlws.dal.IUserDAL;
+import com.hlws.dto.UserDTO;
 import com.hlws.enums.Authority;
 import com.hlws.model.User;
 import com.hlws.util.AppUtil;
@@ -54,7 +55,7 @@ public class UserService {
 		}
 	}
     
-    public List<User> getByRole(String role){
+    public List<UserDTO> getByRole(String role){
     	return userRepository.getByRole(role);
     }
     
