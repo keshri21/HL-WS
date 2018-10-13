@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 public class Account {
 
 	private String accountNo;
-	private String accountHolderName;
+	private String accountHoldername;
 	private String ifscCode;
 	private String bankName;
 	
@@ -16,11 +16,11 @@ public class Account {
 	public void setAccountNo(String accountNo) {
 		this.accountNo = accountNo;
 	}
-	public String getAccountHolderName() {
-		return accountHolderName;
+	public String getAccountHoldername() {
+		return accountHoldername;
 	}
-	public void setAccountHolderName(String accountHolderName) {
-		this.accountHolderName = accountHolderName;
+	public void setAccountHoldername(String accountHolderName) {
+		this.accountHoldername = accountHolderName;
 	}
 	public String getIfscCode() {
 		return ifscCode;
