@@ -2,7 +2,10 @@ package com.hlws.dal;
 
 import java.util.List;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -11,13 +14,15 @@ import org.springframework.stereotype.Repository;
 
 import com.hlws.dto.BuiltyDTO;
 import com.hlws.model.Builty;
+import com.hlws.model.Sequence;
 
 @Repository
 public class BuiltyDALImpl implements IBuiltyDAL {
 
     private final MongoTemplate mongoTemplate;
     private static final String FIXED_COLLECTION_NAME = "builty";
-
+    private static final String SEQUENCE_COLLECTION_NAME = "builty-sequence";
+    
     @Autowired
     public BuiltyDALImpl(MongoTemplate mongoTemplate){
         this.mongoTemplate = mongoTemplate;
@@ -105,6 +110,32 @@ public class BuiltyDALImpl implements IBuiltyDAL {
 		query.addCriteria(Criteria.where("_id").is(id));
 		Update update = new Update().set("approved", true);
 		mongoTemplate.updateFirst(query, update, Builty.class, getSpecificCollectionName(FIXED_COLLECTION_NAME));
+	}
+	
+	@Override
+	@CachePut("builtySequence")
+	public Sequence updateSequence(Sequence sq) {
+		if(sq.getValue() == this.getSequence().getValue()) {
+			sq.setValue(sq.getValue()+1);
+		}
+		mongoTemplate.save(sq, getSpecificCollectionName(SEQUENCE_COLLECTION_NAME));
+		return sq;
+	}
+	
+	@Override
+	@Cacheable("builtySequence")
+	public Sequence getSequence() {
+		List<Sequence> list = mongoTemplate.findAll(Sequence.class, getSpecificCollectionName(SEQUENCE_COLLECTION_NAME));
+		Sequence sq;
+		// collection is not created so create sequnce collection with starting value of 1
+		if(CollectionUtils.isEmpty(list)) {
+			sq = new Sequence();
+			sq.setValue(1);
+			mongoTemplate.save(sq, getSpecificCollectionName(SEQUENCE_COLLECTION_NAME));
+		}else {
+			sq = list.get(0);
+		}
+		return sq;
 	}
 	
 	

@@ -11,7 +11,7 @@ import com.hlws.util.AppConstants;
 public class Builty {
 
 	private String id;
-	private Long builtyNo;
+	private String builtyNo;
 	private String doId;
 	private String doDisplay;
 	private Party party;
@@ -53,10 +53,10 @@ public class Builty {
 	private Long savedReferenceNumber;
 	private boolean approved;
 	
-	public Long getBuiltyNo() {
+	public String getBuiltyNo() {
 		return builtyNo;
 	}
-	public void setBuiltyNo(Long builtyNo) {
+	public void setBuiltyNo(String builtyNo) {
 		this.builtyNo = builtyNo;
 	}
 	public String getDoId() {

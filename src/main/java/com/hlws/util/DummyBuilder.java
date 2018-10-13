@@ -59,7 +59,7 @@ public class DummyBuilder {
 			builty.setNetWeight(110.5);
 			
 			Party party = new Party();
-			party.setId(2233);
+			party.setId("2233");
 			party.setName("NEEL SAGAR RESOURCES");
 			builty.setParty(party);
 			builty.setAssesibleValue(2300.0);
@@ -109,7 +109,7 @@ public class DummyBuilder {
 			doOrder.setFinishDate(new Date());
 			
 			Party party = new Party();
-			party.setId(1122);
+			party.setId("1122");
 			party.setName("SPONGE Udyog Pvt. Ltd");
 			
 			List<String> destinations = new ArrayList<>();
@@ -173,7 +173,7 @@ public class DummyBuilder {
 		List<Party> list = new ArrayList<>();
 		while(count > 0) {
 			Party party = new Party();
-			party.setId(1234);
+			party.setId("1234");
 			party.setName("MONNT ISPAT & ENERGY LTD.");
 			Destination d1= new Destination();
 			d1.setName("Raipur");

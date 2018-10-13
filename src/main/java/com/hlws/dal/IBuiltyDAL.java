@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.hlws.dto.BuiltyDTO;
 import com.hlws.model.Builty;
+import com.hlws.model.Sequence;
 import com.hlws.util.AppConstants;
 import com.hlws.util.AppUtil;
 
@@ -22,6 +23,8 @@ public interface IBuiltyDAL extends IBaseDAL {
     void removeFromTemp(Builty builty);
     void updateReceipt(List<BuiltyDTO> builtyList);
     void approve(String id);
+    Sequence getSequence();
+    Sequence updateSequence(Sequence sq);
     
     default String getTempCollectionName(String fixedCollectionName) {
     	StringBuilder builder = new StringBuilder(fixedCollectionName);

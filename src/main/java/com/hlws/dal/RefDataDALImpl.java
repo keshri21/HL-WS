@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Repository;
@@ -28,19 +29,27 @@ public class RefDataDALImpl implements IRefDataDAL{
 	
 	@Override
 	public RefData get() {
+		RefData refData = new RefData();
+		refData.setPartyList(partyRepository.getAll());
+		refData.setAreaList(getAreas());
+		refData.setCollaryList(getCollaries());
+		return refData;
+	}
+	
+	@Cacheable("collaries")
+	private List<String> getCollaries(){
 		List<String> collaries = new ArrayList<>();
-		List<String> areas = new ArrayList<>();
-		List<Party> parties = partyRepository.getAll();
 		mongoTemplate.findAll(Collary.class, "collary")
-				.forEach(collary -> collaries.add(collary.getName()));
+			.forEach(collary -> collaries.add(collary.getName()));
+		return collaries;
+	}
+	
+	@Cacheable("areas")
+	private List<String> getAreas(){
+		List<String> areas = new ArrayList<>();
 		mongoTemplate.findAll(Collary.class, "area")
 			.forEach(area -> areas.add(area.getName()));
-		
-		RefData refData = new RefData();
-		refData.setPartyList(parties);
-		refData.setAreaList(areas);
-		refData.setCollaryList(collaries);
-		return refData;
+		return areas;
 	}
 
 	

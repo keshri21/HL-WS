@@ -10,13 +10,13 @@ import org.springframework.data.annotation.Id;
 public class Party {
 
 	@Id
-	private Integer id;
+	private String id;
 	private String name;
 	private List<String> destinations;
-	public Integer getId() {
+	public String getId() {
 		return id;
 	}
-	public void setId(Integer id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 	public String getName() {

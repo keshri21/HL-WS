@@ -1,16 +1,18 @@
 package com.hlws.service;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Random;
-
-import com.hlws.dal.IBuiltyDAL;
-import com.hlws.dto.BuiltyDTO;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.hlws.dal.IBuiltyDAL;
+import com.hlws.dto.BuiltyDTO;
 import com.hlws.model.Builty;
+import com.hlws.model.Sequence;
+import com.hlws.util.AppUtil;
 
 @Service
 public class BuiltyService {
@@ -19,6 +21,15 @@ public class BuiltyService {
 	IBuiltyDAL builtyRepository;
 
 	public String createBuilty(Builty builty) throws Exception{
+		
+		Sequence currSeq = builtyRepository.getSequence();
+		builty.setBuiltyNo(generateBuiltyNumber(currSeq.getValue()));
+		//update builty sequence number before saving builty
+		currSeq.setValue(currSeq.getValue()+1);
+		synchronized (this) {
+			builtyRepository.updateSequence(currSeq);
+		}
+		
 		builtyRepository.save(builty);
 
 		//remove from temp if present
@@ -73,5 +84,13 @@ public class BuiltyService {
 	
 	public List<Builty> getAllSelected(List<String> ids){
 		return builtyRepository.getAllSelected(ids);
+	}
+	
+	private String generateBuiltyNumber(Integer seqNo) {
+		StringBuilder builder = new StringBuilder();
+		builder.append(AppUtil.getLoggedInUser().getCompanyId())
+				.append(Calendar.getInstance().get(Calendar.YEAR))
+				.append(String.format("%04d", seqNo));
+		return builder.toString().toUpperCase();
 	}
 }
