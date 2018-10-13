@@ -84,7 +84,7 @@ public class DummyBuilder {
 			doOrder.setCollary("WEST JKD");
 			doOrder.setQuantity(2200.0);
 			doOrder.setDoDate(currDate);
-			doOrder.setReceivedDate(DateUtil.format(currDate));
+			//doOrder.setReceivedDate(DateUtil.format(currDate));
 			doOrder.setDueDate(new Date());
 			doOrder.setBuiltyCompany("Hindustan Logistic");
 			doOrder.setBy("Courier");
@@ -118,7 +118,7 @@ public class DummyBuilder {
 			doOrder.setParty(party);
 			
 			//doOrder.setDestinationParty(destinations);
-			doOrder.setDestinations(destinations);
+			//doOrder.setDestinations(destinations);
 			
 			doOrder.getInAdvanceLimit().add(1000);
 			doOrder.getInAdvanceLimit().add(1500);
@@ -151,7 +151,7 @@ public class DummyBuilder {
 			panData.setVehicles(vList);
 			
 			Account ac = new Account();
-			ac.setAccountHolderName("Anjali tendulkar");
+			ac.setAccountHoldername("Anjali tendulkar");
 			ac.setAccountNo("002822921338");
 			ac.setBankName("HDFC");
 			ac.setIfscCode("HDFC0000008");					
