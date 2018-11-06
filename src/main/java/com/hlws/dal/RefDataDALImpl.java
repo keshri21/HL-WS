@@ -10,6 +10,7 @@ import org.springframework.context.annotation.DependsOn;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.hlws.State;
 import com.hlws.model.Collary;
 import com.hlws.model.RefData;
 
@@ -34,6 +35,7 @@ public class RefDataDALImpl implements IRefDataDAL{
 		Collections.sort(refData.getPartyList());
 		refData.setAreaList(getAreas());
 		refData.setCollaryList(getCollaries());
+		refData.setStates(getStates());
 		return refData;
 	}
 	
@@ -53,6 +55,15 @@ public class RefDataDALImpl implements IRefDataDAL{
 			.forEach(area -> areas.add(area.getName()));
 		Collections.sort(areas);
 		return areas;
+	}
+	
+	@Cacheable("states")
+	private List<String> getStates(){
+		List<String> states = new ArrayList<>();
+		mongoTemplate.findAll(State.class, "state")
+			.forEach(state -> states.add(state.getName()));
+		Collections.sort(states);
+		return states;
 	}
 
 	

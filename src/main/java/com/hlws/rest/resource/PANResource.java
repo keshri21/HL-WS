@@ -1,5 +1,7 @@
 package com.hlws.rest.resource;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,14 +13,17 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hlws.model.Pan;
+import com.hlws.model.Vehicle;
 import com.hlws.response.APIResponse;
 import com.hlws.response.ResponseUtil;
 import com.hlws.service.PanService;
+import com.hlws.util.DummyBuilder;
 
 
 @RestController
@@ -63,11 +68,12 @@ public class PANResource {
 	
 	@GetMapping(value = "/{panId}")
 	@ResponseBody
-	public APIResponse<Pan> getOne(@PathVariable("panId") String panNo){
+	public APIResponse<List<Pan>> getOne(@PathVariable("panId") String panNo){
 		String message = "PAN data retrieved successfully";
-		Pan data;
-		try {			
-			data = service.getOne(panNo);
+		List<Pan> data;
+		try {	
+			Pan pan = service.getOne(panNo);
+			data = pan == null ? new ArrayList<>(): Arrays.asList(pan);
 		}catch(Exception e) {
 			e.printStackTrace();
 			message = "Some error occurred while retrieving PAN data";
@@ -87,6 +93,33 @@ public class PANResource {
 		}catch(Exception e) {
 			e.printStackTrace();
 			message = "Some error occurred while updating PAN data";
+			return ResponseUtil.createFailedResponse(message);
+		}
+		return ResponseUtil.createSuccessResponse(message, data);
+	}
+	
+	@PutMapping(value="/{pan}/updatevehicles")
+	@ResponseBody
+	public APIResponse<String> updatevehicles(@PathVariable("pan") String pan, @RequestBody List<Vehicle> vehicles){
+		String message = "Vehicles updated succesfully";
+		try {
+			service.updatevehicles(pan, vehicles);
+		}catch(Exception e) {
+			return ResponseUtil.createFailedResponse(e.getMessage());
+		}
+		return ResponseUtil.createSuccessResponse(message, "updated");
+	}
+	
+	@GetMapping(value = "/vehicle/{searchtext}")
+	@ResponseBody
+	public APIResponse<List<Pan>> get(@PathVariable("searchtext") String searchtext){
+		String message = "Vehicles retrieved successfully for entered criteria";
+		List<Pan> data;
+		try {
+			data = service.getVehiclesBySearchText(searchtext);
+		}catch(Exception e) {
+			e.printStackTrace();
+			message = "Some error ocurred while looking for vehicle number";
 			return ResponseUtil.createFailedResponse(message);
 		}
 		return ResponseUtil.createSuccessResponse(message, data);

@@ -1,10 +1,12 @@
 package com.hlws.model;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import org.springframework.data.mongodb.core.mapping.DBRef;
-import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document
 @JsonIgnoreProperties(ignoreUnknown=true)
@@ -12,16 +14,14 @@ public class Pan {
 	private String id;
 	private String panNo;
 	private String panHolderName;
-	private String fatherName;
 	private String panCopyLink;
 	private String declarationLink;
 	private boolean tds;
 	private List<Account> accounts;
 	private Long mobile;
-	private String address;
 	private String city;
-	private String district;
-	private List<Vehicle> vehicles;
+	private String state;
+	private Set<Vehicle> vehicles;
 	
 	public String getPanNo() {
 		return panNo;
@@ -35,12 +35,7 @@ public class Pan {
 	public void setPanHolderName(String panHolderName) {
 		this.panHolderName = panHolderName;
 	}
-	public String getFatherName() {
-		return fatherName;
-	}
-	public void setFatherName(String fatherName) {
-		this.fatherName = fatherName;
-	}
+
 	public String getPanCopyLink() {
 		return panCopyLink;
 	}
@@ -65,28 +60,24 @@ public class Pan {
 	public void setMobile(Long mobile) {
 		this.mobile = mobile;
 	}
-	public String getAddress() {
-		return address;
-	}
-	public void setAddress(String address) {
-		this.address = address;
-	}
+
 	public String getCity() {
 		return city;
 	}
 	public void setCity(String city) {
 		this.city = city;
 	}
-	public String getDistrict() {
-		return district;
+
+	public String getState() {
+		return state;
 	}
-	public void setDistrict(String district) {
-		this.district = district;
+	public void setState(String state) {
+		this.state = state;
 	}
-	public List<Vehicle> getVehicles() {
-		return vehicles;
+	public Set<Vehicle> getVehicles() {
+		return vehicles == null ? new HashSet<>() : vehicles;
 	}
-	public void setVehicles(List<Vehicle> vehicles) {
+	public void setVehicles(Set<Vehicle> vehicles) {
 		this.vehicles = vehicles;
 	}
 	public boolean isTds() {
@@ -103,4 +94,11 @@ public class Pan {
 	public void setId(String id) {
 		this.id = id;
 	}
+	@Override
+	public String toString() {
+		return "Pan [id=" + id + ", panNo=" + panNo + ", panHolderName=" + panHolderName + ", tds=" + tds
+				+ ", accounts=" + accounts + ", mobile=" + mobile + ", vehicles=" + vehicles + "]";
+	}
+	
+	
 }
