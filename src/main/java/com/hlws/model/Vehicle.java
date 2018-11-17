@@ -99,6 +99,13 @@ public class Vehicle implements Comparable<Vehicle>{
 	
 	@Override
 	public int compareTo(Vehicle o) {
+		if( o == null) {
+			return 1;
+		}else if(o.vehicleNo == null) {
+			return 1;
+		}else if(this.vehicleNo == null) {
+			return -1;
+		}
 		return this.vehicleNo.compareTo(o.vehicleNo);
 	}
 	
