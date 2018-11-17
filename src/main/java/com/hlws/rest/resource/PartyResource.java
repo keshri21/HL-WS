@@ -79,7 +79,7 @@ public class PartyResource {
 		String message = "Party data updated successfully";
 		String data = "updated";
 		if(party.getId() == null) {
-			return ResponseUtil.createFailedResponse("Party id not set while updating");
+			return ResponseUtil.createFailedResponse("Party id is not set while updating");
 		}
 		try {
 			partyService.save(party, false);

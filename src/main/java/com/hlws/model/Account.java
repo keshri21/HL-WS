@@ -9,6 +9,7 @@ public class Account {
 	private String accountHoldername;
 	private String ifscCode;
 	private String bankName;
+	private String passbookLink;
 	
 	public String getAccountNo() {
 		return accountNo;
@@ -34,6 +35,13 @@ public class Account {
 	public void setBankName(String bankName) {
 		this.bankName = bankName;
 	}
+	public String getPassbookLink() {
+		return passbookLink;
+	}
+	public void setPassbookLink(String passbookLink) {
+		this.passbookLink = passbookLink;
+	}
 
+	
 
 }

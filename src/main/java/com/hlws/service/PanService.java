@@ -1,5 +1,6 @@
 package com.hlws.service;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -8,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.hlws.dal.IPanDAL;
-import com.hlws.dal.IVehicleDAL;
 import com.hlws.model.Pan;
 import com.hlws.model.Vehicle;
 
@@ -53,6 +53,16 @@ public class PanService {
 				throw new Exception("Vehicle number is already linked against this PAN");
 			}
 		}
+    	for (Vehicle vehicle : uniqueVehicles) {
+    		// if added date is null means new vehicle is being added
+    		if(vehicle.getAddedDate() == null){
+                vehicle.setAddedDate(new Date());
+                vehicle.setOldOwner(false);
+                //mark any vehicle with same number as oldowner before adding new entry
+                panRepository.updateVehicleOwner(vehicle.getVehicleNo());
+            }
+		}
+    	
     	panRepository.updateVehicles(pan.toUpperCase(), uniqueVehicles);
     }
     

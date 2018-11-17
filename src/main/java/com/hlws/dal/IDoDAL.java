@@ -11,5 +11,6 @@ public interface IDoDAL extends IBaseDAL{
     List<DO> getAll();
     List<DO> getAllSelected(List<String> ids);
     DO findById(String id);
+    void updateDOBalance(String id, Double balance);
     void delete(DO doObj);
 }

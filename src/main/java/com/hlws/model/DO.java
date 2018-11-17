@@ -41,8 +41,8 @@ public class DO {
 	private Double doAmtpmt;
 	private Double doRate;
 	private Double doRateTcs;
+	private Double doBalance;
 	private String withinOutSide;
-	private String disp;
 	private Double liftedQuantity;
 	private Double quantityDeduction;
 	private Double lepseQuantity;
@@ -51,19 +51,19 @@ public class DO {
 	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern=AppConstants.DATE_FORMAT, timezone="IST")
 	private Date refundDate;
 	private Double emdAmt;
-	private Double totalRefundAmt;
 	private String website;
 	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern=AppConstants.DATE_FORMAT, timezone="IST")
 	private Date finishDate;
 	private String remarks;
 	private List<Integer> inAdvanceLimit;
 	private List<String> freightToBePaidBy;
+	private List<String> otBuiltyCompany;
 	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern=AppConstants.DATE_TIME_FORMAT, timezone="IST")
 	private Date createdDateTime;
 	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern=AppConstants.DATE_TIME_FORMAT, timezone="IST")
 	private Date lastModifiedDateTime;
 	private String createdBy;
-	private String lastModified;
+	private String lastModifiedBy;
 	
 	public Integer getBspDoNo() {
 		return bspDoNo;
@@ -204,17 +204,18 @@ public class DO {
 	public void setDoRateTcs(Double doRateTcs) {
 		this.doRateTcs = doRateTcs;
 	}
+	
+	public Double getDoBalance() {
+		return doBalance == null ? this.getQuantity() : doBalance;
+	}
+	public void setDoBalance(Double doBalance) {
+		this.doBalance = doBalance;
+	}
 	public String getWithinOutSide() {
 		return withinOutSide;
 	}
 	public void setWithinOutSide(String withinOutSide) {
 		this.withinOutSide = withinOutSide;
-	}
-	public String getDisp() {
-		return disp;
-	}
-	public void setDisp(String disp) {
-		this.disp = disp;
 	}
 	public Double getLiftedQuantity() {
 		return liftedQuantity;
@@ -258,12 +259,6 @@ public class DO {
 	public void setEmdAmt(Double emdAmt) {
 		this.emdAmt = emdAmt;
 	}
-	public Double getTotalRefundAmt() {
-		return totalRefundAmt;
-	}
-	public void setTotalRefundAmt(Double totalRefundAmt) {
-		this.totalRefundAmt = totalRefundAmt;
-	}
 	public String getWebsite() {
 		return website;
 	}
@@ -302,6 +297,13 @@ public class DO {
 	public void setId(String id) {
 		this.id = id;
 	}
+	
+	public List<String> getOtBuiltyCompany() {
+		return CollectionUtils.isEmpty(otBuiltyCompany) ? new ArrayList<>() : otBuiltyCompany;
+	}
+	public void setOtBuiltyCompany(List<String> otBuiltyCompany) {
+		this.otBuiltyCompany = otBuiltyCompany;
+	}
 	public Date getCreatedDateTime() {
 		return createdDateTime;
 	}
@@ -321,10 +323,10 @@ public class DO {
 		this.createdBy = createdBy;
 	}
 	public String getLastModifiedBy() {
-		return lastModified;
+		return lastModifiedBy;
 	}
 	public void setLastModifiedBy(String lastModified) {
-		this.lastModified = lastModified;
+		this.lastModifiedBy = lastModified;
 	}
 	
 	

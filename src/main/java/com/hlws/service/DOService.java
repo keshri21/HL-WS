@@ -19,6 +19,7 @@ public class DOService {
     public DO create(DO doObj){
     	doObj.setCreatedDateTime(new Date());
     	doObj.setCreatedBy(AppUtil.getLoggedInUser().getUsername());
+    	doObj.setDoBalance(doObj.getQuantity());
         return doRepository.save(doObj);
     }
 

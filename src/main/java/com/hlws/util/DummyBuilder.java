@@ -99,11 +99,11 @@ public class DummyBuilder {
 			doOrder.setEmdAmt(0.0);
 			doOrder.setRefundAmt(0.0);
 			doOrder.setRefundDate(new Date());
-			doOrder.setTotalRefundAmt(0.0);
+			//doOrder.setTotalRefundAmt(0.0);
 			doOrder.setRemarks("OK, WP");
 			doOrder.setDoRate(0.0);
 			doOrder.setDoRateTcs(112.32);
-			doOrder.setDisp("DISPATCH");
+			//doOrder.setDisp("DISPATCH");
 			doOrder.setSize("ROM");
 			doOrder.setGrade("G-5");
 			doOrder.setAuctionNo(155);

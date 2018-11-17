@@ -7,8 +7,10 @@ import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import com.hlws.dal.IBuiltyDAL;
+import com.hlws.dal.IDoDAL;
 import com.hlws.dto.BuiltyDTO;
 import com.hlws.model.Builty;
 import com.hlws.model.Sequence;
@@ -19,9 +21,14 @@ public class BuiltyService {
 
 	@Autowired
 	IBuiltyDAL builtyRepository;
+	
+	@Autowired
+	IDoDAL doRepository;
 
 	public String createBuilty(Builty builty) throws Exception{
-		
+		if(StringUtils.isEmpty(builty.getDoId())){
+			throw new Exception("A DO must be associated with builty");
+		}
 		Sequence currSeq = builtyRepository.getSequence();
 		builty.setBuiltyNo(generateBuiltyNumber(currSeq.getValue()));
 		//update builty sequence number before saving builty
@@ -31,6 +38,9 @@ public class BuiltyService {
 		}
 		
 		builtyRepository.save(builty);
+		
+		//update do balance
+		doRepository.updateDOBalance(builty.getDoId(), builty.getDoClosingBalance());
 
 		//remove from temp if present
 		builtyRepository.removeFromTemp(builty);

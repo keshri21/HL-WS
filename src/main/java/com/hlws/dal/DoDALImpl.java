@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -58,4 +59,13 @@ public class DoDALImpl implements IDoDAL {
         Query query = new Query(Criteria.where("_id").in(ids));
         return mongoTemplate.find(query, DO.class, getSpecificCollectionName(FIXED_COLLECTION_NAME));
     }
+
+	@Override
+	public void updateDOBalance(String id, Double balance) {
+		Query query = new Query(Criteria.where("_id").is(id));
+		Update update = new Update().set("doBalance", balance);
+		mongoTemplate.updateFirst(query, update, DO.class, getSpecificCollectionName(FIXED_COLLECTION_NAME));		
+	}
+    
+    
 }

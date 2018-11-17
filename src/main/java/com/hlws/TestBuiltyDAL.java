@@ -15,13 +15,13 @@ import org.springframework.data.mongodb.core.query.Query;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hlws.model.Collary;
+import com.hlws.model.DO;
 import com.hlws.model.Pan;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
 import com.mongodb.MongoCredential;
 import com.mongodb.ServerAddress;
 
-@SpringBootApplication
 public class TestBuiltyDAL implements CommandLineRunner {
 	
 	
@@ -47,9 +47,11 @@ public class TestBuiltyDAL implements CommandLineRunner {
 		
 		Query query1 = new Query().addCriteria(Criteria.where("vehicles.vehicleNo").regex("1010"));
 		List<Pan> lis = template.find(query1, Pan.class, "pan");
-		
+		Query query2 = new Query().addCriteria(Criteria.where("_id").is("5bc239357215fe06e8fd5d85"));
 		List<State> states = this.populateStates();
 		//template.insert(states, "state");
+		List<DO> dolist = template.find(query2, DO.class, "do-hl");
+		System.out.println("Find by id: " + dolist);
 	
 		//Query query = new Query().addCriteria(Criteria.where("createdDate").lt(new Date()));
 		/*List<MyPojo> pojoList = template.find(query, MyPojo.class, "date-test");

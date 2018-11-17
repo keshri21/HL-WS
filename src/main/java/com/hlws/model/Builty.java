@@ -20,12 +20,13 @@ public class Builty {
 	private String otBuiltyCompany;
 	private Integer otBuiltyNumber;
 	private String vehicleNo;
-	private Double quantity;
+	private Double doOpeningBalance;
 	private Integer inAdvance;
 	private Integer outAdvance;
 	private Integer diesel;
 	private String pumpName;
 	private Integer freight;
+	private Integer totalCashAdvance;
 	private Integer totalAdvance;
 	private Long permitNo;
 	private Double permitBalance;
@@ -37,7 +38,7 @@ public class Builty {
 	private Long driverMobile;
 	private Double grossWeight;
 	private Double tierWeight;
-	private Double doBalance;
+	private Double doClosingBalance;
 	private User transporter;
 	private User subTransporter;
 	private String waybillNo;
@@ -49,7 +50,6 @@ public class Builty {
 	private Double refund;
 	private Double assesibleValue;
 	private String freightToBePaidBy;
-	private Integer inAdvanceLimit;
 	private Long savedReferenceNumber;
 	private boolean approved;
 	
@@ -101,11 +101,11 @@ public class Builty {
 	public void setVehicleNo(String vehicleNo) {
 		this.vehicleNo = vehicleNo;
 	}
-	public Double getQuantity() {
-		return quantity;
+	public Double getDoOpeningBalance() {
+		return doOpeningBalance;
 	}
-	public void setQuantity(Double quantity) {
-		this.quantity = quantity;
+	public void setDoOpeningBalance(Double openingBalance) {
+		this.doOpeningBalance = openingBalance;
 	}
 	public Integer getInAdvance() {
 		return inAdvance;
@@ -137,8 +137,15 @@ public class Builty {
 	public void setFreight(Integer freight) {
 		this.freight = freight;
 	}
+	
+	public Integer getTotalCashAdvance() {
+		return totalCashAdvance;
+	}
+	public void setTotalCashAdvance(Integer totalCashAdvance) {
+		this.totalCashAdvance = totalCashAdvance;
+	}
 	public Integer getTotalAdvance() {
-		return totalAdvance;
+		return totalAdvance;	
 	}
 	public void setTotalAdvance(Integer totalAdvance) {
 		this.totalAdvance = totalAdvance;
@@ -203,17 +210,11 @@ public class Builty {
 	public void setTierWeight(Double tierWeight) {
 		this.tierWeight = tierWeight;
 	}
-	public Integer getInAdvanceLimit() {
-		return inAdvanceLimit;
+	public Double getDoClosingBalance() {
+		return doClosingBalance;
 	}
-	public void setInAdvanceLimit(Integer inAdvanceLimit) {
-		this.inAdvanceLimit = inAdvanceLimit;
-	}
-	public Double getDoBalance() {
-		return doBalance;
-	}
-	public void setDoBalance(Double doBalance) {
-		this.doBalance = doBalance;
+	public void setDoClosingBalance(Double doClosingBalance) {
+		this.doClosingBalance = doClosingBalance;
 	}
 	public User getTransporter() {
 		return transporter;
