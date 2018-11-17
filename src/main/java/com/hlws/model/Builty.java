@@ -286,7 +286,7 @@ public class Builty {
 	}
 
 	public Long getSavedReferenceNumber() {
-		return savedReferenceNumber;
+		return savedReferenceNumber == null ? -1 : savedReferenceNumber;
 	}
 
 	public void setSavedReferenceNumber(Long savedReferenceNumber) {
