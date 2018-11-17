@@ -2,8 +2,10 @@ package com.hlws.util;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 
 import com.hlws.model.Account;
 import com.hlws.model.Builty;
@@ -26,7 +28,7 @@ public class DummyBuilder {
 			builty.setDoId("23234l");
 			builty.setDoDisplay("1231/34342-HASDEO-2000");
 			builty.setVehicleNo("MH12ER332");
-			builty.setQuantity(100.0);
+			builty.setDoOpeningBalance(100.0);
 			builty.setInAdvance(2000);
 			builty.setOutAdvance(1000);
 			builty.setDiesel(1500);
@@ -138,15 +140,12 @@ public class DummyBuilder {
 			Pan panData = new Pan();
 			panData.setPanNo("DHFWA3839K");
 			panData.setPanHolderName("Sachin Tendulkar");
-			panData.setAddress("Galaxy Aprtment, Bandra(W)");
 			panData.setCity("Mumbai");
-			panData.setDistrict("Mumbai");
-			panData.setFatherName("Ramesh");
 			panData.setMobile(8888833333l);
 			panData.setTds(false);
 			Vehicle v1 = new Vehicle();
 			v1.setVehicleNo("MH12HG342");
-			List<Vehicle> vList = new ArrayList<>();
+			Set<Vehicle> vList = new HashSet<>();
 			vList.add(v1);
 			panData.setVehicles(vList);
 			
