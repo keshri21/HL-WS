@@ -1,5 +1,7 @@
 package com.hlws.model;
 
+import org.springframework.util.StringUtils;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown=true)
@@ -9,6 +11,7 @@ public class Account {
 	private String accountHoldername;
 	private String ifscCode;
 	private String bankName;
+	private Boolean passbookAvailable;
 	private String passbookLink;
 	
 	public String getAccountNo() {
@@ -41,6 +44,12 @@ public class Account {
 	public void setPassbookLink(String passbookLink) {
 		this.passbookLink = passbookLink;
 	}
+	public Boolean getPassbookAvailable() {
+		return StringUtils.isEmpty(this.passbookLink) ? false : true;
+	}
+	/*public void setPassbookavailable(Boolean passbookavailable) {
+		this.passbookavailable = passbookavailable;
+	}*/
 
 	
 

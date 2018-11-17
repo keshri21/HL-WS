@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,7 +22,6 @@ import com.hlws.model.Vehicle;
 import com.hlws.response.APIResponse;
 import com.hlws.response.ResponseUtil;
 import com.hlws.service.PanService;
-import com.hlws.util.DummyBuilder;
 
 
 @RestController
@@ -84,12 +82,12 @@ public class PANResource {
 	
 	@PutMapping(value = "/{panNo}")
 	@ResponseBody
-	public APIResponse<String> update(@PathVariable("panNo") String panNo, 
+	public APIResponse<Pan> update(@PathVariable("panNo") String panNo, 
 			@RequestBody Pan panData){
 		String message = "PAN data updated successfully";;
-		String data = "updated";
+		Pan data;
 		try {
-			service.save(panData, false);			
+			data = service.save(panData, false);			
 		}catch(Exception e) {
 			e.printStackTrace();
 			message = "Some error occurred while updating PAN data";
@@ -124,4 +122,5 @@ public class PANResource {
 		}
 		return ResponseUtil.createSuccessResponse(message, data);
 	}
+	
 }

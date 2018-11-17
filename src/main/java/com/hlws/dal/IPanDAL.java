@@ -13,5 +13,6 @@ public interface IPanDAL extends IBaseDAL {
     Pan getOne(String panNo);
     void updateVehicles(String pan, Set<Vehicle> updatedList);
     List<Pan> getVehicles(String searchText);
+    List<Pan> getAllVehicles();
     void updateVehicleOwner(String vehicleNo);
 }

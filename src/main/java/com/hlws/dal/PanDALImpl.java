@@ -61,6 +61,12 @@ public class PanDALImpl implements IPanDAL{
 	}
 	
 	@Override
+	public List<Pan> getAllVehicles() {
+		Query query = new Query().addCriteria(Criteria.where("vehicles.isOldOwner").is(false));
+        return mongoTemplate.find(query, Pan.class, FIXED_COLLECTION_NAME);
+	}
+	
+	@Override
     public void updateVehicleOwner(String vehicleNo) {
     	Query query = new Query().addCriteria(Criteria.where("vehicles.vehicleNo").is(vehicleNo)
         		.and("vehicles.isOldOwner").is(false));

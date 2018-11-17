@@ -80,6 +80,9 @@ public class AmazonS3Service {
 			return pan.concat("_").concat(vehicle).toUpperCase().concat(extension);
 		case "declaration":
 			return pan.concat("_declaration").toUpperCase().concat(extension);
+		case "passbook":
+			String accountno = request.getParameter("accountno");
+			return pan.concat("_").concat(accountno).toUpperCase().concat(extension);
 		default:
 			throw new Exception("Invalid file upload request");
 		}

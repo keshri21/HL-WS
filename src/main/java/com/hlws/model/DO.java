@@ -17,6 +17,7 @@ public class DO {
 	private String id;
 	private Integer bspDoNo;
 	private Integer areaDoNo;
+	private String doDisplay;
 	private Integer auctionNo;
 	private Double quantity;
 	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern=AppConstants.DATE_FORMAT, timezone="IST")
@@ -76,6 +77,13 @@ public class DO {
 	}
 	public void setAreaDoNo(Integer areaDoNo) {
 		this.areaDoNo = areaDoNo;
+	}
+	
+	public String getDoDisplay() {
+		return doDisplay == null ? buildDoDisplay() : doDisplay;
+	}
+	public void setDoDisplay(String doDisplay) {
+		this.doDisplay = doDisplay;
 	}
 	public Double getQuantity() {
 		return quantity;
@@ -329,5 +337,17 @@ public class DO {
 		this.lastModifiedBy = lastModified;
 	}
 	
+	private String buildDoDisplay() {
+		StringBuilder builder = new StringBuilder();
+		builder.append(this.areaDoNo)
+				.append("/")
+				.append(this.bspDoNo)
+				.append(" - ")
+				.append(this.collary)
+				.append(" - ")
+				.append(this.quantity);
+		
+		return builder.toString();
+	}
 	
 }

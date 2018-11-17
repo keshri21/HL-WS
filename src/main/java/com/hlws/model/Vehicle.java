@@ -7,13 +7,16 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.hlws.util.AppConstants;
 
 @JsonIgnoreProperties(ignoreUnknown=true)
-public class Vehicle {
+public class Vehicle implements Comparable<Vehicle>{
 	
 	private String vehicleNo;
 	private String rcCopyLink;
 	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern=AppConstants.DATE_FORMAT, timezone="IST")
 	private Date addedDate;
 	private boolean isOldOwner;
+	private String panNo;
+	private String panHolderName;
+	private Long mobile;
 	
 	public String getVehicleNo() {
 		return vehicleNo;
@@ -44,6 +47,26 @@ public class Vehicle {
 	public void setOldOwner(boolean old) {
 		isOldOwner = old;
 	}
+	
+	public String getPanNo() {
+		return panNo;
+	}
+	public void setPanNo(String panNo) {
+		this.panNo = panNo;
+	}
+	public String getPanHolderName() {
+		return panHolderName;
+	}
+	public void setPanHolderName(String panHolderName) {
+		this.panHolderName = panHolderName;
+	}
+	public Long getMobile() {
+		return mobile;
+	}
+	public void setMobile(Long mobile) {
+		this.mobile = mobile;
+	}
+	
 	@Override
 	public String toString() {
 		return "Vehicle [vehicleNo=" + vehicleNo + ", addedDate=" + addedDate + ", isOldOwner=" + isOldOwner + "]";
@@ -72,6 +95,11 @@ public class Vehicle {
 		} else if (!vehicleNo.equals(other.vehicleNo))
 			return false;
 		return true;
+	}
+	
+	@Override
+	public int compareTo(Vehicle o) {
+		return this.vehicleNo.compareTo(o.vehicleNo);
 	}
 	
 	
