@@ -14,7 +14,8 @@ public class Builty {
 	private String builtyNo;
 	private String doId;
 	private String doDisplay;
-	private Party party;
+	private String party;
+	private String destination;
 	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern=AppConstants.DATE_FORMAT, timezone="IST")
 	private Date builtyDate;
 	private String otBuiltyCompany;
@@ -71,11 +72,18 @@ public class Builty {
 	public void setDoDisplay(String doDisplay) {
 		this.doDisplay = doDisplay;
 	}
-	public Party getParty() {
+	public String getParty() {
 		return party;
 	}
-	public void setParty(Party party) {
+	public void setParty(String party) {
 		this.party = party;
+	}
+	
+	public String getDestination() {
+		return destination;
+	}
+	public void setDestination(String destination) {
+		this.destination = destination;
 	}
 	public Date getBuiltyDate() {
 		return builtyDate;
