@@ -60,10 +60,7 @@ public class DummyBuilder {
 			builty.setTierWeight(10.0);
 			builty.setNetWeight(110.5);
 			
-			Party party = new Party();
-			party.setId("2233");
-			party.setName("NEEL SAGAR RESOURCES");
-			builty.setParty(party);
+			builty.setParty("NEEL SAGAR RESOURCES");
 			builty.setAssesibleValue(2300.0);
 			builty.setRefund(2000.0);
 			builty.setInAdvance(1500);
