@@ -137,6 +137,13 @@ public class BuiltyDALImpl implements IBuiltyDAL {
 		}
 		return sq;
 	}
+
+	@Override
+	public Builty findBuiltyByVehicleNo(String vehicleno) {
+		Query query = new Query(Criteria.where("vehicleNo").is(vehicleno));
+		return mongoTemplate.findOne(query, Builty.class, getSpecificCollectionName(FIXED_COLLECTION_NAME));
+	}
+	
 	
 	
     

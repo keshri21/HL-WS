@@ -123,4 +123,19 @@ public class PANResource {
 		return ResponseUtil.createSuccessResponse(message, data);
 	}
 	
+	@GetMapping(value = "/vehicle/{vehicleno}/canbedeleted")
+	@ResponseBody
+	public APIResponse<Boolean> checkEligibility(@PathVariable("vehicleno") String vehicleno){
+		String message = "Eligibilty checked successfully";
+		Boolean data = false;
+		try {
+			data = service.ifVehicleCanBeDeleted(vehicleno);
+		}catch(Exception e) {
+			e.printStackTrace();
+			message = "Some error ocurred while checking for eligibility";
+			return ResponseUtil.createFailedResponse(message);
+		}
+		return ResponseUtil.createSuccessResponse(message, data);
+	}
+	
 }

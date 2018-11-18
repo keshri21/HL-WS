@@ -68,9 +68,9 @@ public class PanDALImpl implements IPanDAL{
 	
 	@Override
     public void updateVehicleOwner(String vehicleNo) {
-    	Query query = new Query().addCriteria(Criteria.where("vehicles.vehicleNo").is(vehicleNo)
-        		.and("vehicles.isOldOwner").is(false));
-        Update update = new Update().set("vehicles.isOldOwner", true);
+    	Query query = new Query().addCriteria(Criteria.where("vehicles").elemMatch(Criteria.where("vehicleNo").is(vehicleNo)
+				.and("isOldOwner").is(false))); 
+        Update update = new Update().set("vehicles.$.isOldOwner", true);
         mongoTemplate.updateMulti(query, update, FIXED_COLLECTION_NAME);
     }
 	

@@ -8,7 +8,9 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.hlws.dal.IBuiltyDAL;
 import com.hlws.dal.IPanDAL;
+import com.hlws.model.Builty;
 import com.hlws.model.Pan;
 import com.hlws.model.Vehicle;
 
@@ -17,6 +19,9 @@ public class PanService {
 
     @Autowired
     private IPanDAL panRepository;
+    
+    @Autowired
+    private IBuiltyDAL builtyRepository;
 
     public Pan save(Pan pan, boolean createFlag) throws Exception{
         /*if(CollectionUtils.isEmpty(pan.getVehicles())){
@@ -58,6 +63,7 @@ public class PanService {
     		if(vehicle.getAddedDate() == null){
                 vehicle.setAddedDate(new Date());
                 vehicle.setOldOwner(false);
+                vehicle.setVehicleNo(vehicle.getVehicleNo().toUpperCase());
                 //mark any vehicle with same number as oldowner before adding new entry
                 panRepository.updateVehicleOwner(vehicle.getVehicleNo());
             }
@@ -68,5 +74,10 @@ public class PanService {
     
     public List<Pan> getVehiclesBySearchText(String searchText){
     	return panRepository.getVehicles(searchText);
+    }
+    
+    public boolean ifVehicleCanBeDeleted(String vehicleno) {
+    	Builty builty = builtyRepository.findBuiltyByVehicleNo(vehicleno);
+    	return builty == null ? true : false;
     }
 }
