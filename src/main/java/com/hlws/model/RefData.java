@@ -5,7 +5,7 @@ import java.util.List;
 
 public class RefData {
 	private List<Party> partyList;
-	private List<String> areaList;
+	private List<Area> areaList;
 	private List<String> collaryList;
 	private List<String> states;
 	public List<Party> getPartyList() {
@@ -14,10 +14,10 @@ public class RefData {
 	public void setPartyList(List<Party> partyList) {
 		this.partyList = partyList;
 	}
-	public List<String> getAreaList() {
+	public List<Area> getAreaList() {
 		return areaList == null ? new ArrayList<>() : areaList;
 	}
-	public void setAreaList(List<String> areaList) {
+	public void setAreaList(List<Area> areaList) {
 		this.areaList = areaList;
 	}
 	public List<String> getCollaryList() {

@@ -11,6 +11,7 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.hlws.State;
+import com.hlws.model.Area;
 import com.hlws.model.Collary;
 import com.hlws.model.RefData;
 
@@ -21,6 +22,8 @@ public class RefDataDALImpl implements IRefDataDAL{
 	private final MongoTemplate mongoTemplate;
 	
 	private final IPartyDAL partyRepository;
+	
+	private static final String AREA_COLLECTION = "area";
 	
 	@Autowired
 	public RefDataDALImpl(MongoTemplate mongoTemplate, IPartyDAL partyRepository) {
@@ -49,10 +52,10 @@ public class RefDataDALImpl implements IRefDataDAL{
 	}
 	
 	@Cacheable("areas")
-	private List<String> getAreas(){
-		List<String> areas = new ArrayList<>();
-		mongoTemplate.findAll(Collary.class, "area")
-			.forEach(area -> areas.add(area.getName()));
+	private List<Area> getAreas(){
+		List<Area> areas = new ArrayList<>();
+		areas = mongoTemplate.findAll(Area.class, AREA_COLLECTION);
+			//.forEach(area -> areas.add(area.getName()));
 		Collections.sort(areas);
 		return areas;
 	}
