@@ -1,6 +1,7 @@
 package com.hlws.util;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -104,7 +105,7 @@ public class DummyBuilder {
 			doOrder.setSize("ROM");
 			doOrder.setGrade("G-5");
 			doOrder.setAuctionNo(155);
-			doOrder.setPermissionNo(23434322);
+			doOrder.setPermitNos(Arrays.asList(1234));
 			doOrder.setFinishDate(new Date());
 			
 			Party party = new Party();

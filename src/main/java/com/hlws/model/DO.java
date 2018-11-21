@@ -30,7 +30,7 @@ public class DO {
 	private Party party;
 	private List<DestinationParty> destinationparty;
 	private FreightRange freight;
-	private Integer permissionNo;
+	private List<Integer> permitNos;
 	private String area;
 	private String collary;
 	private String grade;
@@ -140,11 +140,11 @@ public class DO {
 	public void setFreight(FreightRange freight) {
 		this.freight = freight;
 	}
-	public Integer getPermissionNo() {
-		return permissionNo;
+	public List<Integer> getPermitNos() {
+		return permitNos;
 	}
-	public void setPermissionNo(Integer permissionNo) {
-		this.permissionNo = permissionNo;
+	public void setPermitNos(List<Integer> permitNos) {
+		this.permitNos = permitNos;
 	}
 	public String getArea() {
 		return area;
