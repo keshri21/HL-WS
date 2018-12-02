@@ -56,7 +56,7 @@ public class DummyBuilder {
 			builty.setWaybillNo("W3459339");
 			builty.setPermitNo(23434232l);
 			builty.setPermitBalance(332.5);
-			builty.setPermitEndDate(DateUtil.addAndFormat(20));
+			builty.setPermitEndDate(new Date());
 			builty.setGrossWeight(120.5);
 			builty.setTierWeight(10.0);
 			builty.setNetWeight(110.5);
@@ -79,7 +79,7 @@ public class DummyBuilder {
 		while(count > 0) {
 			DO doOrder = new DO();
 			doOrder.setAreaDoNo(11128);
-			doOrder.setBspDoNo(198866);
+			doOrder.setBspDoNo(198866l);
 			doOrder.setArea("HASDEO");
 			doOrder.setCollary("WEST JKD");
 			doOrder.setQuantity(2200.0);

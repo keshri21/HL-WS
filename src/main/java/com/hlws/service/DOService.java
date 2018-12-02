@@ -1,6 +1,7 @@
 package com.hlws.service;
 
 import com.hlws.dal.IDoDAL;
+import com.hlws.exceptions.InvalidDataException;
 import com.hlws.model.DO;
 import com.hlws.util.AppUtil;
 
@@ -16,7 +17,11 @@ public class DOService {
     @Autowired
     IDoDAL doRepository;
 
-    public DO create(DO doObj){
+    public DO create(DO doObj) throws InvalidDataException{
+    	
+    	if(doRepository.checkDoByBspDo(doObj.getBspDoNo())) {
+    		throw new InvalidDataException("DO with same BSP DO number already exists");
+    	}
     	doObj.setCreatedDateTime(new Date());
     	doObj.setCreatedBy(AppUtil.getLoggedInUser().getUsername());
     	doObj.setDoBalance(doObj.getQuantity());

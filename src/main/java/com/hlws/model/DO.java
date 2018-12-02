@@ -15,7 +15,7 @@ import com.hlws.util.AppConstants;
 public class DO {
 
 	private String id;
-	private Integer bspDoNo;
+	private Long bspDoNo;
 	private Integer areaDoNo;
 	private String doDisplay;
 	private Integer auctionNo;
@@ -66,10 +66,10 @@ public class DO {
 	private String createdBy;
 	private String lastModifiedBy;
 	
-	public Integer getBspDoNo() {
+	public Long getBspDoNo() {
 		return bspDoNo;
 	}
-	public void setBspDoNo(Integer bspDoNo) {
+	public void setBspDoNo(Long bspDoNo) {
 		this.bspDoNo = bspDoNo;
 	}
 	public Integer getAreaDoNo() {

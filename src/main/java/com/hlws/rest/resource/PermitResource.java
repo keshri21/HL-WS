@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.hlws.exceptions.InvalidDataException;
 import com.hlws.model.Permit;
 import com.hlws.response.APIResponse;
 import com.hlws.response.ResponseUtil;
@@ -40,6 +41,8 @@ public class PermitResource {
 		}catch(DuplicateKeyException de) {
 			message = "Permit number already exists";
 			return ResponseUtil.createFailedResponse(message);
+		}catch (InvalidDataException ie) {
+			return ResponseUtil.createFailedResponse(ie.getMessage());
 		}catch(Exception e) {
 			e.printStackTrace();
 			message = "Some error occurred while creating permit";
@@ -58,6 +61,8 @@ public class PermitResource {
 		}
 		try {
 			data = permitservice.update(permit);
+		}catch (InvalidDataException ie) {
+			return ResponseUtil.createFailedResponse(ie.getMessage());
 		}catch(Exception e) {
 			e.printStackTrace();
 			message = "Some error occurred while updating permit";
@@ -81,14 +86,13 @@ public class PermitResource {
 		return ResponseUtil.createSuccessResponse(message, data);
 	}
 	
-	@GetMapping(value = "/{permitId}")
+	@GetMapping(value = "/{permitNumber}")
 	@ResponseBody
-	public APIResponse<Permit> getone(@PathVariable("permitId") String permitid){
+	public APIResponse<Permit> getone(@PathVariable("permitNumber") Long permitNumber){
 		String message = "Permit retrieved successfully";
 		Permit data;
 		try {
-			//TODO write query to get single permit
-			data = permitservice.getPermitList(permitid).get(0);
+			data = permitservice.getByPermitNumber(permitNumber);
 		}catch(Exception e) {
 			e.printStackTrace();
 			message = "Some error occurred while retrieving permit";

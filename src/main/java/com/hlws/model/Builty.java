@@ -8,7 +8,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.hlws.util.AppConstants;
 
 @Document
-public class Builty {
+public class Builty implements Comparable<Builty> {
 
 	private String id;
 	private String builtyNo;
@@ -31,7 +31,8 @@ public class Builty {
 	private Integer totalAdvance;
 	private Long permitNo;
 	private Double permitBalance;
-	private String permitEndDate;
+	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern=AppConstants.DATE_FORMAT, timezone="IST")
+	private Date permitEndDate;
 	private Long igpNo;
 	private Long invoiceNo;
 	private Double invoiceValue;
@@ -52,7 +53,14 @@ public class Builty {
 	private Double assesibleValue;
 	private String freightToBePaidBy;
 	private Long savedReferenceNumber;
+	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern=AppConstants.DATE_TIME_FORMAT, timezone="IST")
+	private Date createdDateTime;
+	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern=AppConstants.DATE_TIME_FORMAT, timezone="IST")
+	private Date lastModifiedDateTime;
+	private String createdBy;
+	private String lastModifiedBy;
 	private boolean approved;
+	private boolean deleted;
 	
 	public String getBuiltyNo() {
 		return builtyNo;
@@ -170,10 +178,10 @@ public class Builty {
 	public void setPermitBalance(Double permitBalance) {
 		this.permitBalance = permitBalance;
 	}
-	public String getPermitEndDate() {
+	public Date getPermitEndDate() {
 		return permitEndDate;
 	}
-	public void setPermitEndDate(String permitEndDate) {
+	public void setPermitEndDate(Date permitEndDate) {
 		this.permitEndDate = permitEndDate;
 	}
 	public Long getIgpNo() {
@@ -307,6 +315,38 @@ public class Builty {
 	public void setApproved(boolean approved) {
 		this.approved = approved;
 	}
+	
+	public Date getCreatedDateTime() {
+		return createdDateTime;
+	}
+	public void setCreatedDateTime(Date createdDateTime) {
+		this.createdDateTime = createdDateTime;
+	}
+	public Date getLastModifiedDateTime() {
+		return lastModifiedDateTime;
+	}
+	public void setLastModifiedDateTime(Date lastModifiedDateTime) {
+		this.lastModifiedDateTime = lastModifiedDateTime;
+	}
+	public String getCreatedBy() {
+		return createdBy;
+	}
+	public void setCreatedBy(String createdBy) {
+		this.createdBy = createdBy;
+	}
+	public String getLastModifiedBy() {
+		return lastModifiedBy;
+	}
+	public void setLastModifiedBy(String lastModifiedBy) {
+		this.lastModifiedBy = lastModifiedBy;
+	}
+	
+	public boolean isDeleted() {
+		return deleted;
+	}
+	public void setDeleted(boolean deleted) {
+		this.deleted = deleted;
+	}
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
@@ -314,6 +354,22 @@ public class Builty {
 				", " + this.builtyNo +
 				", " + this.receivedDate +")";
 	}
+	
+	@Override
+	public int compareTo(Builty o) {
+		if( o == null) {
+			return 1;
+		}else if(o.builtyNo == null) {
+			return 1;
+		}else if(this.builtyNo == null) {
+			return -1;
+		}
+		return this.builtyNo.compareTo(o.builtyNo);
+	}
+	
+	
+	
+	
 	
 	
 }

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.hlws.exceptions.InvalidDataException;
 import com.hlws.model.DO;
 import com.hlws.response.APIResponse;
 import com.hlws.response.ResponseUtil;
@@ -36,7 +37,11 @@ public class DOResource {
 		DO data;
 		try {
 			data = doService.create(doObj);
-		}catch(Exception e) {
+		}catch(InvalidDataException ie) {
+			message = ie.getMessage();
+			return ResponseUtil.createFailedResponse(message);
+		}
+		catch(Exception e) {
 			e.printStackTrace();
 			message = "Some problem occured while creating DO";
 			return ResponseUtil.createFailedResponse(message);

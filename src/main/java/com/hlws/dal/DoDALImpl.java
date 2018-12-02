@@ -63,9 +63,17 @@ public class DoDALImpl implements IDoDAL {
 	@Override
 	public void updateDOBalance(String id, Double balance) {
 		Query query = new Query(Criteria.where("_id").is(id));
-		Update update = new Update().set("doBalance", balance);
+		Update update = new Update().inc("doBalance", balance);
 		mongoTemplate.updateFirst(query, update, DO.class, getSpecificCollectionName(FIXED_COLLECTION_NAME));		
 	}
+
+	@Override
+	public Boolean checkDoByBspDo(Long bspDoNo) {
+		Query query = new Query().addCriteria(Criteria.where("bspDoNo").is(bspDoNo));
+		List<DO> list = mongoTemplate.find(query, DO.class, getSpecificCollectionName(FIXED_COLLECTION_NAME));
+		return (null != list && list.size() > 0)  ? true : false;
+	}
     
+	
     
 }

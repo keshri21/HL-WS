@@ -13,4 +13,5 @@ public interface IDoDAL extends IBaseDAL{
     DO findById(String id);
     void updateDOBalance(String id, Double balance);
     void delete(DO doObj);
+    Boolean checkDoByBspDo(Long bspDoNo);
 }

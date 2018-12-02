@@ -33,10 +33,12 @@ public class VehicleService {
     	for (Pan pan : panlist) {
 			if(CollectionUtils.isNotEmpty(pan.getVehicles())) {
 				for(Vehicle vehicle : pan.getVehicles()) {
-					vehicle.setPanNo(pan.getPanNo());
-					vehicle.setPanHolderName(pan.getPanHolderName());
-					vehicle.setMobile(pan.getMobile());
-					vehicles.add(vehicle);
+					if(!vehicle.isOldOwner()) {
+						vehicle.setPanNo(pan.getPanNo());
+						vehicle.setPanHolderName(pan.getPanHolderName());
+						vehicle.setMobile(pan.getMobile());
+						vehicles.add(vehicle);
+					}
 				}
 			}
 		}

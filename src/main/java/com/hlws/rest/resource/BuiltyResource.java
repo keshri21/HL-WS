@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -33,15 +34,15 @@ public class BuiltyResource {
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	@ResponseBody
-	public APIResponse<String> create(@RequestBody Builty builty){
+	public APIResponse<Builty> create(@RequestBody Builty builty){
 		
 		String message = "Builty created successfully";
-		String data;
+		Builty data;
 		try {
 			data = builtyService.createBuilty(builty);
 		}catch(Exception e) {
 			message = "Internal Server Error: " + e.getMessage();
-			return ResponseUtil.createFailedResponse(message, "");
+			return ResponseUtil.createFailedResponse(message);
 		}
 		return ResponseUtil.createSuccessResponse(message, data); //TODO return created builty nummber
 	}
@@ -106,6 +107,21 @@ public class BuiltyResource {
 		}catch(Exception e) {
 			e.printStackTrace();
 			message = "Some error occured while updating builty";	
+			return ResponseUtil.createFailedResponse(message);
+		}
+		return ResponseUtil.createSuccessResponse(message, data);
+	}
+	
+	@DeleteMapping(value = "/{builtyId}")
+	@ResponseBody
+	public APIResponse<Boolean> delete(@PathVariable("builtyId") String builtyId){
+		String message = "Builty deleted successfully";
+		Boolean data;
+		try {
+			data = builtyService.delete(builtyId);
+		}catch(Exception e) {
+			e.printStackTrace();
+			message = "Some error occured while deleting builty";	
 			return ResponseUtil.createFailedResponse(message);
 		}
 		return ResponseUtil.createSuccessResponse(message, data);

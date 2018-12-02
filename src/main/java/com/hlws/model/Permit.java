@@ -12,6 +12,7 @@ public class Permit {
 	private String id;
 	private Long permitnumber;
 	private Double quantity;
+	private Double permitbalance;
 	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern=AppConstants.DATE_FORMAT, timezone="IST")
 	private Date enddate;
 	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern=AppConstants.DATE_FORMAT, timezone="IST")
@@ -38,6 +39,13 @@ public class Permit {
 	}
 	public void setQuantity(Double quantity) {
 		this.quantity = quantity;
+	}
+	
+	public Double getPermitbalance() {
+		return permitbalance;
+	}
+	public void setPermitbalance(Double permitBalance) {
+		this.permitbalance = permitBalance;
 	}
 	public Date getEnddate() {
 		return enddate;

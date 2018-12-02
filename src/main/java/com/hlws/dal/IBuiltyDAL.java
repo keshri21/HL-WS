@@ -15,6 +15,7 @@ public interface IBuiltyDAL extends IBaseDAL {
     List<Builty> findCompleted();
     List<Builty> getAll();
     List<Builty> getAllSelected(List<String> ids);
+    List<Builty> getByUserAndCurrentDate(String username);
     Builty findById(String id);
     Builty saveTemp(Builty builty);
     List<Builty> getAllFromTemp();
@@ -26,6 +27,7 @@ public interface IBuiltyDAL extends IBaseDAL {
     Sequence getSequence();
     Sequence updateSequence(Sequence sq);
     Builty findBuiltyByVehicleNo(String vehicleno);
+    boolean delete(String builtyId);  
     
     default String getTempCollectionName(String fixedCollectionName) {
     	StringBuilder builder = new StringBuilder(fixedCollectionName);

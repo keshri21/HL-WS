@@ -10,6 +10,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
 
 import com.hlws.model.Permit;
@@ -47,6 +48,23 @@ public class PermitDALImpl implements IPermitDAL {
 		query.addCriteria(Criteria.where("enddate").gt(new Date()));
 		permits = mongoTemplate.find(query, Permit.class, getSpecificCollectionName(FIXED_COLLECTION_NAME));
 		return permits;
+	}
+
+	
+	@Override
+	public Permit getOne(Long permitNo) {
+		Query query = new Query();
+		query.addCriteria(Criteria.where("permitnumber").is(permitNo));
+		return mongoTemplate.findOne(query, Permit.class, getSpecificCollectionName(FIXED_COLLECTION_NAME));
+	}
+
+	
+	@Override
+	public void updatePermitBalance(Long permitNo, Double balance) {
+		Query query = new Query();
+		query.addCriteria(Criteria.where("permitnumber").is(permitNo));
+		Update update = new Update().inc("permitbalance", balance);
+		mongoTemplate.updateFirst(query, update, Permit.class, getSpecificCollectionName(FIXED_COLLECTION_NAME));		
 	}
 
 	@Override
