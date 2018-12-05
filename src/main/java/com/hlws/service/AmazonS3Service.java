@@ -83,6 +83,10 @@ public class AmazonS3Service {
 		case "passbook":
 			String accountno = request.getParameter("accountno");
 			return pan.concat("_").concat(accountno).toUpperCase().concat(extension);
+		case "docopy":
+			String bspdo = request.getParameter("bspdo"),
+					areado = request.getParameter("areado");
+			return "DO_".concat(bspdo).concat("_").concat(areado).toUpperCase().concat(extension);
 		default:
 			throw new Exception("Invalid file upload request");
 		}

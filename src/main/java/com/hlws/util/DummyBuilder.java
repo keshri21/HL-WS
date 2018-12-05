@@ -86,7 +86,6 @@ public class DummyBuilder {
 			doOrder.setDoDate(currDate);
 			//doOrder.setReceivedDate(DateUtil.format(currDate));
 			doOrder.setDueDate(new Date());
-			doOrder.setBuiltyCompany("Hindustan Logistic");
 			doOrder.setBy("Courier");
 			doOrder.setDoAmt(1200000.0);
 			doOrder.setDoAmtpmt(2333.8);

@@ -29,13 +29,11 @@ public class DO {
 	private String size;
 	private Party party;
 	private List<DestinationParty> destinationparty;
-	private FreightRange freight;
 	private List<Integer> permitNos;
 	private String area;
 	private String collary;
 	private String grade;
 	private String by;
-	private String builtyCompany;
 	private UserDTO transporter;	// should be one with FIELD role
 	private Double emd;
 	private Double doAmt;
@@ -65,6 +63,7 @@ public class DO {
 	private Date lastModifiedDateTime;
 	private String createdBy;
 	private String lastModifiedBy;
+	private String doCopy;
 	
 	public Long getBspDoNo() {
 		return bspDoNo;
@@ -134,12 +133,6 @@ public class DO {
 	public void setDestinationparty(List<DestinationParty> destinationParty) {
 		this.destinationparty = destinationParty;
 	}
-	public FreightRange getFreight() {
-		return freight;
-	}
-	public void setFreight(FreightRange freight) {
-		this.freight = freight;
-	}
 	public List<Integer> getPermitNos() {
 		return permitNos;
 	}
@@ -169,12 +162,6 @@ public class DO {
 	}
 	public void setBy(String by) {
 		this.by = by;
-	}
-	public String getBuiltyCompany() {
-		return builtyCompany;
-	}
-	public void setBuiltyCompany(String builtyCompany) {
-		this.builtyCompany = builtyCompany;
 	}
 	public UserDTO getTransporter() {
 		return transporter;
@@ -336,7 +323,12 @@ public class DO {
 	public void setLastModifiedBy(String lastModified) {
 		this.lastModifiedBy = lastModified;
 	}
-	
+	public String getDoCopy() {
+		return doCopy;
+	}
+	public void setDoCopy(String doCopy) {
+		this.doCopy = doCopy;
+	}
 	private String buildDoDisplay() {
 		StringBuilder builder = new StringBuilder();
 		builder.append(this.areaDoNo)
