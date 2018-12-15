@@ -8,6 +8,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 
 @Repository
@@ -72,6 +73,13 @@ public class DoDALImpl implements IDoDAL {
 		Query query = new Query().addCriteria(Criteria.where("bspDoNo").is(bspDoNo));
 		List<DO> list = mongoTemplate.find(query, DO.class, getSpecificCollectionName(FIXED_COLLECTION_NAME));
 		return (null != list && list.size() > 0)  ? true : false;
+	}
+
+	@Override
+	public void markComplete(List<String> doIds) {
+		Query query = new Query().addCriteria(Criteria.where("_id").in(doIds));
+		Update update = new Update().set("finishDate", new Date());
+		mongoTemplate.updateMulti(query, update, DO.class, getSpecificCollectionName(FIXED_COLLECTION_NAME));
 	}
     
 	

@@ -1,6 +1,7 @@
 package com.hlws.util;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 public class DateUtil {
@@ -15,5 +16,10 @@ public class DateUtil {
 		Date date = new Date();
 		date.setDate(date.getDate()+days);
 		return DD_MM_YYYY_FORMATTER.format(date);
+	}
+	
+	public static int currYear() {
+		Calendar cal = Calendar.getInstance();
+		return cal.get(Calendar.YEAR);
 	}
 }

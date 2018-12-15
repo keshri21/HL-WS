@@ -6,7 +6,6 @@ import java.util.List;
 public class RefData {
 	private List<Party> partyList;
 	private List<Area> areaList;
-	private List<String> collaryList;
 	private List<String> states;
 	public List<Party> getPartyList() {
 		return partyList;
@@ -19,12 +18,6 @@ public class RefData {
 	}
 	public void setAreaList(List<Area> areaList) {
 		this.areaList = areaList;
-	}
-	public List<String> getCollaryList() {
-		return collaryList == null ? new ArrayList<>() : collaryList;
-	}
-	public void setCollaryList(List<String> collaryList) {
-		this.collaryList = collaryList;
 	}
 	public List<String> getStates() {
 		return states == null ? new ArrayList<>() : states;

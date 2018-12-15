@@ -4,6 +4,7 @@ public class Sequence {
 
 	private String id;
 	private Integer value;
+	private Integer year;
 	public String getId() {
 		return id;
 	}
@@ -15,6 +16,12 @@ public class Sequence {
 	}
 	public void setValue(Integer value) {
 		this.value = value;
+	}
+	public Integer getYear() {
+		return year;
+	}
+	public void setYear(Integer year) {
+		this.year = year;
 	}
 	
 	

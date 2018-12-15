@@ -24,7 +24,7 @@ public interface IBuiltyDAL extends IBaseDAL {
     void removeFromTemp(Builty builty);
     void updateReceipt(List<BuiltyDTO> builtyList);
     void approve(String id);
-    Sequence getSequence();
+    Sequence getSequence(int year);
     Sequence updateSequence(Sequence sq);
     Builty findBuiltyByVehicleNo(String vehicleno);
     boolean delete(String builtyId);  

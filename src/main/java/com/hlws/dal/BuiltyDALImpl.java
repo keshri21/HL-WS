@@ -118,27 +118,28 @@ public class BuiltyDALImpl implements IBuiltyDAL {
 	@Override
 	@CachePut("builtySequence")
 	public Sequence updateSequence(Sequence sq) {
-		if(sq.getValue() == this.getSequence().getValue()) {
+		/*if(sq.getValue() == this.getSequence(sq.getYear()).getValue()) {
 			sq.setValue(sq.getValue()+1);
-		}
-		mongoTemplate.save(sq, getSpecificCollectionName(SEQUENCE_COLLECTION_NAME));
+		}*/
+		Query query = new Query().addCriteria(Criteria.where("year").is(sq.getYear()));
+		Update update = new Update().set("value", sq.getValue());
+		mongoTemplate.updateFirst(query, update, Sequence.class, getSpecificCollectionName(SEQUENCE_COLLECTION_NAME));
 		return sq;
 	}
 	
 	@Override
 	@Cacheable("builtySequence")
-	public Sequence getSequence() {
-		List<Sequence> list = mongoTemplate.findAll(Sequence.class, getSpecificCollectionName(SEQUENCE_COLLECTION_NAME));
-		Sequence sq;
-		// collection is not created so create sequnce collection with starting value of 1
-		if(CollectionUtils.isEmpty(list)) {
-			sq = new Sequence();
-			sq.setValue(1);
-			mongoTemplate.save(sq, getSpecificCollectionName(SEQUENCE_COLLECTION_NAME));
-		}else {
-			sq = list.get(0);
+	public Sequence getSequence(int year) {
+		Query query = new Query().addCriteria(Criteria.where("year").is(year));
+		Sequence seq = mongoTemplate.findOne(query, Sequence.class, getSpecificCollectionName(SEQUENCE_COLLECTION_NAME));
+
+		if(null == seq) {
+			seq = new Sequence();
+			seq.setValue(1);
+			seq.setYear(year);
+			mongoTemplate.save(seq, getSpecificCollectionName(SEQUENCE_COLLECTION_NAME));
 		}
-		return sq;
+		return seq;
 	}
 
 	@Override

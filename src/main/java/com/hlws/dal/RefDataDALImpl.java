@@ -12,7 +12,6 @@ import org.springframework.stereotype.Repository;
 
 import com.hlws.State;
 import com.hlws.model.Area;
-import com.hlws.model.Collary;
 import com.hlws.model.RefData;
 
 @Repository
@@ -37,18 +36,7 @@ public class RefDataDALImpl implements IRefDataDAL{
 		refData.setPartyList(partyRepository.getAll());
 		Collections.sort(refData.getPartyList());
 		refData.setAreaList(getAreas());
-		refData.setCollaryList(getCollaries());
-		refData.setStates(getStates());
 		return refData;
-	}
-	
-	@Cacheable("collaries")
-	private List<String> getCollaries(){
-		List<String> collaries = new ArrayList<>();
-		mongoTemplate.findAll(Collary.class, "collary")
-			.forEach(collary -> collaries.add(collary.getName()));
-		Collections.sort(collaries);
-		return collaries;
 	}
 	
 	@Cacheable("areas")
@@ -69,5 +57,4 @@ public class RefDataDALImpl implements IRefDataDAL{
 		return states;
 	}
 
-	
 }

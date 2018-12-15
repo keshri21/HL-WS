@@ -13,6 +13,7 @@ public class Account {
 	private String bankName;
 	private Boolean passbookAvailable;
 	private String passbookLink;
+	private String branchName;
 	
 	public String getAccountNo() {
 		return accountNo;
@@ -50,7 +51,11 @@ public class Account {
 	/*public void setPassbookavailable(Boolean passbookavailable) {
 		this.passbookavailable = passbookavailable;
 	}*/
-
-	
+	public String getBranchName() {
+		return branchName;
+	}
+	public void setBranchName(String branchName) {
+		this.branchName = branchName;
+	}
 
 }

@@ -20,6 +20,7 @@ import com.hlws.model.Builty;
 import com.hlws.model.Sequence;
 import com.hlws.model.User;
 import com.hlws.util.AppUtil;
+import com.hlws.util.DateUtil;
 
 @Service
 public class BuiltyService {
@@ -37,11 +38,12 @@ public class BuiltyService {
 		if(StringUtils.isEmpty(builty.getDoId())){
 			throw new Exception("A DO must be associated with builty");
 		}
-		Sequence currSeq = builtyRepository.getSequence();
-		builty.setBuiltyNo(generateBuiltyNumber(currSeq.getValue()));
-		//update builty sequence number before saving builty
-		currSeq.setValue(currSeq.getValue()+1);
 		synchronized (this) {
+			Sequence currSeq = builtyRepository.getSequence(DateUtil.currYear());
+			builty.setBuiltyNo(generateBuiltyNumber(currSeq.getValue()));
+			//update builty sequence number before saving builty
+			currSeq.setValue(currSeq.getValue()+1);
+
 			builtyRepository.updateSequence(currSeq);
 		}
 		
@@ -55,7 +57,7 @@ public class BuiltyService {
 		//update do balance
 		doRepository.updateDOBalance(builty.getDoId(), (-builty.getNetWeight()));
 		// update permit balance
-		if(null != builty.getPermitNo())
+		if(null != builty.getPermitNo() && null != builty.getPermitBalance())
 			permitRepository.updatePermitBalance(builty.getPermitNo(), (-builty.getNetWeight()));
 		//remove from temp if present
 		builtyRepository.removeFromTemp(builty);
