@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -22,6 +23,7 @@ public class Pan {
 	private String city;
 	private String state;
 	private Set<Vehicle> vehicles;
+	private Account primaryAccount;
 	
 	public String getPanNo() {
 		return panNo;
@@ -94,11 +96,49 @@ public class Pan {
 	public void setId(String id) {
 		this.id = id;
 	}
+	
+	
+	public Account getPrimaryAccount() {
+		Account primary = null;
+					
+		for(Account account : accounts) {
+			if(account.isPrimary()) {
+				primary = account;
+				break;
+			}
+		}
+		if(null == primary && CollectionUtils.isNotEmpty(accounts)) {
+			primary =  this.accounts.get(0);
+		}		
+		return primary;
+	}
+	public void setPrimaryAccount(Account primaryAccount) {
+		this.primaryAccount = primaryAccount;
+	}
 	@Override
 	public String toString() {
 		return "Pan [id=" + id + ", panNo=" + panNo + ", panHolderName=" + panHolderName + ", tds=" + tds
 				+ ", accounts=" + accounts + ", mobile=" + mobile + ", vehicles=" + vehicles + "]";
 	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if(obj == null) {
+			return false;
+		}else if(!(obj instanceof Pan)) {
+			return false;
+		}else {			
+			return this.panNo.equals(((Pan)obj).panNo);
+		}
+		 
+	}
+	@Override
+	public int hashCode() {
+		int i = 37;		
+		return this.panNo.hashCode() * i;
+	}
+	
+	
 	
 	
 }

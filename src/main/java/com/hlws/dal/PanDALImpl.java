@@ -2,7 +2,9 @@ package com.hlws.dal;
 
 import com.hlws.model.Pan;
 import com.hlws.model.Vehicle;
+import com.hlws.util.DateUtil;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -10,6 +12,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -68,11 +71,23 @@ public class PanDALImpl implements IPanDAL{
 	
 	@Override
     public void updateVehicleOwner(String vehicleNo) {
-    	Query query = new Query().addCriteria(Criteria.where("vehicles").elemMatch(Criteria.where("vehicleNo").is(vehicleNo)
-				.and("isOldOwner").is(false))); 
-        Update update = new Update().set("vehicles.$.isOldOwner", true);
+/*    	Query query = new Query().addCriteria(Criteria.where("vehicles").elemMatch(Criteria.where("vehicleNo").is(vehicleNo)
+				.and("isOldOwner").is(false)));*/ 
+    	Query query = new Query().addCriteria(Criteria.where("vehicles.vehicleNo").is(vehicleNo)
+				.and("isOldOwner").is(false)); 
+        Update update = new Update().set("vehicles.$.isOldOwner", true).set("vehicles.$.ownerTillDate", DateUtil.getDate(-1));
         mongoTemplate.updateMulti(query, update, FIXED_COLLECTION_NAME);
     }
+
+	@Override
+	public Pan getVehicleOwner(String vehicleNo, Date builtyDate) {
+		Query query = new Query().addCriteria(Criteria.where("vehicles.vehicleNo").is(vehicleNo)
+				.and("vehicles.addedDate").lte(builtyDate)
+				.orOperator(Criteria.where("vehicles.ownerTillDate").gte(builtyDate),
+						Criteria.where("vehicles.ownerTillDate").is(null)));
+		List<Pan> list = mongoTemplate.find(query, Pan.class, FIXED_COLLECTION_NAME);
+		return CollectionUtils.isEmpty(list) ? null : list.get(0);
+	}
 	
     
     

@@ -94,12 +94,12 @@ public class BuiltyResourceTests {
 	@Test
 	public void shouldUpdateReceiptBuilty() throws Exception{
 		Builty builty1 = new Builty();
-		builty1.setBuiltyNo(112233l);
+		builty1.setBuiltyNo("112233");
 		builty1.setReceivedDate(new Date());
 		builty1.setReceivedQuantity(100.0);
 		
 		Builty builty2 = new Builty();
-		builty2.setBuiltyNo(443355l);
+		builty2.setBuiltyNo("443355");
 		builty2.setReceivedDate(new Date());
 		builty2.setReceivedQuantity(150.0);
 		

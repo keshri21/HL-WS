@@ -14,6 +14,7 @@ public class Vehicle implements Comparable<Vehicle>{
 	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern=AppConstants.DATE_FORMAT, timezone="IST")
 	private Date addedDate;
 	private boolean isOldOwner;
+	private Date ownerTillDate;
 	private String panNo;
 	private String panHolderName;
 	private Long mobile;
@@ -46,6 +47,13 @@ public class Vehicle implements Comparable<Vehicle>{
 
 	public void setOldOwner(boolean old) {
 		isOldOwner = old;
+	}
+	
+	public Date getOwnerTillDate() {
+		return ownerTillDate;
+	}
+	public void setOwnerTillDate(Date ownerTillDate) {
+		this.ownerTillDate = ownerTillDate;
 	}
 	
 	public String getPanNo() {

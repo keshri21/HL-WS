@@ -7,6 +7,7 @@ public class RefData {
 	private List<Party> partyList;
 	private List<Area> areaList;
 	private List<String> states;
+	private FreightRefData freightData;
 	public List<Party> getPartyList() {
 		return partyList;
 	}
@@ -24,6 +25,12 @@ public class RefData {
 	}
 	public void setStates(List<String> states) {
 		this.states = states;
+	}
+	public FreightRefData getFreightData() {
+		return freightData;
+	}
+	public void setFreightData(FreightRefData freightData) {
+		this.freightData = freightData;
 	}
 	
 }

@@ -3,6 +3,7 @@ package com.hlws.dal;
 import com.hlws.model.Pan;
 import com.hlws.model.Vehicle;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -15,4 +16,5 @@ public interface IPanDAL extends IBaseDAL {
     List<Pan> getVehicles(String searchText);
     List<Pan> getAllVehicles();
     void updateVehicleOwner(String vehicleNo);
+    Pan getVehicleOwner(String vehicleNo, Date builtyDate);
 }

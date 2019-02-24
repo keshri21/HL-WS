@@ -1,5 +1,7 @@
 package com.hlws.service;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -7,16 +9,21 @@ import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import com.hlws.dal.IBuiltyDAL;
 import com.hlws.dal.IDoDAL;
+import com.hlws.dal.IPanDAL;
 import com.hlws.dal.IPermitDAL;
 import com.hlws.dto.BuiltyDTO;
+import com.hlws.dto.BuiltyForPaymentDTO;
 import com.hlws.enums.Authority;
+import com.hlws.helper.BillHelper;
 import com.hlws.model.Builty;
+import com.hlws.model.Pan;
 import com.hlws.model.Sequence;
 import com.hlws.model.User;
 import com.hlws.util.AppUtil;
@@ -33,6 +40,12 @@ public class BuiltyService {
 	
 	@Autowired
 	IPermitDAL permitRepository;
+	
+	@Autowired
+	IPanDAL panRepository;
+	
+	@Autowired
+	private BillHelper billHelper;
 
 	public Builty createBuilty(Builty builty) throws Exception{
 		if(StringUtils.isEmpty(builty.getDoId())){
@@ -142,6 +155,26 @@ public class BuiltyService {
 		return builtyRepository.getAllSelected(ids);
 	}
 	
+	public List<BuiltyForPaymentDTO> getBuiltiesForPayments() {
+		List<Builty> builties = builtyRepository.getBuiltiesForPayments();
+		List<BuiltyForPaymentDTO> builtiesForPayment = new ArrayList<>();
+		builties.forEach(builty -> {
+			Pan pan = panRepository.getVehicleOwner(builty.getVehicleNo(), builty.getBuiltyDate());
+			BuiltyForPaymentDTO dto = new BuiltyForPaymentDTO();
+			dto.setBuiltyNo(builty.getBuiltyNo());
+			dto.setFreightBill(builty.getFreightBill());
+			dto.setReceivedDate(builty.getReceivedDate());
+			dto.setReceivedQuantity(builty.getReceivedQuantity());
+			dto.setBuiltyDate(builty.getBuiltyDate());
+			dto.setVehicleNo(builty.getVehicleNo());
+			dto.setVehicleOwner(pan.getPanHolderName());
+			dto.setBankDtlsAvailable(CollectionUtils.isNotEmpty(pan.getAccounts()));
+			builtiesForPayment.add(dto);
+		});
+		Collections.sort(builtiesForPayment);
+		return builtiesForPayment;
+	}
+	
 	private String generateBuiltyNumber(Integer seqNo) {
 		StringBuilder builder = new StringBuilder();
 		builder.append(AppUtil.getLoggedInUser().getCompanyId())
@@ -150,7 +183,14 @@ public class BuiltyService {
 		return builder.toString().toUpperCase();
 	}
 	
+	public Integer getInstructions(List<BuiltyForPaymentDTO> builties) throws IOException{
+		return billHelper.generatePaymentInstructionSheet(builties);
+	}
 	
+	
+	public ByteArrayInputStream getFromCache(Integer key) {
+		return billHelper.getInstructions(key);
+	}
 	private class BalanceUpdaterThread implements Runnable{
 		
 		private Builty builty;

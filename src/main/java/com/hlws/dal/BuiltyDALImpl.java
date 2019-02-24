@@ -38,7 +38,7 @@ public class BuiltyDALImpl implements IBuiltyDAL {
 
     @Override
     public List<Builty> findRunning() {
-        Query query = new Query().addCriteria(Criteria.where("receivedDate").is(null).and("deleted").is(null));
+        Query query = new Query().addCriteria(Criteria.where("receivedDate").is(null).and("deleted").is(false));
         return mongoTemplate.find(query, Builty.class, getSpecificCollectionName(FIXED_COLLECTION_NAME));
     }
 
@@ -101,7 +101,9 @@ public class BuiltyDALImpl implements IBuiltyDAL {
 			Query query = new Query();
 			query.addCriteria(Criteria.where("_id").is(builty.getId()));
 			Update update = new Update().set("receivedDate", builty.getReceivedDate())
-					.set("receivedQuantity", builty.getReceivedQuantity());
+					.set("receivedQuantity", builty.getReceivedQuantity())
+					.set("freightBill", builty.getFreightBill())
+					.set("freightGenerated", true);
 			mongoTemplate.updateFirst(query, update, Builty.class, getSpecificCollectionName(FIXED_COLLECTION_NAME));
 		});
 		
@@ -166,9 +168,11 @@ public class BuiltyDALImpl implements IBuiltyDAL {
 		Query query = new Query().addCriteria(Criteria.where("createdBy").is(username).and("createdDateTime").gt(cal.getTime()));
 		return mongoTemplate.find(query, Builty.class, getSpecificCollectionName(FIXED_COLLECTION_NAME));
 	}
+
+	@Override
+	public List<Builty> getBuiltiesForPayments() {
+		Query query = new Query(Criteria.where("freightGenerated").is(true).and("paymentInstructionDone").is(null));
+		return mongoTemplate.find(query, Builty.class, getSpecificCollectionName(FIXED_COLLECTION_NAME));
+	}
 	
-	
-	
-    
-    
 }

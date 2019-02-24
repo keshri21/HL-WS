@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 
 import com.hlws.State;
 import com.hlws.model.Area;
+import com.hlws.model.FreightRefData;
 import com.hlws.model.RefData;
 
 @Repository
@@ -36,6 +37,7 @@ public class RefDataDALImpl implements IRefDataDAL{
 		refData.setPartyList(partyRepository.getAll());
 		Collections.sort(refData.getPartyList());
 		refData.setAreaList(getAreas());
+		refData.setFreightData(getFreightRefData());
 		return refData;
 	}
 	
@@ -56,5 +58,11 @@ public class RefDataDALImpl implements IRefDataDAL{
 		Collections.sort(states);
 		return states;
 	}
-
+	
+	@Cacheable("freightRefData")
+	private FreightRefData getFreightRefData() {		
+		FreightRefData frieghtData = mongoTemplate.findAll(FreightRefData.class, getSpecificCollectionName("freightrefdata")).get(0);
+		return frieghtData;
+	}
+	
 }

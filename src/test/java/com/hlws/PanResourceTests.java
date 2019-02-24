@@ -58,7 +58,7 @@ public class PanResourceTests {
 		pan.setMobile(3334555553l);
 		
 		Account ac2 = new Account();
-		ac2.setAccountHolderName("Sara tendulkar");
+		ac2.setAccountHoldername("Sara tendulkar");
 		ac2.setAccountNo("0037382822");
 		ac2.setBankName("SBI");
 		ac2.setIfscCode("SBI0000238");

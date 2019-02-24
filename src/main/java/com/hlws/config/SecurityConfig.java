@@ -27,6 +27,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers("/auth").permitAll()
                 .antMatchers(HttpMethod.GET, "/company").permitAll()
+                .antMatchers(HttpMethod.GET, "/builty/payment/downloadInstruction").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .addFilterBefore(new AuthenticationTokenFilter(tokenAuthenticationService),

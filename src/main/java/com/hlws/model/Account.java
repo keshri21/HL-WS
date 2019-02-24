@@ -11,9 +11,10 @@ public class Account {
 	private String accountHoldername;
 	private String ifscCode;
 	private String bankName;
-	private Boolean passbookAvailable;
+	private Boolean isPassbookAvailable;
 	private String passbookLink;
 	private String branchName;
+	private boolean isPrimary;
 	
 	public String getAccountNo() {
 		return accountNo;
@@ -45,7 +46,7 @@ public class Account {
 	public void setPassbookLink(String passbookLink) {
 		this.passbookLink = passbookLink;
 	}
-	public Boolean getPassbookAvailable() {
+	public Boolean isPassbookAvailable() {
 		return StringUtils.isEmpty(this.passbookLink) ? false : true;
 	}
 	/*public void setPassbookavailable(Boolean passbookavailable) {
@@ -57,5 +58,16 @@ public class Account {
 	public void setBranchName(String branchName) {
 		this.branchName = branchName;
 	}
+	public boolean isPrimary() {
+		return isPrimary;
+	}
+	public void setPrimary(boolean isPrimary) {
+		this.isPrimary = isPrimary;
+	}
+	public void setPassbookAvailable(Boolean passbookAvailable) {
+		this.isPassbookAvailable = passbookAvailable;
+	}
+	
+	
 
 }

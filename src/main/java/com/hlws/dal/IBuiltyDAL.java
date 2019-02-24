@@ -28,6 +28,7 @@ public interface IBuiltyDAL extends IBaseDAL {
     Sequence updateSequence(Sequence sq);
     Builty findBuiltyByVehicleNo(String vehicleno);
     boolean delete(String builtyId);  
+    List<Builty> getBuiltiesForPayments();
     
     default String getTempCollectionName(String fixedCollectionName) {
     	StringBuilder builder = new StringBuilder(fixedCollectionName);

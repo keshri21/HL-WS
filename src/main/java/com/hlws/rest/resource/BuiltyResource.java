@@ -1,10 +1,15 @@
 package com.hlws.rest.resource;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,6 +23,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hlws.dto.BuiltyDTO;
+import com.hlws.dto.BuiltyForPaymentDTO;
+import com.hlws.helper.BillHelper;
 import com.hlws.model.Builty;
 import com.hlws.response.APIResponse;
 import com.hlws.response.ResponseUtil;
@@ -182,10 +189,58 @@ public class BuiltyResource {
 			data = builtyService.getOneFromTemp(id);
 		}catch(Exception e) {
 			e.printStackTrace();
-			message = "Some problem ocucred while retriving saved builty";
+			message = "Some problem occurred while retrieving saved builty";
 			return ResponseUtil.createFailedResponse(message, null);
 		}
 		return ResponseUtil.createSuccessResponse(message, data);
 	}
+	
+	@GetMapping("/pendingPayments")
+	@ResponseBody
+	public APIResponse<List<BuiltyForPaymentDTO>> getBuiltiesForPayments(){
+		String message = "List of builty with pending payments retrieved successfully";
+		List<BuiltyForPaymentDTO> data;
+		try {
+			data = builtyService.getBuiltiesForPayments();
+		}catch(Exception e) {
+			e.printStackTrace();
+			message = "Some problem occurred while retrieving list for pending payments";
+			return ResponseUtil.createFailedResponse(message, null);
+		}
+		return ResponseUtil.createSuccessResponse(message, data);
+	}
+	
+	@PostMapping("/payment/instruction")
+	@ResponseBody
+	public APIResponse<Integer> exportInstructions(@RequestBody List<BuiltyForPaymentDTO> builties) throws IOException{
+		String message = "Cache key generated successfully";
+		Integer data;
+		try {
+			data = builtyService.getInstructions(builties);
+		}catch(Exception e) {
+			e.printStackTrace();
+			message = "Some problem occurred while generating instruction for payments";
+			return ResponseUtil.createFailedResponse(message, null);
+		}
+		return ResponseUtil.createSuccessResponse(message, data);			
+			
+	}
+	
+	@GetMapping("/payment/downloadInstruction")
+	public ResponseEntity<InputStreamResource> downloadInstructions(@RequestParam(value = "key") Integer cacheKey){
+		
+		ByteArrayInputStream in = builtyService.getFromCache(cacheKey);
+		// return IOUtils.toByteArray(in);
+		
+		HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Disposition", "attachment; filename=freight-payment.xlsx");
+        headers.add("Content-Type", "application/vnd.ms-excel");
+		
+		 return ResponseEntity
+	                .ok()
+	                .headers(headers)
+	                .body(new InputStreamResource(in));
+	}
+	
 	
 }

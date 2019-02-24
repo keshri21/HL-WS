@@ -61,6 +61,12 @@ public class Builty implements Comparable<Builty> {
 	private String lastModifiedBy;
 	private boolean approved;
 	private boolean deleted;
+	private boolean freightGenerated;
+	private boolean paymentInstructionDone;
+	private Double freightBill;
+	private Double deductionRate;
+	private Double shortageLimit;
+	private Double freightComission;
 	
 	public String getBuiltyNo() {
 		return builtyNo;
@@ -346,6 +352,43 @@ public class Builty implements Comparable<Builty> {
 	}
 	public void setDeleted(boolean deleted) {
 		this.deleted = deleted;
+	}
+	
+	public boolean isFreightGenerated() {
+		return freightGenerated;
+	}
+	public void setFreightGenerated(boolean freightGenerated) {
+		this.freightGenerated = freightGenerated;
+	}
+	public boolean isPaymentInstructionDone() {
+		return paymentInstructionDone;
+	}
+	public void setPaymentInstructionDone(boolean paymentInstructionDone) {
+		this.paymentInstructionDone = paymentInstructionDone;
+	}
+	public Double getFreightBill() {
+		return freightBill;
+	}
+	public void setFreightBill(Double freightBill) {
+		this.freightBill = freightBill;
+	}
+	public Double getDeductionRate() {
+		return deductionRate;
+	}
+	public void setDeductionRate(Double deductionRate) {
+		this.deductionRate = deductionRate;
+	}
+	public Double getShortageLimit() {
+		return shortageLimit;
+	}
+	public void setShortageLimit(Double shortageLimit) {
+		this.shortageLimit = shortageLimit;
+	}
+	public Double getFreightComission() {
+		return freightComission;
+	}
+	public void setFreightComission(Double freightComission) {
+		this.freightComission = freightComission;
 	}
 	@Override
 	public String toString() {
