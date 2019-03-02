@@ -19,7 +19,6 @@ import com.hlws.dal.IDoDAL;
 import com.hlws.dal.IPanDAL;
 import com.hlws.dal.IPermitDAL;
 import com.hlws.dto.BuiltyDTO;
-import com.hlws.dto.BuiltyForPaymentDTO;
 import com.hlws.enums.Authority;
 import com.hlws.helper.BillHelper;
 import com.hlws.model.Builty;
@@ -140,7 +139,11 @@ public class BuiltyService {
 	}
 	
 	public void updateReceipt(List<BuiltyDTO> builtyList) throws Exception{
-		builtyRepository.updateReceipt(builtyList);
+		builtyRepository.updateReceipt(builtyList, false);
+	}
+	
+	public void resetInstruction(String builtyNo) {
+		builtyRepository.resetPaymentInstruction(builtyNo);
 	}
 	
 	public List<Builty> getAllFromTemp() {
@@ -155,12 +158,12 @@ public class BuiltyService {
 		return builtyRepository.getAllSelected(ids);
 	}
 	
-	public List<BuiltyForPaymentDTO> getBuiltiesForPayments() {
+	public List<BuiltyDTO> getBuiltiesForPayments() {
 		List<Builty> builties = builtyRepository.getBuiltiesForPayments();
-		List<BuiltyForPaymentDTO> builtiesForPayment = new ArrayList<>();
+		List<BuiltyDTO> builtiesForPayment = new ArrayList<>();
 		builties.forEach(builty -> {
 			Pan pan = panRepository.getVehicleOwner(builty.getVehicleNo(), builty.getBuiltyDate());
-			BuiltyForPaymentDTO dto = new BuiltyForPaymentDTO();
+			BuiltyDTO dto = new BuiltyDTO();
 			dto.setBuiltyNo(builty.getBuiltyNo());
 			dto.setFreightBill(builty.getFreightBill());
 			dto.setReceivedDate(builty.getReceivedDate());
@@ -183,8 +186,11 @@ public class BuiltyService {
 		return builder.toString().toUpperCase();
 	}
 	
-	public Integer getInstructions(List<BuiltyForPaymentDTO> builties) throws IOException{
-		return billHelper.generatePaymentInstructionSheet(builties);
+	public Integer getInstructions(List<BuiltyDTO> builties) throws IOException{
+		Integer cacheKey = billHelper.generatePaymentInstructionSheet(builties);
+		//mark paymentInstructionDone true
+		builtyRepository.updateReceipt(builties, true);
+		return cacheKey;
 	}
 	
 	

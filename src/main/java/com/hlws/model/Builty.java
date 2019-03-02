@@ -63,6 +63,8 @@ public class Builty implements Comparable<Builty> {
 	private boolean deleted;
 	private boolean freightGenerated;
 	private boolean paymentInstructionDone;
+	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern=AppConstants.DATE_TIME_FORMAT, timezone="IST")
+	private Date paymentInstructionDateTime;
 	private Double freightBill;
 	private Double deductionRate;
 	private Double shortageLimit;

@@ -23,8 +23,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hlws.dto.BuiltyDTO;
-import com.hlws.dto.BuiltyForPaymentDTO;
-import com.hlws.helper.BillHelper;
 import com.hlws.model.Builty;
 import com.hlws.response.APIResponse;
 import com.hlws.response.ResponseUtil;
@@ -197,9 +195,9 @@ public class BuiltyResource {
 	
 	@GetMapping("/pendingPayments")
 	@ResponseBody
-	public APIResponse<List<BuiltyForPaymentDTO>> getBuiltiesForPayments(){
+	public APIResponse<List<BuiltyDTO>> getBuiltiesForPayments(){
 		String message = "List of builty with pending payments retrieved successfully";
-		List<BuiltyForPaymentDTO> data;
+		List<BuiltyDTO> data;
 		try {
 			data = builtyService.getBuiltiesForPayments();
 		}catch(Exception e) {
@@ -212,7 +210,7 @@ public class BuiltyResource {
 	
 	@PostMapping("/payment/instruction")
 	@ResponseBody
-	public APIResponse<Integer> exportInstructions(@RequestBody List<BuiltyForPaymentDTO> builties) throws IOException{
+	public APIResponse<Integer> exportInstructions(@RequestBody List<BuiltyDTO> builties) throws IOException{
 		String message = "Cache key generated successfully";
 		Integer data;
 		try {
@@ -240,6 +238,20 @@ public class BuiltyResource {
 	                .ok()
 	                .headers(headers)
 	                .body(new InputStreamResource(in));
+	}
+	
+	@PutMapping("/payment/reset/{builtyNo}")
+	@ResponseBody
+	public APIResponse<String> resetInstruction(@PathVariable("builtyNo") String builtyNo){
+		String message = "Payment instruction reset successfully";
+		try {
+			builtyService.resetInstruction(builtyNo);
+		}catch(Exception e) {
+			e.printStackTrace();
+			message = "Some problem occurred while resetting payment instruction";
+			return ResponseUtil.createFailedResponse(message, null);
+		}
+		return ResponseUtil.createSuccessResponse(message, builtyNo);
 	}
 	
 	

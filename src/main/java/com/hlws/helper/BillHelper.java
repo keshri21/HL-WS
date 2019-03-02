@@ -10,7 +10,6 @@ import java.util.Map.Entry;
 import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
 
-import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.CellType;
@@ -18,14 +17,12 @@ import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.xssf.usermodel.XSSFCellStyle;
-import org.apache.poi.xssf.usermodel.XSSFFont;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.hlws.dal.IPanDAL;
-import com.hlws.dto.BuiltyForPaymentDTO;
+import com.hlws.dto.BuiltyDTO;
 import com.hlws.enums.PaymentInstructionColumn;
 import com.hlws.model.Account;
 import com.hlws.model.Pan;
@@ -38,7 +35,7 @@ public class BillHelper {
 	
 	private static Map<Integer, ByteArrayInputStream> cached_instruction = new ConcurrentHashMap<>(); 
 	
-	private Map<Pan, Double> consolidateFreightBill(List<BuiltyForPaymentDTO> builties){
+	private Map<Pan, Double> consolidateFreightBill(List<BuiltyDTO> builties){
 		Map<Pan, Double> paymentMap = new HashMap<>();
 		builties.forEach(builty -> {
 			Pan owner = panRepository.getVehicleOwner(builty.getVehicleNo(), builty.getBuiltyDate());
@@ -51,7 +48,7 @@ public class BillHelper {
 		return paymentMap;
 	}
 	
-	public Integer generatePaymentInstructionSheet(List<BuiltyForPaymentDTO> builties) throws IOException {
+	public Integer generatePaymentInstructionSheet(List<BuiltyDTO> builties) throws IOException {
 		Map<Pan, Double> paymentMap = consolidateFreightBill(builties); 
 		
 		try(

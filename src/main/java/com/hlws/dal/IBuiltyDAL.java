@@ -22,7 +22,8 @@ public interface IBuiltyDAL extends IBaseDAL {
     Builty getOneFromTemp(String id);
     List<Builty> getAllForDO(List<String> doIds);
     void removeFromTemp(Builty builty);
-    void updateReceipt(List<BuiltyDTO> builtyList);
+    void updateReceipt(List<BuiltyDTO> builtyList, boolean isPaymnetInstruction);
+    void resetPaymentInstruction(String builtyNo);
     void approve(String id);
     Sequence getSequence(int year);
     Sequence updateSequence(Sequence sq);
