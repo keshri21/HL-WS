@@ -22,6 +22,7 @@ import com.hlws.dto.BuiltyDTO;
 import com.hlws.enums.Authority;
 import com.hlws.helper.BillHelper;
 import com.hlws.model.Builty;
+import com.hlws.model.DO;
 import com.hlws.model.Pan;
 import com.hlws.model.Sequence;
 import com.hlws.model.User;
@@ -50,6 +51,12 @@ public class BuiltyService {
 		if(StringUtils.isEmpty(builty.getDoId())){
 			throw new Exception("A DO must be associated with builty");
 		}
+		DO doObj = doRepository.findById(builty.getDoId());
+		if(doObj == null) {
+			throw new Exception("Please select a valid DO");
+		} else if(doObj.getDueDate().before(builty.getBuiltyDate())) {
+			throw new Exception("Builty can't be created as DO due date is passed");
+		}
 		synchronized (this) {
 			Sequence currSeq = builtyRepository.getSequence(DateUtil.currYear());
 			builty.setBuiltyNo(generateBuiltyNumber(currSeq.getValue()));
@@ -59,7 +66,7 @@ public class BuiltyService {
 			builtyRepository.updateSequence(currSeq);
 		}
 		
-		builty.setCreatedBy(AppUtil.getLoggedInUser().getUsername());
+		builty.setCreatedBy(AppUtil.getLoggedInUser().getName());
 		builty.setCreatedDateTime(new Date());
 		builtyRepository.save(builty);
 		

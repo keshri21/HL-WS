@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
@@ -32,6 +34,8 @@ import com.hlws.service.BuiltyService;
 @RestController
 @RequestMapping("builty")
 public class BuiltyResource {
+	
+	private final Logger LOG = LoggerFactory.getLogger(BuiltyResource.class);
 
 	@Autowired
 	private BuiltyService builtyService;
@@ -46,6 +50,7 @@ public class BuiltyResource {
 		try {
 			data = builtyService.createBuilty(builty);
 		}catch(Exception e) {
+			LOG.error("Error creating builty: {}, {}", e.getMessage(), e);
 			message = "Internal Server Error: " + e.getMessage();
 			return ResponseUtil.createFailedResponse(message);
 		}
@@ -62,7 +67,7 @@ public class BuiltyResource {
 		try {
 			builtyList = builtyService.getBuiltyList(filter);
 		}catch(Exception e) {
-			e.printStackTrace();
+			LOG.error("Error retrieving list of {} builty: {}, {}", filter, e.getMessage(), e);
 			message = "Some error occured while retrieving builties";	
 			return ResponseUtil.createFailedResponse(message, builtyList);
 		}
@@ -77,7 +82,7 @@ public class BuiltyResource {
 		try {
 			builtyService.updateReceipt(builtyList);
 		}catch(Exception e) {
-			e.printStackTrace();
+			LOG.error("Error updating builty receipt: {}, {}", e.getMessage(), e);
 			message = "Some error occured while updating receipt";	
 			return ResponseUtil.createFailedResponse(message, data);
 		}
@@ -92,7 +97,7 @@ public class BuiltyResource {
 		try {
 			builty = builtyService.getOne(builtyId);
 		}catch(Exception e) {
-			e.printStackTrace();
+			LOG.error("Erro creating DO: {}, {}", e.getMessage(), e);
 			message = "Some error occured while retrieving builty";	
 			return ResponseUtil.createFailedResponse(message, builty);
 		}
@@ -110,7 +115,7 @@ public class BuiltyResource {
 		try {
 			builtyService.update(builty);
 		}catch(Exception e) {
-			e.printStackTrace();
+			LOG.error("Error updating builty: {}, {}", e.getMessage(), e);
 			message = "Some error occured while updating builty";	
 			return ResponseUtil.createFailedResponse(message);
 		}
@@ -125,7 +130,7 @@ public class BuiltyResource {
 		try {
 			data = builtyService.delete(builtyId);
 		}catch(Exception e) {
-			e.printStackTrace();
+			LOG.error("Error deleting builty {}: {}, {}", builtyId, e.getMessage(), e);
 			message = "Some error occured while deleting builty";	
 			return ResponseUtil.createFailedResponse(message);
 		}
@@ -140,7 +145,7 @@ public class BuiltyResource {
 		try {
 			builtyService.approve(builtyId);
 		}catch(Exception e) {
-			e.printStackTrace();
+			LOG.error("Error approving builty {}: {}, {}", builtyId, e.getMessage(), e);
 			message = "Some error occured while approving builty";	
 			return ResponseUtil.createFailedResponse(message, data);
 		}
@@ -155,7 +160,7 @@ public class BuiltyResource {
 		try {
 			data = builtyService.saveBuilty(builty);
 		}catch(Exception e) {
-			e.printStackTrace();
+			LOG.error("Error in saving builty temporarily: {}, {}", e.getMessage(), e);
 			message = "Some prooblem occured while saving builty";
 			return ResponseUtil.createFailedResponse(message, null);
 		}
@@ -171,7 +176,7 @@ public class BuiltyResource {
 		try {
 			data = builtyService.getAllFromTemp();
 		}catch(Exception e) {
-			e.printStackTrace();
+			LOG.error("Error retrieving saved builty list: {}, {}", e.getMessage(), e);
 			message = "Some problem ocucred while retriving saved list";
 			return ResponseUtil.createFailedResponse(message, null);
 		}
@@ -186,7 +191,7 @@ public class BuiltyResource {
 		try {
 			data = builtyService.getOneFromTemp(id);
 		}catch(Exception e) {
-			e.printStackTrace();
+			LOG.error("Error retrieving builty {} from temporary list: {}, {}", id, e.getMessage(), e);
 			message = "Some problem occurred while retrieving saved builty";
 			return ResponseUtil.createFailedResponse(message, null);
 		}
@@ -201,7 +206,7 @@ public class BuiltyResource {
 		try {
 			data = builtyService.getBuiltiesForPayments();
 		}catch(Exception e) {
-			e.printStackTrace();
+			LOG.error("Error retrieving builty list for payment: ", e);
 			message = "Some problem occurred while retrieving list for pending payments";
 			return ResponseUtil.createFailedResponse(message, null);
 		}
@@ -216,7 +221,7 @@ public class BuiltyResource {
 		try {
 			data = builtyService.getInstructions(builties);
 		}catch(Exception e) {
-			e.printStackTrace();
+			LOG.error("Error generating payment instruction: {}, {}", e.getMessage(), e);
 			message = "Some problem occurred while generating instruction for payments";
 			return ResponseUtil.createFailedResponse(message, null);
 		}
@@ -247,7 +252,7 @@ public class BuiltyResource {
 		try {
 			builtyService.resetInstruction(builtyNo);
 		}catch(Exception e) {
-			e.printStackTrace();
+			LOG.error("Error in reseting builty {} for payment: {}, {}", builtyNo, e.getMessage(), e);
 			message = "Some problem occurred while resetting payment instruction";
 			return ResponseUtil.createFailedResponse(message, null);
 		}

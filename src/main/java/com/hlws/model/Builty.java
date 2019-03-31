@@ -69,6 +69,8 @@ public class Builty implements Comparable<Builty> {
 	private Double deductionRate;
 	private Double shortageLimit;
 	private Double freightComission;
+	private Double otherDedection;
+	private String deductionRemark;
 	
 	public String getBuiltyNo() {
 		return builtyNo;
@@ -392,6 +394,20 @@ public class Builty implements Comparable<Builty> {
 	public void setFreightComission(Double freightComission) {
 		this.freightComission = freightComission;
 	}
+	
+	public Double getOtherDedection() {
+		return otherDedection;
+	}
+	public void setOtherDedection(Double otherDedection) {
+		this.otherDedection = otherDedection;
+	}
+	public String getDeductionRemark() {
+		return deductionRemark;
+	}
+	public void setDeductionRemark(String deductionRemark) {
+		this.deductionRemark = deductionRemark;
+	}
+	
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub

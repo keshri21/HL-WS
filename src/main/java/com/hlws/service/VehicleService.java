@@ -3,6 +3,7 @@ package com.hlws.service;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,27 +23,36 @@ public class VehicleService {
 		return vehicleRepository.findBySearchText(searchText);
 	}*/
 	
-	public List<Vehicle> getAllVehicles(){
-    	List<Pan> panlist = vehicleRepository.getAllVehicles();
-    	
-    	return transformPanToVehicles(panlist);
+	public List<Vehicle> getVehicles(String searchText, boolean includeOldOwner){
+		List<Pan> panlist;
+		switch (searchText) {
+		case "all":
+			panlist = vehicleRepository.getAllVehicles();
+			break;
+		default:
+			panlist = vehicleRepository.getVehicles(searchText);
+			break;
+		}
+    	List<Vehicle> vehicles = transformPanToVehicles(panlist);
+    	return vehicles.stream().filter(vehicle -> 
+			vehicle.getVehicleNo().contains(searchText)
+		).filter(vehicle -> 
+			includeOldOwner ? includeOldOwner : !vehicle.isOldOwner()
+		).sorted().collect(Collectors.toList());
+//    	Collections.sort(vehicles);
+//    	return vehicles;
     }
     
-    private List<Vehicle> transformPanToVehicles(List<Pan> panlist){
+    private List<Vehicle> transformPanToVehicles(final List<Pan> panlist){
     	List<Vehicle> vehicles = new ArrayList<>();
-    	for (Pan pan : panlist) {
-			if(CollectionUtils.isNotEmpty(pan.getVehicles())) {
-				for(Vehicle vehicle : pan.getVehicles()) {
-					if(!vehicle.isOldOwner()) {
-						vehicle.setPanNo(pan.getPanNo());
-						vehicle.setPanHolderName(pan.getPanHolderName());
-						vehicle.setMobile(pan.getMobile());
-						vehicles.add(vehicle);
-					}
-				}
-			}
-		}
-    	Collections.sort(vehicles);
+    	panlist.stream().forEach(pan -> {
+    		pan.getVehicles().stream().forEach((vehicle) -> {
+				vehicle.setPanNo(pan.getPanNo());
+				vehicle.setPanHolderName(pan.getPanHolderName());
+				vehicle.setMobile(pan.getMobile());
+				vehicles.add(vehicle);
+			});
+    	});
     	return vehicles;
     }
 }

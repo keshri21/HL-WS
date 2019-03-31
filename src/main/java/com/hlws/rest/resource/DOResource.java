@@ -2,6 +2,8 @@ package com.hlws.rest.resource;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,6 +27,8 @@ import com.hlws.service.DOService;
 @RequestMapping("do")
 public class DOResource {
 	
+	private final Logger LOG = LoggerFactory.getLogger(DOResource.class); 
+	
 	@Autowired
 	private DOService doService;
 
@@ -38,11 +42,12 @@ public class DOResource {
 		try {
 			data = doService.create(doObj);
 		}catch(InvalidDataException ie) {
+			LOG.error("Erro creating DO: {}, {}", ie.getMessage(), ie);
 			message = ie.getMessage();
 			return ResponseUtil.createFailedResponse(message);
 		}
 		catch(Exception e) {
-			e.printStackTrace();
+			LOG.error("Error creating DO: {}, {}", e.getMessage(), e);
 			message = "Some problem occured while creating DO";
 			return ResponseUtil.createFailedResponse(message);
 		}
@@ -61,7 +66,7 @@ public class DOResource {
 		try {
 			doService.update(doObj);
 		}catch(Exception e) {
-			e.printStackTrace();
+			LOG.error("Error updating DO: {}, {}", e.getMessage(), e);
 			message = "Some problem occured while updating DO";
 			return ResponseUtil.createFailedResponse(message);
 		}
@@ -77,7 +82,7 @@ public class DOResource {
 		try {
 			data = doService.getOne(doId);
 		}catch(Exception e) {
-			e.printStackTrace();
+			LOG.error("Error retrieving DO details for {}: {}, {}", doId, e.getMessage(), e);
 			message = "Some problem occured while retrieving DO";
 			return ResponseUtil.createFailedResponse(message);
 		}
@@ -93,7 +98,7 @@ public class DOResource {
 		try {
 			data = doService.getDOList(filter);
 		}catch(Exception e) {
-			e.printStackTrace();
+			LOG.error("Error retrieving {} DO list: {}, {}", filter, e.getMessage(), e);
 			message = "Some problem occured while retrieving all DO";
 			return ResponseUtil.createFailedResponse(message);
 		}

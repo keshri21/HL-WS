@@ -1,5 +1,7 @@
 package com.hlws.rest.resource;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +19,7 @@ import com.hlws.security.service.ITokenService;
 @RequestMapping("auth")
 public class AuthenticationResource {
 
-	
+	private final Logger LOG = LoggerFactory.getLogger(AuthenticationResource.class);
 	private final ITokenService tokenService;
 	
 	/*@Autowired
@@ -32,9 +34,10 @@ public class AuthenticationResource {
 	public ResponseEntity<?> authenticate(@RequestBody LoginDTO dto){
 		final TokenDTO response = tokenService.getToken(dto.getUsername(), dto.getPassword());
 		if(response != null) {
-			
+			LOG.info("User={} authenticated and logged into the system", dto.getUsername());
 			return new ResponseEntity<>(response, HttpStatus.OK);
 		}else {
+			LOG.error("User={} authentication failed", dto.getUsername());
 			return new ResponseEntity<>("Authentication Failed", HttpStatus.BAD_REQUEST);
 		}
 	}

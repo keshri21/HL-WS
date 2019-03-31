@@ -55,6 +55,7 @@ public class DO {
 	private Date finishDate;
 	private String remarks;
 	private List<Integer> inAdvanceLimit;
+	private List<String> subTransporter;
 	private List<String> freightToBePaidBy;
 	private List<String> otBuiltyCompany;
 	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern=AppConstants.DATE_TIME_FORMAT, timezone="IST")
@@ -277,6 +278,13 @@ public class DO {
 	}
 	public void setInAdvanceLimit(List<Integer> inAdvanceLimit) {
 		this.inAdvanceLimit = inAdvanceLimit;
+	}
+		
+	public List<String> getSubTransporter() {
+		return CollectionUtils.isEmpty(subTransporter) ? new ArrayList<>() : subTransporter;
+	}
+	public void setSubTransporter(List<String> subTransporter) {
+		this.subTransporter = subTransporter;
 	}
 	public List<String> getFreightToBePaidBy() {
 		return CollectionUtils.isEmpty(freightToBePaidBy) ? new ArrayList<>() : freightToBePaidBy;

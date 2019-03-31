@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.hlws.enums.Authority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 
@@ -56,6 +57,10 @@ public class User extends BaseEntity implements UserDetails {
 	}
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
+	}
+	
+	public String getName() {
+		return !StringUtils.isEmpty(this.firstName) ? (this.firstName) + (!StringUtils.isEmpty(this.lastName) ? " " + this.lastName : "") : this.username;
 	}
 	public String getPassword() {
 		return password;

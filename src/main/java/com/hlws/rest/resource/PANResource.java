@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
@@ -28,6 +30,7 @@ import com.hlws.service.PanService;
 @RequestMapping("pan")
 public class PANResource {
 
+	private final Logger LOG = LoggerFactory.getLogger(PANResource.class);
 	@Autowired
 	PanService service;
 	
@@ -53,11 +56,10 @@ public class PANResource {
 	public APIResponse<List<Pan>> get(){
 		String message = "PAN data retrieved successfully";
 		List<Pan> panList;
-		try {
-			
+		try {			
 			panList = service.getAll();
 		}catch(Exception e) {
-			e.printStackTrace();
+			LOG.error("Error retrieving pan list: {}, {}", e.getMessage(), e);
 			message = "Some error occurred while retrieving PAN data";
 			return ResponseUtil.createFailedResponse(message);
 		}
@@ -73,7 +75,7 @@ public class PANResource {
 			Pan pan = service.getOne(panNo);
 			data = pan == null ? new ArrayList<>(): Arrays.asList(pan);
 		}catch(Exception e) {
-			e.printStackTrace();
+			LOG.error("Error retrieving pan details for {}: {}, {}", panNo, e.getMessage(), e);
 			message = "Some error occurred while retrieving PAN data";
 			return ResponseUtil.createFailedResponse(message);
 		}
@@ -89,7 +91,7 @@ public class PANResource {
 		try {
 			data = service.save(panData, false);			
 		}catch(Exception e) {
-			e.printStackTrace();
+			LOG.error("Error updating pan detail for {}: {}, {}", panNo, e.getMessage(), e);
 			message = "Some error occurred while updating PAN data";
 			return ResponseUtil.createFailedResponse(message);
 		}
@@ -103,6 +105,7 @@ public class PANResource {
 		try {
 			service.updatevehicles(pan, vehicles);
 		}catch(Exception e) {
+			LOG.error("Error updating vehicle details for pan={} and vehicles={}: {}, {}", pan, vehicles, e.getMessage(), e);
 			return ResponseUtil.createFailedResponse(e.getMessage());
 		}
 		return ResponseUtil.createSuccessResponse(message, "updated");
@@ -116,7 +119,7 @@ public class PANResource {
 		try {
 			data = service.getVehiclesBySearchText(searchtext);
 		}catch(Exception e) {
-			e.printStackTrace();
+			LOG.error("Error looking up vehicles for criteria={}: {}, {}", searchtext, e.getMessage(), e);
 			message = "Some error ocurred while looking for vehicle number";
 			return ResponseUtil.createFailedResponse(message);
 		}
@@ -131,7 +134,7 @@ public class PANResource {
 		try {
 			data = service.ifVehicleCanBeDeleted(vehicleno);
 		}catch(Exception e) {
-			e.printStackTrace();
+			LOG.error("Error checking eligibiilty to delete vehicle {}: {}, {}", vehicleno, e.getMessage(), e);
 			message = "Some error ocurred while checking for eligibility";
 			return ResponseUtil.createFailedResponse(message);
 		}

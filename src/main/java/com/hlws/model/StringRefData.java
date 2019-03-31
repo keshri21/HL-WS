@@ -1,6 +1,9 @@
 package com.hlws.model;
 
-public class Collary {
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(ignoreUnknown=true)
+public class StringRefData {
 
 	private String id;
 	private String name;
@@ -18,7 +21,7 @@ public class Collary {
 	}
 	@Override
 	public String toString() {
-		return "Collary [name=" + name + "]";
+		return "RefData [name=" + name + "]";
 	}
 	
 	

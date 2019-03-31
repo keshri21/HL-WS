@@ -1,11 +1,13 @@
 package com.hlws.rest.resource;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -41,17 +43,17 @@ public class VehicleResource {
 	
 	@GetMapping
 	@ResponseBody
-	public APIResponse<List<Vehicle>> getAllVehicles(){
+	public List<Vehicle> getVehicles(@RequestParam(value = "searchText", defaultValue = "all") String searchText, @RequestParam(value = "inlcudeOldOwner", defaultValue = "false") Boolean includeOldOwner){
 		String message = "All Vehicles retrieved successfully";
 		List<Vehicle> data;
 		try {
-			data = service.getAllVehicles();
+			data = service.getVehicles(searchText, includeOldOwner);
 		}catch(Exception e) {
 			e.printStackTrace();
 			message = "Some error ocurred while fetching vehicle list";
-			return ResponseUtil.createFailedResponse(message);
+			return new ArrayList<Vehicle>();
 		}
-		return ResponseUtil.createSuccessResponse(message, data);
+		return data;
 	}
 	
 	@GetMapping(value = "/{vehicleId}")

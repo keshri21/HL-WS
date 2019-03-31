@@ -7,6 +7,8 @@ import java.io.IOException;
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -23,6 +25,8 @@ import com.amazonaws.services.s3.model.PutObjectRequest;
 @Service
 public class AmazonS3Service {
 
+	private final Logger LOG = LoggerFactory.getLogger(AmazonS3Service.class);
+	
 	private AmazonS3 s3client;
 	
 	@Value("${aws.s3.endpointurl}")
@@ -52,7 +56,7 @@ public class AmazonS3Service {
 			uploadFileTos3bucket(fileName, file);
 			file.delete();
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOG.error("Error uploading file to S3: type={}, {}, {}", type, e.getMessage(), e);
 		}
 		return fileUrl;
 	}
