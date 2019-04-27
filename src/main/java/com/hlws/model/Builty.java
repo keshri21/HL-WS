@@ -41,8 +41,8 @@ public class Builty implements Comparable<Builty> {
 	private Double grossWeight;
 	private Double tierWeight;
 	private Double doClosingBalance;
-	private User transporter;
-	private User subTransporter;
+	private String transporter;
+	private String subTransporter;
 	private String waybillNo;
 	private String tpNo;
 	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern=AppConstants.DATE_FORMAT, timezone="IST")
@@ -58,6 +58,7 @@ public class Builty implements Comparable<Builty> {
 	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern=AppConstants.DATE_TIME_FORMAT, timezone="IST")
 	private Date lastModifiedDateTime;
 	private String createdBy;
+	private String createdByFullName;
 	private String lastModifiedBy;
 	private boolean approved;
 	private boolean deleted;
@@ -69,7 +70,7 @@ public class Builty implements Comparable<Builty> {
 	private Double deductionRate;
 	private Double shortageLimit;
 	private Double freightComission;
-	private Double otherDedection;
+	private Double otherDeduction;
 	private String deductionRemark;
 	
 	public String getBuiltyNo() {
@@ -242,16 +243,16 @@ public class Builty implements Comparable<Builty> {
 	public void setDoClosingBalance(Double doClosingBalance) {
 		this.doClosingBalance = doClosingBalance;
 	}
-	public User getTransporter() {
+	public String getTransporter() {
 		return transporter;
 	}
-	public void setTransporter(User transporter) {
+	public void setTransporter(String transporter) {
 		this.transporter = transporter;
 	}
-	public User getSubTransporter() {
+	public String getSubTransporter() {
 		return subTransporter;
 	}
-	public void setSubTransporter(User subTransporter) {
+	public void setSubTransporter(String subTransporter) {
 		this.subTransporter = subTransporter;
 	}
 	public String getWaybillNo() {
@@ -344,6 +345,12 @@ public class Builty implements Comparable<Builty> {
 	public void setCreatedBy(String createdBy) {
 		this.createdBy = createdBy;
 	}
+	public String getCreatedByFullName() {
+		return createdByFullName;
+	}
+	public void setCreatedByFullName(String createdByFullName) {
+		this.createdByFullName = createdByFullName;
+	}
 	public String getLastModifiedBy() {
 		return lastModifiedBy;
 	}
@@ -395,11 +402,11 @@ public class Builty implements Comparable<Builty> {
 		this.freightComission = freightComission;
 	}
 	
-	public Double getOtherDedection() {
-		return otherDedection;
+	public Double getOtherDeduction() {
+		return otherDeduction;
 	}
-	public void setOtherDedection(Double otherDedection) {
-		this.otherDedection = otherDedection;
+	public void setOtherDeduction(Double otherDeduction) {
+		this.otherDeduction = otherDeduction;
 	}
 	public String getDeductionRemark() {
 		return deductionRemark;

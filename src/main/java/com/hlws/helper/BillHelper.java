@@ -42,7 +42,7 @@ public class BillHelper {
 			if(paymentMap.get(owner) != null) {
 				paymentMap.put(owner, paymentMap.get(owner)+builty.getFreightBill());
 			}else {
-				paymentMap.put(owner, builty.getFreightBill());
+				paymentMap.put(owner, builty.getFreightBill() + owner.getExtraPayment());
 			}
 		});
 		return paymentMap;
@@ -71,50 +71,52 @@ public class BillHelper {
 					
 			Double totalAmount = 0d;
 			for (Entry<Pan, Double> entry : paymentMap.entrySet()) {
-				rowIndex++;
-				colIndex = 0;
-				row = sheet.createRow(rowIndex);
-				
-				Account account = entry.getKey().getPrimaryAccount();
-				if(null == account) {
-					continue; //TODO decide what to do with null primary account. skip or break
-				}
-				while(colIndex < noOfColumns) {	
-					PaymentInstructionColumn column = PaymentInstructionColumn.values()[colIndex];
+				if(entry.getValue() > 0) {
+					rowIndex++;
+					colIndex = 0;
+					row = sheet.createRow(rowIndex);
 					
-					switch (column) {
-						case BENEFICIARY:
-							cell = row.createCell(colIndex, CellType.STRING);
-							cell.setCellValue(account.getAccountHoldername());							
-							break;
-						case TRANSACTION_PARTICULARS:
-							cell = row.createCell(colIndex, CellType.STRING);
-							cell.setCellValue(entry.getKey().getPanNo());
-							break;
-						case BENEFICIARY_ACCOUNT:
-							cell = row.createCell(colIndex, CellType.NUMERIC);
-							cell.setCellValue(account.getAccountNo());
-							break;
-						case IFSC:
-							cell = row.createCell(colIndex, CellType.STRING);
-							cell.setCellValue(account.getIfscCode());
-							break;
-						case BRANCH:
-							cell = row.createCell(colIndex, CellType.STRING);
-							cell.setCellValue(account.getBranchName());
-							break;
-						case AMOUNT:
-							cell = row.createCell(colIndex, CellType.NUMERIC);
-							cell.setCellValue(entry.getValue());
-							totalAmount += entry.getValue();
-							break;
-						default:
-							break;
+					Account account = entry.getKey().getPrimaryAccount();
+					if(null == account) {
+						continue; //TODO decide what to do with null primary account. skip or break
 					}
-					
-					colIndex++;
-					
-				} //END - while loop
+					while(colIndex < noOfColumns) {	
+						PaymentInstructionColumn column = PaymentInstructionColumn.values()[colIndex];
+						
+						switch (column) {
+							case BENEFICIARY:
+								cell = row.createCell(colIndex, CellType.STRING);
+								cell.setCellValue(account.getAccountHoldername());							
+								break;
+							case TRANSACTION_PARTICULARS:
+								cell = row.createCell(colIndex, CellType.STRING);
+								cell.setCellValue(entry.getKey().getPanNo());
+								break;
+							case BENEFICIARY_ACCOUNT:
+								cell = row.createCell(colIndex, CellType.NUMERIC);
+								cell.setCellValue(account.getAccountNo());
+								break;
+							case IFSC:
+								cell = row.createCell(colIndex, CellType.STRING);
+								cell.setCellValue(account.getIfscCode());
+								break;
+							case BRANCH:
+								cell = row.createCell(colIndex, CellType.STRING);
+								cell.setCellValue(account.getBranchName());
+								break;
+							case AMOUNT:
+								cell = row.createCell(colIndex, CellType.NUMERIC);
+								cell.setCellValue(entry.getValue());
+								totalAmount += entry.getValue();
+								break;
+							default:
+								break;
+						}
+						
+						colIndex++;
+						
+					} //END - while loop
+				}
 			} //END - for loop paymentMap
 			
 			Row totalRow = sheet.createRow(rowIndex+2);
@@ -128,6 +130,15 @@ public class BillHelper {
 			//sheet.addMergedRegion(CellRangeAddress.valueOf(cell.getAddress().A1))
 			
 			workbook.write(out);
+			
+			// now update extraPayment(negative balance) for any pan
+			for (Entry<Pan, Double> entry : paymentMap.entrySet()) {
+				if(entry.getValue() < 0) {
+					panRepository.updateExtraPayment(entry.getKey().getPanNo(), entry.getValue());
+				}else {
+					
+				}
+			}
 			return this.addIntructions(new ByteArrayInputStream(out.toByteArray()));
 		} // END - try block
 		

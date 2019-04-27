@@ -24,6 +24,7 @@ public class Pan {
 	private String state;
 	private Set<Vehicle> vehicles;
 	private Account primaryAccount;
+	private Double extraPayment;
 	
 	public String getPanNo() {
 		return panNo;
@@ -96,8 +97,14 @@ public class Pan {
 	public void setId(String id) {
 		this.id = id;
 	}
+		
 	
-	
+	public Double getExtraPayment() {
+		return extraPayment == null ? 0 : extraPayment;
+	}
+	public void setExtraPayment(Double extraPayment) {
+		this.extraPayment = extraPayment;
+	}
 	public Account getPrimaryAccount() {
 		Account primary = null;
 					

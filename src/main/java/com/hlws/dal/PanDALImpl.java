@@ -12,6 +12,8 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
 
+import static org.assertj.core.api.Assertions.setAllowComparingPrivateFields;
+
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -87,6 +89,13 @@ public class PanDALImpl implements IPanDAL{
 						Criteria.where("vehicles.ownerTillDate").is(null)));
 		List<Pan> list = mongoTemplate.find(query, Pan.class, FIXED_COLLECTION_NAME);
 		return CollectionUtils.isEmpty(list) ? null : list.get(0);
+	}
+
+	@Override
+	public void updateExtraPayment(String panNo, Double extraPayment) {
+		Query query = new Query().addCriteria(Criteria.where("panNo").is(panNo));
+		Update update = new Update().set("extraPayment", extraPayment);
+		mongoTemplate.updateFirst(query, update, FIXED_COLLECTION_NAME);		
 	}
 	
     

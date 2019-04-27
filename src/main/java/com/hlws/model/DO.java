@@ -63,6 +63,7 @@ public class DO {
 	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern=AppConstants.DATE_TIME_FORMAT, timezone="IST")
 	private Date lastModifiedDateTime;
 	private String createdBy;
+	private String createdByFullName;
 	private String lastModifiedBy;
 	private String doCopy;
 	
@@ -324,6 +325,13 @@ public class DO {
 	}
 	public void setCreatedBy(String createdBy) {
 		this.createdBy = createdBy;
+	}
+	
+	public String getCreatedByFullName() {
+		return createdByFullName;
+	}
+	public void setCreatedByFullName(String createdByFullName) {
+		this.createdByFullName = createdByFullName;
 	}
 	public String getLastModifiedBy() {
 		return lastModifiedBy;

@@ -8,9 +8,11 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
+import java.util.function.Predicate;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -66,7 +68,8 @@ public class BuiltyService {
 			builtyRepository.updateSequence(currSeq);
 		}
 		
-		builty.setCreatedBy(AppUtil.getLoggedInUser().getName());
+		builty.setCreatedBy(AppUtil.getLoggedInUser().getUsername());
+		builty.setCreatedByFullName(AppUtil.getLoggedInUser().getName());
 		builty.setCreatedDateTime(new Date());
 		builtyRepository.save(builty);
 		
@@ -110,6 +113,8 @@ public class BuiltyService {
 		Collections.sort(list);
 		return list;
 	}
+	
+	@Secured("ROLE_ADMIN")
 	public void update(Builty builty) throws Exception {
 		if(StringUtils.isEmpty(builty.getDoId())){
 			throw new Exception("A DO must be associated with builty");
@@ -179,6 +184,9 @@ public class BuiltyService {
 			dto.setVehicleNo(builty.getVehicleNo());
 			dto.setVehicleOwner(pan.getPanHolderName());
 			dto.setBankDtlsAvailable(CollectionUtils.isNotEmpty(pan.getAccounts()));
+			dto.setPanNo(pan.getPanNo());
+			dto.setId(builty.getBuiltyNo());
+			dto.setExtraPayment(pan.getExtraPayment());
 			builtiesForPayment.add(dto);
 		});
 		Collections.sort(builtiesForPayment);
@@ -194,6 +202,7 @@ public class BuiltyService {
 	}
 	
 	public Integer getInstructions(List<BuiltyDTO> builties) throws IOException{
+		
 		Integer cacheKey = billHelper.generatePaymentInstructionSheet(builties);
 		//mark paymentInstructionDone true
 		builtyRepository.updateReceipt(builties, true);

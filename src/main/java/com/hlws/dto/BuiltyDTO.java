@@ -9,6 +9,7 @@ import com.hlws.util.AppConstants;
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class BuiltyDTO implements Comparable<BuiltyDTO>{
 	private String id;
+	private String panNo;
 	private String builtyNo;
 	private Double receivedQuantity;
 	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern=AppConstants.DATE_FORMAT, timezone="IST")
@@ -19,11 +20,19 @@ public class BuiltyDTO implements Comparable<BuiltyDTO>{
 	private Date builtyDate;
 	private String vehicleOwner;
 	private boolean isBankDtlsAvailable;
+	private Double extraPayment;
 	public String getId() {
 		return id;
 	}
 	public void setId(String id) {
 		this.id = id;
+	}
+	
+	public String getPanNo() {
+		return panNo;
+	}
+	public void setPanNo(String panNo) {
+		this.panNo = panNo;
 	}
 	public String getBuiltyNo() {
 		return builtyNo;
@@ -72,6 +81,13 @@ public class BuiltyDTO implements Comparable<BuiltyDTO>{
 	}
 	public void setBankDtlsAvailable(boolean isBankDtlsAvailable) {
 		this.isBankDtlsAvailable = isBankDtlsAvailable;
+	}
+	
+	public Double getExtraPayment() {
+		return extraPayment;
+	}
+	public void setExtraPayment(Double extraPayment) {
+		this.extraPayment = extraPayment;
 	}
 	@Override
 	public int compareTo(BuiltyDTO builty) {

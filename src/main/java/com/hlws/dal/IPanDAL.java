@@ -17,4 +17,5 @@ public interface IPanDAL extends IBaseDAL {
     List<Pan> getAllVehicles();
     void updateVehicleOwner(String vehicleNo);
     Pan getVehicleOwner(String vehicleNo, Date builtyDate);
+    void updateExtraPayment(String panNo, Double extraPayment);
 }
