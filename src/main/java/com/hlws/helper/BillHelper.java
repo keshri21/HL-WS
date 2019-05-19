@@ -26,14 +26,13 @@ import com.hlws.dto.BuiltyDTO;
 import com.hlws.enums.PaymentInstructionColumn;
 import com.hlws.model.Account;
 import com.hlws.model.Pan;
+import com.hlws.util.XlsUtil;
 
 @Component
 public class BillHelper {
 	
 	@Autowired
 	IPanDAL panRepository;
-	
-	private static Map<Integer, ByteArrayInputStream> cached_instruction = new ConcurrentHashMap<>(); 
 	
 	private Map<Pan, Double> consolidateFreightBill(List<BuiltyDTO> builties){
 		Map<Pan, Double> paymentMap = new HashMap<>();
@@ -65,7 +64,7 @@ public class BillHelper {
 				sheet.setColumnWidth(colIndex, column.getWidth());
 				cell = row.createCell(colIndex);
 				cell.setCellValue(column.getValue());				
-				cell.setCellStyle(this.getBoldStyle(workbook));
+				cell.setCellStyle(XlsUtil.getBoldStyle(workbook));
 				colIndex++;
 			}
 					
@@ -122,11 +121,11 @@ public class BillHelper {
 			Row totalRow = sheet.createRow(rowIndex+2);
 			cell = totalRow.createCell(0);
 			cell.setCellValue(("TOTAL"));
-			cell.setCellStyle(this.getBoldStyle(workbook));
+			cell.setCellStyle(XlsUtil.getBoldStyle(workbook));
 			//totalRow.createCell(0).
 			cell = totalRow.createCell(noOfColumns-1, CellType.NUMERIC);
 			cell.setCellValue(totalAmount);
-			cell.setCellStyle(this.getBoldStyle(workbook));
+			cell.setCellStyle(XlsUtil.getBoldStyle(workbook));
 			//sheet.addMergedRegion(CellRangeAddress.valueOf(cell.getAddress().A1))
 			
 			workbook.write(out);
@@ -139,37 +138,11 @@ public class BillHelper {
 					
 				}
 			}
-			return this.addIntructions(new ByteArrayInputStream(out.toByteArray()));
+			return XlsUtil.addToCache(new ByteArrayInputStream(out.toByteArray()));
 		} // END - try block
 		
 		
 	}
-	
-	private CellStyle getBoldStyle(Workbook wb) {
-		CellStyle boldStyle = wb.createCellStyle();
-		/* Create HSSFFont object from the workbook */
-        Font boldFont = wb.createFont();
-        /* set the weight of the font */
-        boldFont.setBold(true);
-        /* attach the font to the style created earlier */
-        boldStyle.setFont(boldFont);
-        /* At this stage, we have a bold style created which we can attach to a cell */
-        
-        return boldStyle;
-	}
-	
-	public ByteArrayInputStream getInstructions(Integer cacheKey) {
-		return cached_instruction.get(cacheKey);
-	}
-	
-	private Integer addIntructions(ByteArrayInputStream is) {
-		Random random = new Random();
-		
-		Integer cacheKey = 10000000 + random.nextInt(90000000);
-		cached_instruction.put(cacheKey, is);
-		return cacheKey;
-	}
-	
 	
 
 }

@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 
 import com.hlws.dto.UserDTO;
 import com.hlws.model.User;
+import com.mongodb.client.result.UpdateResult;
 
 @Repository
 public class UserDALImpl implements IUserDAL {
@@ -30,15 +31,6 @@ public class UserDALImpl implements IUserDAL {
 	public User save(User user) {
 		mongoTemplate.save(user, getSpecificCollectionName(FIXED_COLLECTION_NAME));
 		return user;
-	}
-
-	@Override
-	public void updatePassword(String userName, String password) {
-		Query query = new Query();
-		query.addCriteria(Criteria.where("username").is(userName));
-		Update update = new Update().set("password", password);
-		mongoTemplate.updateFirst(query, update, getSpecificCollectionName(FIXED_COLLECTION_NAME));
-
 	}
 
 	@Override
@@ -80,5 +72,27 @@ public class UserDALImpl implements IUserDAL {
 		Update update = new Update().set("active", false);
 		mongoTemplate.updateFirst(query, update, User.class, getSpecificCollectionName(FIXED_COLLECTION_NAME));
 	}
+
+	@Override
+	public boolean changePassword(User user) {
+		Query query = new Query();
+		query.addCriteria(Criteria.where("username").is(user.getUsername()));
+		Update update = new Update().set("password", user.getPassword());
+		UpdateResult result = mongoTemplate.updateFirst(query, update, User.class, getSpecificCollectionName(FIXED_COLLECTION_NAME));
+		return result.wasAcknowledged();
+	}
+
+	@Override
+	public boolean updateUser(User user) {
+		Query query = new Query();
+		query.addCriteria(Criteria.where("username").is(user.getUsername()));
+		Update update = new Update().set("firstName", user.getFirstName());
+		update.set("lastName", user.getLastName());
+		update.set("role", user.getRoleName());
+		UpdateResult result = mongoTemplate.updateFirst(query, update, User.class, getSpecificCollectionName(FIXED_COLLECTION_NAME));
+		return result.wasAcknowledged();
+	}
+	
+	
 
 }

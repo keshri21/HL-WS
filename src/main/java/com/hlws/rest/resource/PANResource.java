@@ -1,5 +1,6 @@
 package com.hlws.rest.resource;
 
+import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -7,7 +8,10 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,6 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
@@ -140,5 +145,38 @@ public class PANResource {
 		}
 		return ResponseUtil.createSuccessResponse(message, data);
 	}
+	
+	@GetMapping(value = "/export")
+	@ResponseBody
+	public APIResponse<Integer> exportPANData(){
+		String message = "Cache key to export PAN data generated successfully";
+		Integer data;
+		try {
+			data = service.exportPANData();
+		}catch(Exception e) {
+			LOG.error("Error generating xls for PAN data: {}, {}", e.getMessage(), e);
+			message = "Some problem occurred while exporting PAN data";
+			return ResponseUtil.createFailedResponse(message, null);
+		}
+		return ResponseUtil.createSuccessResponse(message, data);        		
+         
+	}
+	
+	@GetMapping("/downloadData")
+	public ResponseEntity<InputStreamResource> downloadData(@RequestParam(value = "key") Integer cacheKey){
+		
+		ByteArrayInputStream in = service.getFromCache(cacheKey);
+		// return IOUtils.toByteArray(in);
+		
+		HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Disposition", "attachment; filename=pan-list.xlsx");
+        headers.add("Content-Type", "application/vnd.ms-excel");
+		
+		 return ResponseEntity
+	                .ok()
+	                .headers(headers)
+	                .body(new InputStreamResource(in));
+	}
+	
 	
 }

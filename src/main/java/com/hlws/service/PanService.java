@@ -1,5 +1,7 @@
 package com.hlws.service;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -10,9 +12,11 @@ import org.springframework.stereotype.Service;
 
 import com.hlws.dal.IBuiltyDAL;
 import com.hlws.dal.IPanDAL;
+import com.hlws.helper.ExportPANHelper;
 import com.hlws.model.Builty;
 import com.hlws.model.Pan;
 import com.hlws.model.Vehicle;
+import com.hlws.util.XlsUtil;
 
 @Service
 public class PanService {
@@ -22,6 +26,9 @@ public class PanService {
     
     @Autowired
     private IBuiltyDAL builtyRepository;
+    
+    @Autowired
+    private ExportPANHelper panHelper;
 
     public Pan save(Pan pan, boolean createFlag) throws Exception{
         /*if(CollectionUtils.isEmpty(pan.getVehicles())){
@@ -79,5 +86,14 @@ public class PanService {
     public boolean ifVehicleCanBeDeleted(String vehicleno) {
     	Builty builty = builtyRepository.findBuiltyByVehicleNo(vehicleno);
     	return builty == null ? true : false;
+    }
+    
+    public Integer exportPANData() throws IOException {
+    	List<Pan> pans = panRepository.getAll();
+    	return panHelper.generateXlsData(pans);
+    }
+    
+    public ByteArrayInputStream getFromCache(Integer cacheKey) {
+    	return XlsUtil.getFromCache(cacheKey);
     }
 }

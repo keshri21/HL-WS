@@ -30,6 +30,7 @@ import com.hlws.model.Sequence;
 import com.hlws.model.User;
 import com.hlws.util.AppUtil;
 import com.hlws.util.DateUtil;
+import com.hlws.util.XlsUtil;
 
 @Service
 public class BuiltyService {
@@ -211,8 +212,9 @@ public class BuiltyService {
 	
 	
 	public ByteArrayInputStream getFromCache(Integer key) {
-		return billHelper.getInstructions(key);
+		return XlsUtil.getFromCache(key);
 	}
+	
 	private class BalanceUpdaterThread implements Runnable{
 		
 		private Builty builty;

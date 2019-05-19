@@ -32,13 +32,15 @@ public class UserService {
         return user;
     }
     
-    public User save(User user, boolean createFlag) {
-    	if(createFlag) {
-    		user.setPassword(BCrypt.hashpw(user.getPassword(), BCrypt.gensalt()));
-    		user.setActive(true);
-    		user.setCompanyId(AppUtil.getLoggedInUser().getCompanyId());
-    	}
+    public User save(User user) {
+		user.setPassword(BCrypt.hashpw(user.getPassword(), BCrypt.gensalt()));
+		user.setActive(true);
+		user.setCompanyId(AppUtil.getLoggedInUser().getCompanyId());
 		return userRepository.save(user);
+	}
+    
+    public boolean update(User user) {    	
+		return userRepository.updateUser(user);
 	}
     
     public void deactivate(String username) {
@@ -57,6 +59,11 @@ public class UserService {
     
     public List<UserDTO> getByRole(String role){
     	return userRepository.getByRole(role);
+    }
+    
+    public boolean changePassword(User user) {
+    	user.setPassword(BCrypt.hashpw(user.getPassword(), BCrypt.gensalt()));
+    	return userRepository.changePassword(user);
     }
     
 }

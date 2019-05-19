@@ -36,7 +36,7 @@ public class UserResource {
 		String message = "User created successfully";
 		User data;
 		try {
-			data = userService.save(user, true);
+			data = userService.save(user);
 		}catch(Exception e) {
 			message = "Some error occurred while creating user";
 			return ResponseUtil.createFailedResponse(message);
@@ -60,18 +60,17 @@ public class UserResource {
 	
 	@PutMapping
 	@ResponseBody
-	public APIResponse<String> update(@RequestBody User user){
+	public APIResponse<User> update(@RequestBody User user){
 		
-		String message = "user updated successfully";
-		String data = "updated";
+		String message = "Some error occurred while updating user";
 		try {
-			userService.save(user, false);
-			
-		}catch(Exception e) {
-			message = "Some error occurred while updating user";
+			if(userService.update(user)) {
+				message = "User details updated successfully";
+			}			
+		}catch(Exception e) {			
 			return ResponseUtil.createFailedResponse(message);
 		}
-		return ResponseUtil.createSuccessResponse(message, data);
+		return ResponseUtil.createSuccessResponse(message, user);
 	}
 	
 	@GetMapping(value = "/{userName}")
@@ -115,5 +114,20 @@ public class UserResource {
 			return ResponseUtil.createFailedResponse(message);
 		}
 		return ResponseUtil.createSuccessResponse(message, data);
+	}
+	
+	@PutMapping("/updatePassword")
+	@ResponseBody
+	public APIResponse<Void> updatePassword(@RequestBody User user){
+		String message = "Some error occurred while updating password";
+		try {
+			if(userService.changePassword(user)) {
+				message = "Password updated successfully";
+			}
+		}catch (Exception e) {			
+			return ResponseUtil.createFailedResponse(message);
+		}
+		return ResponseUtil.createSuccessResponse(message, null);
+		
 	}
 }

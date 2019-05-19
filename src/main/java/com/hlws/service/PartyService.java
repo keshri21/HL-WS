@@ -15,6 +15,10 @@ public class PartyService {
 	IPartyDAL partyRepository;
 	
 	public Party save(Party party, boolean createFlag) {
+		if(null != party) {
+			party.setName(party.getName().toUpperCase());
+			party.getDestinations().forEach(item -> item = item.toUpperCase());
+		}
 		return partyRepository.save(party);
 	}
 	
