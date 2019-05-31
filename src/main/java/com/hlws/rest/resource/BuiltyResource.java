@@ -51,7 +51,7 @@ public class BuiltyResource {
 			data = builtyService.createBuilty(builty);
 		}catch(Exception e) {
 			LOG.error("Error creating builty: {}, {}", e.getMessage(), e);
-			message = "Internal Server Error: " + e.getMessage();
+			message = "Couldn't create bilty: " + e.getMessage();
 			return ResponseUtil.createFailedResponse(message);
 		}
 		return ResponseUtil.createSuccessResponse(message, data); //TODO return created builty nummber
@@ -116,7 +116,7 @@ public class BuiltyResource {
 			builtyService.update(builty);
 		}catch(Exception e) {
 			LOG.error("Error updating builty: {}, {}", e.getMessage(), e);
-			message = "Some error occured while updating builty";	
+			message = "Couldn't update bilty: " + e.getMessage();	
 			return ResponseUtil.createFailedResponse(message);
 		}
 		return ResponseUtil.createSuccessResponse(message, data);

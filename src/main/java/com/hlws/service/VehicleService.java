@@ -3,6 +3,7 @@ package com.hlws.service;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import org.apache.commons.collections4.CollectionUtils;
@@ -23,7 +24,7 @@ public class VehicleService {
 		return vehicleRepository.findBySearchText(searchText);
 	}*/
 	
-	public List<Vehicle> getVehicles(String searchText, boolean includeOldOwner){
+	public List<Vehicle> getVehicles(final String searchText, final boolean includeOldOwner){
 		List<Pan> panlist;
 		switch (searchText) {
 		case "all":
@@ -34,8 +35,9 @@ public class VehicleService {
 			break;
 		}
     	List<Vehicle> vehicles = transformPanToVehicles(panlist);
+    	final String searchTextRegex = "(?i).*(" + searchText + ")+.*"; 
     	return vehicles.stream().filter(vehicle -> 
-			vehicle.getVehicleNo().contains(searchText)
+			vehicle.getVehicleNo().matches(searchTextRegex)
 		).filter(vehicle -> 
 			includeOldOwner ? includeOldOwner : !vehicle.isOldOwner()
 		).sorted().collect(Collectors.toList());

@@ -51,14 +51,14 @@ public class BuiltyService {
 	private BillHelper billHelper;
 
 	public Builty createBuilty(Builty builty) throws Exception{
-		if(StringUtils.isEmpty(builty.getDoId())){
-			throw new Exception("A DO must be associated with builty");
-		}
+		validateBilty(builty);
 		DO doObj = doRepository.findById(builty.getDoId());
 		if(doObj == null) {
 			throw new Exception("Please select a valid DO");
 		} else if(doObj.getDueDate().before(builty.getBuiltyDate())) {
 			throw new Exception("Builty can't be created as DO due date is passed");
+		}else if(doObj.getDoBalance() - builty.getNetWeight() < 0){	//check if DO have sufficient quantity left for new bilty
+			throw new Exception("Builty can't be created as not sufficient balance left in this DO. Try with net weight so that DO balance doesn't go below 0");
 		}
 		synchronized (this) {
 			Sequence currSeq = builtyRepository.getSequence(DateUtil.currYear());
@@ -117,14 +117,25 @@ public class BuiltyService {
 	
 	@Secured("ROLE_ADMIN")
 	public void update(Builty builty) throws Exception {
-		if(StringUtils.isEmpty(builty.getDoId())){
-			throw new Exception("A DO must be associated with builty");
-		}else if(StringUtils.isEmpty(builty.getBuiltyNo())) {
+		validateBilty(builty);
+		if(StringUtils.isEmpty(builty.getBuiltyNo())) {
 			throw new Exception("Builty couldn't be updated as there was no builty number associated");
 		}
+		//get original bilty to check any change in net weight
+		Builty origBilty = builtyRepository.findById(builty.getId());
+		
 		builty.setLastModifiedBy(AppUtil.getLoggedInUser().getUsername());
 		builty.setLastModifiedDateTime(new Date());
 		builtyRepository.save(builty);
+		
+		//check if netweight has changed and accordingly update DO balance and permit balance
+		double diff = origBilty.getNetWeight() - builty.getNetWeight();
+		if(diff > 0) {
+			doRepository.updateDOBalance(builty.getDoId(), diff);
+			// update permit balance
+			if(null != builty.getPermitNo() && null != builty.getPermitBalance())
+				permitRepository.updatePermitBalance(builty.getPermitNo(), diff);
+		}
 	}
 	
 	public boolean delete(String builtyId) throws Exception {
@@ -215,30 +226,14 @@ public class BuiltyService {
 		return XlsUtil.getFromCache(key);
 	}
 	
-	private class BalanceUpdaterThread implements Runnable{
-		
-		private Builty builty;
-
-		public BalanceUpdaterThread(Builty builty) {
-			super();
-			this.builty = builty;
+	private void validateBilty(Builty bilty) throws Exception{
+		if(StringUtils.isEmpty(bilty.getDoId())){
+			throw new Exception("A DO must be associated with builty");
+		}else if(StringUtils.isEmpty(bilty.getVehicleNo())) {
+			throw new Exception("No vehicle associated with bilty");
+		}else if(bilty.getNetWeight() == null || bilty.getNetWeight() <= 0) {
+			throw new Exception("Net weight can't be 0");
 		}
-
-		@Override
-		public void run() {
-			try {
-				//update do balance
-				doRepository.updateDOBalance(builty.getDoId(), builty.getDoClosingBalance());
-				// update permit balance
-				if(null != builty.getPermitNo())
-					permitRepository.updatePermitBalance(builty.getPermitNo(), builty.getPermitBalance());
-				//remove if temporary builty was created for this builty
-				builtyRepository.removeFromTemp(builty);
-			}catch(Exception e) {
-				e.printStackTrace();
-			}
-		}
-		
 	}
 }
 

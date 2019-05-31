@@ -8,6 +8,7 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.hlws.util.AppUtil;
 
 @Document
 @JsonIgnoreProperties(ignoreUnknown=true)
@@ -103,7 +104,7 @@ public class Pan {
 		return extraPayment == null ? 0 : extraPayment;
 	}
 	public void setExtraPayment(Double extraPayment) {
-		this.extraPayment = extraPayment;
+		this.extraPayment = AppUtil.formatDecimalValue(extraPayment);
 	}
 	public Account getPrimaryAccount() {
 		Account primary = null;

@@ -6,6 +6,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.hlws.util.AppConstants;
+import com.hlws.util.AppUtil;
 
 @Document
 public class Builty implements Comparable<Builty> {
@@ -132,7 +133,7 @@ public class Builty implements Comparable<Builty> {
 		return doOpeningBalance;
 	}
 	public void setDoOpeningBalance(Double openingBalance) {
-		this.doOpeningBalance = openingBalance;
+		this.doOpeningBalance = AppUtil.formatDecimalValue(openingBalance);
 	}
 	public Integer getInAdvance() {
 		return inAdvance;
@@ -211,7 +212,7 @@ public class Builty implements Comparable<Builty> {
 		return invoiceValue;
 	}
 	public void setInvoiceValue(Double invoiceValue) {
-		this.invoiceValue = invoiceValue;
+		this.invoiceValue = AppUtil.formatDecimalValue(invoiceValue);
 	}
 	public String getDriverName() {
 		return driverName;
@@ -229,13 +230,13 @@ public class Builty implements Comparable<Builty> {
 		return grossWeight;
 	}
 	public void setGrossWeight(Double grossWeight) {
-		this.grossWeight = grossWeight;
+		this.grossWeight = AppUtil.formatDecimalValue(grossWeight);
 	}
 	public Double getTierWeight() {
 		return tierWeight;
 	}
 	public void setTierWeight(Double tierWeight) {
-		this.tierWeight = tierWeight;
+		this.tierWeight = AppUtil.formatDecimalValue(tierWeight);;
 	}
 	public Double getDoClosingBalance() {
 		return doClosingBalance;
@@ -277,25 +278,25 @@ public class Builty implements Comparable<Builty> {
 		return receivedQuantity;
 	}
 	public void setReceivedQuantity(Double receivedQuantity) {
-		this.receivedQuantity = receivedQuantity;
+		this.receivedQuantity = AppUtil.formatDecimalValue(receivedQuantity);
 	}
 	public Double getNetWeight() {
 		return netWeight;
 	}
 	public void setNetWeight(Double netWeight) {
-		this.netWeight = netWeight;
+		this.netWeight = AppUtil.formatDecimalValue(netWeight);;
 	}
 	public Double getRefund() {
 		return refund;
 	}
 	public void setRefund(Double refund) {
-		this.refund = refund;
+		this.refund = AppUtil.formatDecimalValue(refund);
 	}
 	public Double getAssesibleValue() {
 		return assesibleValue;
 	}
 	public void setAssesibleValue(Double assesibleValue) {
-		this.assesibleValue = assesibleValue;
+		this.assesibleValue = AppUtil.formatDecimalValue(assesibleValue);
 	}
 	public String getFreightToBePaidBy() {
 		return freightToBePaidBy;

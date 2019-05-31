@@ -47,10 +47,10 @@ public class DummyBuilder {
 			User user = new User();
 			user.setFirstName("Rahul");
 			user.setUsername("raga");
-			builty.setTransporter(user);
+			builty.setTransporter("");
 			user.setFirstName("Sonia");
 			user.setUsername("sona");
-			builty.setSubTransporter(user);
+			builty.setSubTransporter("");
 			builty.setOtBuiltyCompany("Surya Logistics");
 			builty.setOtBuiltyNumber(234221);
 			builty.setWaybillNo("W3459339");

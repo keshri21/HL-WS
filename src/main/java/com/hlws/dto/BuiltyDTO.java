@@ -5,6 +5,7 @@ import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.hlws.util.AppConstants;
+import com.hlws.util.AppUtil;
 
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class BuiltyDTO implements Comparable<BuiltyDTO>{
@@ -44,7 +45,7 @@ public class BuiltyDTO implements Comparable<BuiltyDTO>{
 		return receivedQuantity;
 	}
 	public void setReceivedQuantity(Double receivedQuantity) {
-		this.receivedQuantity = receivedQuantity;
+		this.receivedQuantity = AppUtil.formatDecimalValue(receivedQuantity);
 	}
 	public Date getReceivedDate() {
 		return receivedDate;
@@ -56,7 +57,7 @@ public class BuiltyDTO implements Comparable<BuiltyDTO>{
 		return freightBill;
 	}
 	public void setFreightBill(Double freightBill) {
-		this.freightBill = freightBill;
+		this.freightBill = AppUtil.formatDecimalValue(freightBill);
 	}
 	public String getVehicleNo() {
 		return vehicleNo;
@@ -87,7 +88,7 @@ public class BuiltyDTO implements Comparable<BuiltyDTO>{
 		return extraPayment;
 	}
 	public void setExtraPayment(Double extraPayment) {
-		this.extraPayment = extraPayment;
+		this.extraPayment = AppUtil.formatDecimalValue(extraPayment);
 	}
 	@Override
 	public int compareTo(BuiltyDTO builty) {

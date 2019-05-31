@@ -12,8 +12,6 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
 
-import static org.assertj.core.api.Assertions.setAllowComparingPrivateFields;
-
 import java.util.Date;
 import java.util.List;
 import java.util.Set;

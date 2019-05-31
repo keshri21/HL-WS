@@ -5,6 +5,7 @@ import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.hlws.util.AppConstants;
+import com.hlws.util.AppUtil;
 
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class Permit {
@@ -38,14 +39,14 @@ public class Permit {
 		return quantity;
 	}
 	public void setQuantity(Double quantity) {
-		this.quantity = quantity;
+		this.quantity = AppUtil.formatDecimalValue(quantity);
 	}
 	
 	public Double getPermitbalance() {
 		return permitbalance;
 	}
 	public void setPermitbalance(Double permitBalance) {
-		this.permitbalance = permitBalance;
+		this.permitbalance = AppUtil.formatDecimalValue(permitBalance);
 	}
 	public Date getEnddate() {
 		return enddate;

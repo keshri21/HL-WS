@@ -10,6 +10,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.hlws.dto.UserDTO;
 import com.hlws.util.AppConstants;
+import com.hlws.util.AppUtil;
 
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class DO {
@@ -97,7 +98,7 @@ public class DO {
 		this.auctionNo = auctionNo;
 	}
 	public void setQuantity(Double quantity) {
-		this.quantity = quantity;
+		this.quantity = AppUtil.formatDecimalValue(quantity);
 	}
 	public Date getDoDate() {
 		return doDate;
@@ -175,38 +176,38 @@ public class DO {
 		return emd;
 	}
 	public void setEmd(Double emd) {
-		this.emd = emd;
+		this.emd = AppUtil.formatDecimalValue(emd);
 	}
 	public Double getDoAmt() {
 		return doAmt;
 	}
 	public void setDoAmt(Double doAmt) {
-		this.doAmt = doAmt;
+		this.doAmt = AppUtil.formatDecimalValue(doAmt);
 	}
 	public Double getDoAmtpmt() {
 		return doAmtpmt;
 	}
 	public void setDoAmtpmt(Double doAmtpmt) {
-		this.doAmtpmt = doAmtpmt;
+		this.doAmtpmt = AppUtil.formatDecimalValue(doAmtpmt);
 	}
 	public Double getDoRate() {
 		return doRate;
 	}
 	public void setDoRate(Double doRate) {
-		this.doRate = doRate;
+		this.doRate = AppUtil.formatDecimalValue(doRate);
 	}
 	public Double getDoRateTcs() {
 		return doRateTcs;
 	}
 	public void setDoRateTcs(Double doRateTcs) {
-		this.doRateTcs = doRateTcs;
+		this.doRateTcs = AppUtil.formatDecimalValue(doRateTcs);
 	}
 	
 	public Double getDoBalance() {
 		return doBalance == null ? this.getQuantity() : doBalance;
 	}
 	public void setDoBalance(Double doBalance) {
-		this.doBalance = doBalance;
+		this.doBalance = AppUtil.formatDecimalValue(doBalance);
 	}
 	public String getWithinOutSide() {
 		return withinOutSide;
@@ -218,19 +219,19 @@ public class DO {
 		return liftedQuantity;
 	}
 	public void setLiftedQuantity(Double liftedQuantity) {
-		this.liftedQuantity = liftedQuantity;
+		this.liftedQuantity = AppUtil.formatDecimalValue(emd);
 	}
 	public Double getQuantityDeduction() {
 		return quantityDeduction;
 	}
 	public void setQuantityDeduction(Double quantityDeduction) {
-		this.quantityDeduction = quantityDeduction;
+		this.quantityDeduction = AppUtil.formatDecimalValue(quantityDeduction);
 	}
 	public Double getLepseQuantity() {
 		return lepseQuantity;
 	}
 	public void setLepseQuantity(Double lepseQuantity) {
-		this.lepseQuantity = lepseQuantity;
+		this.lepseQuantity = AppUtil.formatDecimalValue(lepseQuantity);
 	}
 	public String getDoStatus() {
 		return doStatus;
@@ -242,7 +243,7 @@ public class DO {
 		return refundAmt;
 	}
 	public void setRefundAmt(Double refundAmt) {
-		this.refundAmt = refundAmt;
+		this.refundAmt = AppUtil.formatDecimalValue(refundAmt);
 	}
 	public Date getRefundDate() {
 		return refundDate;
@@ -254,7 +255,7 @@ public class DO {
 		return emdAmt;
 	}
 	public void setEmdAmt(Double emdAmt) {
-		this.emdAmt = emdAmt;
+		this.emdAmt = AppUtil.formatDecimalValue(emdAmt);
 	}
 	public String getWebsite() {
 		return website;
