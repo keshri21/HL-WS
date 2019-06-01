@@ -130,7 +130,7 @@ public class BuiltyService {
 		
 		//check if netweight has changed and accordingly update DO balance and permit balance
 		double diff = origBilty.getNetWeight() - builty.getNetWeight();
-		if(diff > 0) {
+		if(Math.abs(diff) > 0) {
 			doRepository.updateDOBalance(builty.getDoId(), diff);
 			// update permit balance
 			if(null != builty.getPermitNo() && null != builty.getPermitBalance())

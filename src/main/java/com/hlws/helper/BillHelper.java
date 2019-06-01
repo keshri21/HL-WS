@@ -18,6 +18,8 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -26,10 +28,12 @@ import com.hlws.dto.BuiltyDTO;
 import com.hlws.enums.PaymentInstructionColumn;
 import com.hlws.model.Account;
 import com.hlws.model.Pan;
+import com.hlws.rest.resource.BuiltyResource;
 import com.hlws.util.XlsUtil;
 
 @Component
 public class BillHelper {
+	private final Logger LOG = LoggerFactory.getLogger(BillHelper.class);
 	
 	@Autowired
 	IPanDAL panRepository;
@@ -49,6 +53,17 @@ public class BillHelper {
 	
 	public Integer generatePaymentInstructionSheet(List<BuiltyDTO> builties) throws IOException {
 		Map<Pan, Double> paymentMap = consolidateFreightBill(builties); 
+		
+		// first update extraPayment for pan
+		for (Entry<Pan, Double> entry : paymentMap.entrySet()) {
+			//if its negative put actual value so it can be adjusted in future payments
+			if(entry.getValue() < 0) {
+				LOG.warn("Updating extrapayment for PAN: [{}], Extrapayment: [{}]", entry.getKey().getPanNo(), entry.getValue());
+				panRepository.updateExtraPayment(entry.getKey().getPanNo(), entry.getValue());
+			}else { // if positive update extra payment to 0
+				panRepository.updateExtraPayment(entry.getKey().getPanNo(), 0d);
+			}
+		}
 		
 		try(
 				Workbook workbook = new XSSFWorkbook();
@@ -129,15 +144,7 @@ public class BillHelper {
 			//sheet.addMergedRegion(CellRangeAddress.valueOf(cell.getAddress().A1))
 			
 			workbook.write(out);
-			
-			// now update extraPayment(negative balance) for any pan
-			for (Entry<Pan, Double> entry : paymentMap.entrySet()) {
-				if(entry.getValue() < 0) {
-					panRepository.updateExtraPayment(entry.getKey().getPanNo(), entry.getValue());
-				}else {
-					
-				}
-			}
+						
 			return XlsUtil.addToCache(new ByteArrayInputStream(out.toByteArray()));
 		} // END - try block
 		
