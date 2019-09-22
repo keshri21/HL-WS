@@ -77,7 +77,7 @@ public class PANResource {
 		String message = "PAN data retrieved successfully";
 		List<Pan> data;
 		try {	
-			Pan pan = service.getOne(panNo);
+			Pan pan = service.getPAN(panNo);
 			data = pan == null ? new ArrayList<>(): Arrays.asList(pan);
 		}catch(Exception e) {
 			LOG.error("Error retrieving pan details for {}: {}, {}", panNo, e.getMessage(), e);

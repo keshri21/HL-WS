@@ -89,7 +89,6 @@ public class DummyBuilder {
 			doOrder.setBy("Courier");
 			doOrder.setDoAmt(1200000.0);
 			doOrder.setDoAmtpmt(2333.8);
-			doOrder.setLiftedQuantity(2000.0);
 			doOrder.setQuantityDeduction(12.3);
 			doOrder.setLepseQuantity(200.0);
 			doOrder.setEmd(200.0);

@@ -6,7 +6,8 @@ public enum PaymentInstructionColumn {
 	BENEFICIARY_ACCOUNT("BENEFICIARY ACCOUNT", 6000),
 	IFSC("IFSC", 4000),
 	BRANCH("BRANCH", 5000),
-	AMOUNT("Amount", 4000);
+	AMOUNT("Amount", 4000),
+	PREVIOUS_ADJUSTMENT("Previous Adjustment", 5000);
 	
 	PaymentInstructionColumn(String val, Integer width){
 		this.value = val;

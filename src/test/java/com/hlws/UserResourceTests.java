@@ -29,7 +29,6 @@ import com.hlws.model.User;
 import com.hlws.rest.resource.UserResource;
 import com.hlws.util.DummyBuilder;
 
-import net.bytebuddy.utility.RandomString;
 import net.minidev.json.JSONUtil;
 
 @RunWith(SpringRunner.class)

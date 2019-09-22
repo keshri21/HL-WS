@@ -22,6 +22,7 @@ public class Builty implements Comparable<Builty> {
 	private String otBuiltyCompany;
 	private Integer otBuiltyNumber;
 	private String vehicleNo;
+	private String vehicleOwnerPan;
 	private Double doOpeningBalance;
 	private Integer inAdvance;
 	private Integer outAdvance;
@@ -73,6 +74,7 @@ public class Builty implements Comparable<Builty> {
 	private Double freightComission;
 	private Double otherDeduction;
 	private String deductionRemark;
+	private Integer paymentStatus;
 	
 	public String getBuiltyNo() {
 		return builtyNo;
@@ -128,6 +130,13 @@ public class Builty implements Comparable<Builty> {
 	}
 	public void setVehicleNo(String vehicleNo) {
 		this.vehicleNo = vehicleNo;
+	}
+	
+	public String getVehicleOwnerPan() {
+		return vehicleOwnerPan;
+	}
+	public void setVehicleOwnerPan(String vehicleOwnerPan) {
+		this.vehicleOwnerPan = vehicleOwnerPan;
 	}
 	public Double getDoOpeningBalance() {
 		return doOpeningBalance;
@@ -414,14 +423,24 @@ public class Builty implements Comparable<Builty> {
 	}
 	public void setDeductionRemark(String deductionRemark) {
 		this.deductionRemark = deductionRemark;
-	}
+	}		
 	
+	public Integer getPaymentStatus() {
+		return paymentStatus;
+	}
+	public void setPaymentStatus(Integer paymentStatus) {
+		this.paymentStatus = paymentStatus;
+	}
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
 		return "(" + this.id +
-				", " + this.builtyNo +
-				", " + this.receivedDate +")";
+				", Bilty No: " + this.builtyNo +
+				", Received Date: " + this.receivedDate +
+				", Freight: " + this.freightGenerated +
+				", Instruction: " + this.paymentInstructionDone +
+				", Status: " + this.paymentStatus +
+				")";
 	}
 	
 	@Override

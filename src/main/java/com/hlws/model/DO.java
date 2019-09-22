@@ -43,7 +43,6 @@ public class DO {
 	private Double doRateTcs;
 	private Double doBalance;
 	private String withinOutSide;
-	private Double liftedQuantity;
 	private Double quantityDeduction;
 	private Double lepseQuantity;
 	private String doStatus;
@@ -215,20 +214,14 @@ public class DO {
 	public void setWithinOutSide(String withinOutSide) {
 		this.withinOutSide = withinOutSide;
 	}
-	public Double getLiftedQuantity() {
-		return liftedQuantity;
-	}
-	public void setLiftedQuantity(Double liftedQuantity) {
-		this.liftedQuantity = AppUtil.formatDecimalValue(emd);
-	}
 	public Double getQuantityDeduction() {
-		return quantityDeduction;
+		return quantityDeduction == null ? 0 : quantityDeduction;
 	}
 	public void setQuantityDeduction(Double quantityDeduction) {
 		this.quantityDeduction = AppUtil.formatDecimalValue(quantityDeduction);
 	}
 	public Double getLepseQuantity() {
-		return lepseQuantity;
+		return lepseQuantity == null ? 0 : lepseQuantity;
 	}
 	public void setLepseQuantity(Double lepseQuantity) {
 		this.lepseQuantity = AppUtil.formatDecimalValue(lepseQuantity);
@@ -358,5 +351,12 @@ public class DO {
 		
 		return builder.toString();
 	}
+	
+	@Override
+	public String toString() {
+		return "DO [id=" + id + ", dueDate=" + dueDate +", doDisplay=" + getDoDisplay() + "]";
+	}
+	
+	
 	
 }

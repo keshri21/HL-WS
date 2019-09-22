@@ -3,6 +3,7 @@ package com.hlws.dal;
 import java.util.List;
 
 import com.hlws.dto.BuiltyDTO;
+import com.hlws.enums.BiltyUpdateType;
 import com.hlws.model.Builty;
 import com.hlws.model.Sequence;
 import com.hlws.util.AppConstants;
@@ -22,7 +23,7 @@ public interface IBuiltyDAL extends IBaseDAL {
     Builty getOneFromTemp(String id);
     List<Builty> getAllForDO(List<String> doIds);
     void removeFromTemp(Builty builty);
-    void updateReceipt(List<BuiltyDTO> builtyList, boolean isPaymnetInstruction);
+    void updateReceipt(List<BuiltyDTO> builtyList, BiltyUpdateType updateType);
     void resetPaymentInstruction(String builtyNo);
     void approve(String id);
     Sequence getSequence(int year);
@@ -30,6 +31,7 @@ public interface IBuiltyDAL extends IBaseDAL {
     Builty findBuiltyByVehicleNo(String vehicleno);
     boolean delete(String builtyId);  
     List<Builty> getBuiltiesForPayments();
+    List<Builty> getBuiltiesForInitiatedPayments();
     
     default String getTempCollectionName(String fixedCollectionName) {
     	StringBuilder builder = new StringBuilder(fixedCollectionName);

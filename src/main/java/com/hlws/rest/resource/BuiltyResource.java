@@ -198,16 +198,31 @@ public class BuiltyResource {
 		return ResponseUtil.createSuccessResponse(message, data);
 	}
 	
-	@GetMapping("/pendingPayments")
+	@GetMapping("/readyForPayments")
 	@ResponseBody
 	public APIResponse<List<BuiltyDTO>> getBuiltiesForPayments(){
-		String message = "List of builty with pending payments retrieved successfully";
+		String message = "Bilty list ready for payments retrieved successfully";
 		List<BuiltyDTO> data;
 		try {
 			data = builtyService.getBuiltiesForPayments();
 		}catch(Exception e) {
-			LOG.error("Error retrieving builty list for payment: ", e);
-			message = "Some problem occurred while retrieving list for pending payments";
+			LOG.error("Error retrieving builty list which are ready for payment: ", e);
+			message = "Some problem occurred while retrieving list ready for payments";
+			return ResponseUtil.createFailedResponse(message, null);
+		}
+		return ResponseUtil.createSuccessResponse(message, data);
+	}
+	
+	@GetMapping("/initiatedPayments")
+	@ResponseBody
+	public APIResponse<List<BuiltyDTO>> getBuiltiesForInitiatedPayments(){
+		String message = "Bilty list for initiated payments retrieved successfully";
+		List<BuiltyDTO> data;
+		try {
+			data = builtyService.getBuiltiesForInitiatedPayments();
+		}catch(Exception e) {
+			LOG.error("Error retrieving builty list for which payment is initiated: ", e);
+			message = "Some problem occurred while retrieving bilty with initiated payments";
 			return ResponseUtil.createFailedResponse(message, null);
 		}
 		return ResponseUtil.createSuccessResponse(message, data);
@@ -221,6 +236,7 @@ public class BuiltyResource {
 		try {
 			data = builtyService.getInstructions(builties);
 		}catch(Exception e) {
+			e.printStackTrace();
 			LOG.error("Error generating payment instruction: {}, {}", e.getMessage(), e);
 			message = "Some problem occurred while generating instruction for payments";
 			return ResponseUtil.createFailedResponse(message, null);
@@ -245,18 +261,31 @@ public class BuiltyResource {
 	                .body(new InputStreamResource(in));
 	}
 	
-	@PutMapping("/payment/reset/{builtyNo}")
+	@PutMapping("/revertInstruction")
 	@ResponseBody
-	public APIResponse<String> resetInstruction(@PathVariable("builtyNo") String builtyNo){
-		String message = "Payment instruction reset successfully";
+	public APIResponse<Boolean> resetInstruction(@RequestBody List<BuiltyDTO> bilties){
+		String message = "Payment instruction reverted successfully";
 		try {
-			builtyService.resetInstruction(builtyNo);
+			builtyService.revertPaymentInstruction(bilties);
 		}catch(Exception e) {
-			LOG.error("Error in reseting builty {} for payment: {}, {}", builtyNo, e.getMessage(), e);
-			message = "Some problem occurred while resetting payment instruction";
+			LOG.error("Error in reseting payment instruction {}", e);
+			message = "Some problem occurred while reverting payment instruction";
 			return ResponseUtil.createFailedResponse(message, null);
 		}
-		return ResponseUtil.createSuccessResponse(message, builtyNo);
+		return ResponseUtil.createSuccessResponse(message, true);
+	}
+	
+	@PutMapping("/markComplete")
+	@ResponseBody
+	public APIResponse<Boolean> markComplete(@RequestBody List<BuiltyDTO> bilties){
+		String message = "Payment marked complete successfully for selected PANs";
+		try {
+			builtyService.markForPaymentCompletion(bilties);
+		}catch(Exception e) {
+			LOG.error("Error in marking payment complete {}", e);
+			return ResponseUtil.createFailedResponse(message, null);
+		}
+		return ResponseUtil.createSuccessResponse(message, true);
 	}
 	
 	

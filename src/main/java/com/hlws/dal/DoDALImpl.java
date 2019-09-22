@@ -8,6 +8,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -30,13 +31,22 @@ public class DoDALImpl implements IDoDAL {
 
     @Override
     public List<DO> findRunning() {
-        Query query = new Query().addCriteria(Criteria.where("finishDate").is(null));
+    	Calendar cal = Calendar.getInstance();
+    	cal.set(Calendar.HOUR, 0);
+    	cal.set(Calendar.MINUTE, 0);
+    	cal.set(Calendar.SECOND, 0);
+    	cal.set(Calendar.MILLISECOND, 0);    	
+    	
+        Query query = new Query().addCriteria(Criteria.where("dueDate").gte(cal.getTime())
+        		.and("doBalance").gt(0));
         return mongoTemplate.find(query, DO.class, getSpecificCollectionName(FIXED_COLLECTION_NAME));
     }
 
     @Override
     public List<DO> findCompleted() {
-        Query query = new Query().addCriteria(Criteria.where("finishDate").ne(null));
+    	Criteria criteria = new Criteria();
+		criteria.orOperator(Criteria.where("dueDate").lt(new Date()), Criteria.where("doBalance").lte(0));
+		Query query = new Query(criteria);
         return mongoTemplate.find(query, DO.class, getSpecificCollectionName(FIXED_COLLECTION_NAME));
     }
 

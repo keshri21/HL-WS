@@ -22,8 +22,16 @@ public class XlsUtil {
         /* attach the font to the style created earlier */
         boldStyle.setFont(boldFont);
         /* At this stage, we have a bold style created which we can attach to a cell */
-        
         return boldStyle;
+	}
+	
+	public static CellStyle getColoredStyle(Workbook wb, short colorIndex) {
+		CellStyle coloredStyle = wb.createCellStyle();
+		/* Create HSSFFont object from the workbook */
+        Font font = wb.createFont();
+        font.setColor(colorIndex);
+        coloredStyle.setFont(font);
+        return coloredStyle;
 	}
 	
 	public static ByteArrayInputStream getFromCache(Integer cacheKey) {

@@ -32,6 +32,21 @@ public class DOService {
     public String update(DO doObj){
     	doObj.setLastModifiedDateTime(new Date());
     	doObj.setLastModifiedBy(AppUtil.getLoggedInUser().getUsername());
+    	DO origDO = doRepository.findById(doObj.getId());
+    	
+    	//check if quantity deduction or lapse quantity changed
+    	//if changed then we need to update the DO balance with the difference in change
+    	double doBalance = origDO.getDoBalance();
+    	if(origDO.getQuantityDeduction() != doObj.getQuantityDeduction()) {    		
+    		double qtyDeductionDiff = doObj.getQuantityDeduction() - origDO.getQuantityDeduction();
+    		doBalance = doBalance - qtyDeductionDiff;
+    	}
+    	if(origDO.getLepseQuantity() != doObj.getLepseQuantity()) {    		
+    		double lepseQuantityDiff = doObj.getLepseQuantity() - origDO.getLepseQuantity();
+    		doBalance = doBalance - lepseQuantityDiff;    		
+    	}
+    	doObj.setDoBalance(doBalance < 0 ? 0 : doBalance);
+    	
         doRepository.save(doObj);
         return doObj.getId();
     }

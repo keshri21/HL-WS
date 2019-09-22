@@ -4,6 +4,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
@@ -14,13 +16,19 @@ import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
 
 import com.hlws.dto.BuiltyDTO;
+import com.hlws.enums.BiltyPaymentStatus;
+import com.hlws.enums.BiltyUpdateType;
 import com.hlws.model.Builty;
 import com.hlws.model.Sequence;
+import com.hlws.rest.resource.BuiltyResource;
+import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.UpdateResult;
 
 @Repository
 public class BuiltyDALImpl implements IBuiltyDAL {
 
+	private final Logger LOG = LoggerFactory.getLogger(BuiltyDALImpl.class);
+	
     private final MongoTemplate mongoTemplate;
     private static final String FIXED_COLLECTION_NAME = "builty";
     private static final String SEQUENCE_COLLECTION_NAME = "builty-sequence";
@@ -38,20 +46,20 @@ public class BuiltyDALImpl implements IBuiltyDAL {
 
     @Override
     public List<Builty> findRunning() {
-        Query query = new Query().addCriteria(Criteria.where("paymentInstructionDone").ne(true).and("deleted").is(false));
+        Query query = new Query().addCriteria(Criteria.where("paymentStatus")
+        		.in(BiltyPaymentStatus.READY_FOR_PAYMENT.getStatusCode(), BiltyPaymentStatus.CREATED.getStatusCode()));
         return mongoTemplate.find(query, Builty.class, getSpecificCollectionName(FIXED_COLLECTION_NAME));
     }
 
     @Override
     public List<Builty> findCompleted() {
-        Query query = new Query().addCriteria(Criteria.where("paymentInstructionDone").is(true));
+        Query query = new Query().addCriteria(Criteria.where("paymentStatus").is(BiltyPaymentStatus.DONE.getStatusCode()));
         return mongoTemplate.find(query, Builty.class, getSpecificCollectionName(FIXED_COLLECTION_NAME));
     }
 
     @Override
     public List<Builty> getAll() {
-    	Query query = new Query().addCriteria(Criteria.where("deleted").ne(true));
-        return mongoTemplate.find(query, Builty.class, getSpecificCollectionName(FIXED_COLLECTION_NAME));
+        return mongoTemplate.findAll(Builty.class, getSpecificCollectionName(FIXED_COLLECTION_NAME));
     }
 
     @Override
@@ -96,21 +104,36 @@ public class BuiltyDALImpl implements IBuiltyDAL {
 	}
 
 	@Override
-	public void updateReceipt(List<BuiltyDTO> builtyList, boolean isPaymentInstruction) {
+	public void updateReceipt(List<BuiltyDTO> builtyList, BiltyUpdateType updateType) {
 		builtyList.forEach(builty -> {
 			Query query = new Query();
 			Update update = new Update();
-			if(!isPaymentInstruction) {
-				query.addCriteria(Criteria.where("_id").is(builty.getId()));
-				update.set("receivedDate", builty.getReceivedDate())
-						.set("receivedQuantity", builty.getReceivedQuantity())
-						.set("freightBill", builty.getFreightBill())
-						.set("freightGenerated", true);
-			}else {
-				query.addCriteria(Criteria.where("builtyNo").is(builty.getBuiltyNo()));
-				update.set("paymentInstructionDone", true)
-						.set("paymentInstructionDateTime", new Date());
+			switch(updateType) {
+				case FREIGHT_CALCULATION:
+					query.addCriteria(Criteria.where("_id").is(builty.getId()));
+					update.set("receivedDate", builty.getReceivedDate())
+							.set("receivedQuantity", builty.getReceivedQuantity())
+							.set("freightBill", builty.getFreightBill())
+							.set("paymentStatus", BiltyPaymentStatus.READY_FOR_PAYMENT.getStatusCode());
+					break;
+				case PAYMENT_INSTRUCTION:
+					query.addCriteria(Criteria.where("builtyNo").is(builty.getBuiltyNo()));
+					update.set("paymentStatus", BiltyPaymentStatus.INITIATED.getStatusCode())
+							.set("paymentInstructionDateTime", new Date());
+					break;
+				case REVERT_INSTRUCTION:
+					query.addCriteria(Criteria.where("builtyNo").is(builty.getBuiltyNo()));
+					update.set("paymentStatus", BiltyPaymentStatus.READY_FOR_PAYMENT.getStatusCode())
+							.set("paymentInstructionDateTime", new Date());
+					break;
+				case PAYMENT_DONE:
+					query.addCriteria(Criteria.where("builtyNo").is(builty.getBuiltyNo()));
+					update.set("paymentStatus", BiltyPaymentStatus.DONE.getStatusCode());
+					break;
+				default:
+					LOG.error("Invalid Update bilty request received. Bilty No. [{}]", builty.getBuiltyNo());
 			}
+			
 			mongoTemplate.updateFirst(query, update, Builty.class, getSpecificCollectionName(FIXED_COLLECTION_NAME));
 		});
 		
@@ -123,7 +146,7 @@ public class BuiltyDALImpl implements IBuiltyDAL {
 		Query query = new Query();
 		Update update = new Update();
 		query.addCriteria(Criteria.where("builtyNo").is(builtyNo));
-		update.set("paymentInstructionDone", false);
+		update.set("paymentStatus", BiltyPaymentStatus.READY_FOR_PAYMENT.getStatusCode());
 		mongoTemplate.updateFirst(query, update, Builty.class, getSpecificCollectionName(FIXED_COLLECTION_NAME));
 	}
 
@@ -171,9 +194,7 @@ public class BuiltyDALImpl implements IBuiltyDAL {
 	@Override
 	public boolean delete(String builtyId) {
 		Query query = new Query().addCriteria(Criteria.where("_id").is(builtyId));
-		Update update = new Update();
-		update.set("deleted", true);
-		UpdateResult result = mongoTemplate.updateFirst(query, update, Builty.class, getSpecificCollectionName(FIXED_COLLECTION_NAME));
+		DeleteResult result = mongoTemplate.remove(query, Builty.class, getSpecificCollectionName(FIXED_COLLECTION_NAME));
 
 		return result.wasAcknowledged();
 	}
@@ -189,7 +210,13 @@ public class BuiltyDALImpl implements IBuiltyDAL {
 
 	@Override
 	public List<Builty> getBuiltiesForPayments() {
-		Query query = new Query(Criteria.where("freightGenerated").is(true).and("paymentInstructionDone").ne(true));
+		Query query = new Query(Criteria.where("paymentStatus").is(BiltyPaymentStatus.READY_FOR_PAYMENT.getStatusCode()));
+		return mongoTemplate.find(query, Builty.class, getSpecificCollectionName(FIXED_COLLECTION_NAME));
+	}
+	
+	@Override
+	public List<Builty> getBuiltiesForInitiatedPayments() {
+		Query query = new Query(Criteria.where("paymentStatus").is(BiltyPaymentStatus.INITIATED.getStatusCode()));
 		return mongoTemplate.find(query, Builty.class, getSpecificCollectionName(FIXED_COLLECTION_NAME));
 	}
 	

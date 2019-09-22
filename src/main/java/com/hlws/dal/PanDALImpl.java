@@ -35,38 +35,38 @@ public class PanDALImpl implements IPanDAL{
 
     @Override
     public List<Pan> getAll() {
-        return mongoTemplate.findAll(Pan.class, FIXED_COLLECTION_NAME);
+        return mongoTemplate.findAll(Pan.class, getSpecificCollectionName(FIXED_COLLECTION_NAME));
     }
 
     @Override
     public List<Pan> findBySearchText(String searchText) {
         Query query = new Query().addCriteria(Criteria.where("panNo").regex(searchText, "i"));
-        return mongoTemplate.find(query, Pan.class, FIXED_COLLECTION_NAME);
+        return mongoTemplate.find(query, Pan.class, getSpecificCollectionName(FIXED_COLLECTION_NAME));
     }
 
     @Override
-    public Pan getOne(String panNo) {
+    public Pan getByPanNo(String panNo) {
         Query query = new Query().addCriteria(Criteria.where("panNo").is(panNo));
-        return mongoTemplate.findOne(query, Pan.class, FIXED_COLLECTION_NAME);
+        return mongoTemplate.findOne(query, Pan.class, getSpecificCollectionName(FIXED_COLLECTION_NAME));
     }
 
 	@Override
 	public void updateVehicles(String pan, Set<Vehicle> updatedList) {
 		Query query = new Query().addCriteria(Criteria.where("panNo").is(pan));
 		Update update = new Update().set("vehicles", updatedList);
-		mongoTemplate.updateFirst(query, update, FIXED_COLLECTION_NAME);
+		mongoTemplate.updateFirst(query, update, getSpecificCollectionName(FIXED_COLLECTION_NAME));
 	}
 
 	@Override
 	public List<Pan> getVehicles(String searchText) {
 		Query query = new Query().addCriteria(Criteria.where("vehicles.vehicleNo").regex(searchText, "i"));
-        return mongoTemplate.find(query, Pan.class, FIXED_COLLECTION_NAME);
+        return mongoTemplate.find(query, Pan.class, getSpecificCollectionName(FIXED_COLLECTION_NAME));
 	}
 	
 	@Override
 	public List<Pan> getAllVehicles() {
 		Query query = new Query().addCriteria(Criteria.where("vehicles.isOldOwner").is(false));
-        return mongoTemplate.find(query, Pan.class, FIXED_COLLECTION_NAME);
+        return mongoTemplate.find(query, Pan.class, getSpecificCollectionName(FIXED_COLLECTION_NAME));
 	}
 	
 	@Override
@@ -76,7 +76,7 @@ public class PanDALImpl implements IPanDAL{
     	Query query = new Query().addCriteria(Criteria.where("vehicles.vehicleNo").is(vehicleNo)
 				.and("isOldOwner").is(false)); 
         Update update = new Update().set("vehicles.$.isOldOwner", true).set("vehicles.$.ownerTillDate", DateUtil.getDate(-1));
-        mongoTemplate.updateMulti(query, update, FIXED_COLLECTION_NAME);
+        mongoTemplate.updateMulti(query, update, getSpecificCollectionName(FIXED_COLLECTION_NAME));
     }
 
 	@Override
@@ -85,7 +85,7 @@ public class PanDALImpl implements IPanDAL{
 				.and("vehicles.addedDate").lte(builtyDate)
 				.orOperator(Criteria.where("vehicles.ownerTillDate").gte(builtyDate),
 						Criteria.where("vehicles.ownerTillDate").is(null)));
-		List<Pan> list = mongoTemplate.find(query, Pan.class, FIXED_COLLECTION_NAME);
+		List<Pan> list = mongoTemplate.find(query, Pan.class, getSpecificCollectionName(FIXED_COLLECTION_NAME));
 		return CollectionUtils.isEmpty(list) ? null : list.get(0);
 	}
 
@@ -93,7 +93,7 @@ public class PanDALImpl implements IPanDAL{
 	public void updateExtraPayment(String panNo, Double extraPayment) {
 		Query query = new Query().addCriteria(Criteria.where("panNo").is(panNo));
 		Update update = new Update().set("extraPayment", extraPayment);
-		mongoTemplate.updateFirst(query, update, FIXED_COLLECTION_NAME);		
+		mongoTemplate.updateFirst(query, update, getSpecificCollectionName(FIXED_COLLECTION_NAME));		
 	}
 	
     

@@ -5,8 +5,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.boot.SpringApplication;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -16,6 +15,9 @@ import org.springframework.data.mongodb.core.query.Update;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hlws.model.StringRefData;
+import com.hlws.dto.BuiltyDTO;
+import com.hlws.enums.BiltyPaymentStatus;
+import com.hlws.model.Builty;
 import com.hlws.model.DO;
 import com.hlws.model.Pan;
 import com.hlws.model.Vehicle;
@@ -25,60 +27,33 @@ import com.mongodb.MongoCredential;
 import com.mongodb.ServerAddress;
 
 //@SpringBootApplication
-public class TestBuiltyDAL implements CommandLineRunner {
-	
-	
-	@Override
-	public void run(String... args) throws Exception {
-		// TODO Auto-generated method stub
-		//MongoCredential credential = MongoCredential.createCredential("vikas", "hl", "vikas123".toCharArray());
-		MongoClientURI uri = new MongoClientURI("mongodb://vikas:vikas123@ds137720.mlab.com:37720/hl");
-		//MongoClient mongo = new MongoClient(new ServerAddress("ds137720.mlab.com", 37720), Arrays.asList(credential));
-		//MongoClient loclClient = new MongoClient("127.0.0.1");
-		MongoClient mongo = new MongoClient(uri);
-		MongoTemplate template = new MongoTemplate(mongo, "hl");
-		//MongoTemplate template = new MongoTemplate(loclClient, "test");
-		
-		MyPojo pojo = new MyPojo();
-		pojo.setData("date test");
-		pojo.setDt(new Date());
-		pojo.setDt2(new Date());
-		pojo.setCreatedDate(new Date());
-		Query query = new Query().addCriteria(Criteria.where("createdDate").lt(new Date()));
-		//template.findAllAndRemove(query, "date-test");
-		//template.save(pojo, "date-test");
-		
-		Query query1 = new Query().addCriteria(Criteria.where("vehicles").elemMatch(Criteria.where("vehicleNo").is("mh12gw7906")
-				.and("isOldOwner").is(false)));
-		List<Pan> lis = template.find(query1, Pan.class, "pan");
-		Update update = new Update().set("vehicles.$.isOldOwner", true);
-		System.out.println("Find by isOldOwner, size=" + lis.size() + " { " + lis);
-		template.updateMulti(query1, update, Pan.class, "pan");
-		//Query query = new Query().addCriteria(Criteria.where("createdDate").lt(new Date()));
-		/*List<MyPojo> pojoList = template.find(query, MyPojo.class, "date-test");
-		ObjectMapper mapper = new ObjectMapper();
-		for (MyPojo myPojo : pojoList) {
-			System.out.println(mapper.writeValueAsString(myPojo));
-		}
-		
-		List<Collary> ar = new ArrayList<>();
-		List<String> areas = new ArrayList<>();
-		Collary c1 = new Collary();
-		c1.setName("HASEO");
-		ar.add(c1);
-		Collary c2 = new Collary();
-		c2.setName("BHATA");
-		ar.add(c2);
-		c1.setName("PARA");
-		ar.add(c1);
-		template.insert(ar, "area");
-		template.findAll(Collary.class, "area").forEach(area -> areas.add(area.getName()));*/
-		//System.out.println(lis);
-		
-	}
+public class TestBuiltyDAL{
+
 
 	public static void main(String[] args) {
-		SpringApplication.run(TestBuiltyDAL.class, args);
+		// TODO Auto-generated method stub
+		//MongoCredential credential = MongoCredential.createCredential("vikas", "hl", "vikas123".toCharArray());
+//		MongoClientURI uri = new MongoClientURI("mongodb://vikas:vikas123@ds137720.mlab.com:37720/hl");
+//		//MongoClient mongo = new MongoClient(new ServerAddress("ds137720.mlab.com", 37720), Arrays.asList(credential));
+//		//MongoClient loclClient = new MongoClient("127.0.0.1");
+//		MongoClient mongo = new MongoClient(uri);
+//		MongoTemplate template = new MongoTemplate(mongo, "hl");
+//		//MongoTemplate template = new MongoTemplate(loclClient, "test");
+//		
+//		Criteria criteria = new Criteria();
+//		criteria.orOperator(Criteria.where("dueDate").lt(new Date()), Criteria.where("doBalance").lte(0));
+//		Query query = new Query(criteria);
+//        List<DO> dos = template.find(query, DO.class, "do-hl");
+//		//template.updateMulti(query, update, Builty.class, "builty-hl");
+//		
+//		/*Query query2 = new Query();
+//		query2.addCriteria(Criteria.where("paymentStatus").is(2));
+//		Update update2 = new Update();
+//		update2.set("paymentStatus", BiltyPaymentStatus.INITIATED.getStatusCode());
+//		List<Builty> bilties2 = template.find(query2, Builty.class, "builty-hl");*/
+//		//template.updateMulti(query2, update2, Builty.class, "builty-hl");
+//		System.out.println("DO list received: " + dos);
+		//System.out.println(bilties2);
 	}
 	
 	private List<State> populateStates() {

@@ -7,13 +7,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Random;
-import java.util.concurrent.ConcurrentHashMap;
 
+import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.CellType;
-import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -28,7 +25,6 @@ import com.hlws.dto.BuiltyDTO;
 import com.hlws.enums.PaymentInstructionColumn;
 import com.hlws.model.Account;
 import com.hlws.model.Pan;
-import com.hlws.rest.resource.BuiltyResource;
 import com.hlws.util.XlsUtil;
 
 @Component
@@ -38,21 +34,29 @@ public class BillHelper {
 	@Autowired
 	IPanDAL panRepository;
 	
-	private Map<Pan, Double> consolidateFreightBill(List<BuiltyDTO> builties){
+	private PaymentInstructionData consolidateFreightBill(List<BuiltyDTO> builties){
+		PaymentInstructionData data = new PaymentInstructionData();
 		Map<Pan, Double> paymentMap = new HashMap<>();
+		Map<String, Double> deductionMap = new HashMap<>();
 		builties.forEach(builty -> {
 			Pan owner = panRepository.getVehicleOwner(builty.getVehicleNo(), builty.getBuiltyDate());
 			if(paymentMap.get(owner) != null) {
-				paymentMap.put(owner, paymentMap.get(owner)+builty.getFreightBill());
+				paymentMap.put(owner, paymentMap.get(owner) + builty.getFreightBill());
 			}else {
 				paymentMap.put(owner, builty.getFreightBill() + owner.getExtraPayment());
+				if(owner.getExtraPayment() < 0) {
+					deductionMap.put(owner.getPanNo(), owner.getExtraPayment());
+				}
 			}
 		});
-		return paymentMap;
+		data.setInstructionMap(paymentMap);
+		data.setDeductionMap(deductionMap);
+		return data;
 	}
 	
 	public Integer generatePaymentInstructionSheet(List<BuiltyDTO> builties) throws IOException {
-		Map<Pan, Double> paymentMap = consolidateFreightBill(builties); 
+		PaymentInstructionData data = consolidateFreightBill(builties);
+		Map<Pan, Double> paymentMap = data.getInstructionMap();  
 		
 		// first update extraPayment for pan
 		for (Entry<Pan, Double> entry : paymentMap.entrySet()) {
@@ -66,10 +70,10 @@ public class BillHelper {
 		}
 		
 		try(
-				Workbook workbook = new XSSFWorkbook();
+				Workbook wb = new XSSFWorkbook();
 				ByteArrayOutputStream out = new ByteArrayOutputStream();
 		){
-			Sheet sheet = workbook.createSheet("payment instructions");
+			Sheet sheet = wb.createSheet("payment instructions");
 			int rowIndex = 5;
 			Row row = sheet.createRow(rowIndex);
 			Cell cell = null;
@@ -79,13 +83,13 @@ public class BillHelper {
 				sheet.setColumnWidth(colIndex, column.getWidth());
 				cell = row.createCell(colIndex);
 				cell.setCellValue(column.getValue());				
-				cell.setCellStyle(XlsUtil.getBoldStyle(workbook));
+				cell.setCellStyle(XlsUtil.getBoldStyle(wb));
 				colIndex++;
 			}
 					
 			Double totalAmount = 0d;
 			for (Entry<Pan, Double> entry : paymentMap.entrySet()) {
-				if(entry.getValue() > 0) {
+				//if(entry.getValue() > 0) {
 					rowIndex++;
 					colIndex = 0;
 					row = sheet.createRow(rowIndex);
@@ -121,7 +125,18 @@ public class BillHelper {
 							case AMOUNT:
 								cell = row.createCell(colIndex, CellType.NUMERIC);
 								cell.setCellValue(entry.getValue());
-								totalAmount += entry.getValue();
+								if(entry.getValue() < 0) {
+									cell.setCellStyle(XlsUtil.getColoredStyle(wb, HSSFColor.DARK_RED.index));
+								}else {									
+									totalAmount += entry.getValue();
+								}
+								break;
+							case PREVIOUS_ADJUSTMENT:
+								if(data.getDeductionMap().containsKey(entry.getKey().getPanNo())) {
+									cell = row.createCell(colIndex, CellType.NUMERIC);
+									Double deduction = data.getDeductionMap().get(entry.getKey().getPanNo());
+									cell.setCellValue(Math.abs(deduction));
+								}								
 								break;
 							default:
 								break;
@@ -130,20 +145,20 @@ public class BillHelper {
 						colIndex++;
 						
 					} //END - while loop
-				}
+				//} END - if value>0
 			} //END - for loop paymentMap
 			
 			Row totalRow = sheet.createRow(rowIndex+2);
 			cell = totalRow.createCell(0);
 			cell.setCellValue(("TOTAL"));
-			cell.setCellStyle(XlsUtil.getBoldStyle(workbook));
+			cell.setCellStyle(XlsUtil.getBoldStyle(wb));
 			//totalRow.createCell(0).
 			cell = totalRow.createCell(noOfColumns-1, CellType.NUMERIC);
 			cell.setCellValue(totalAmount);
-			cell.setCellStyle(XlsUtil.getBoldStyle(workbook));
+			cell.setCellStyle(XlsUtil.getBoldStyle(wb));
 			//sheet.addMergedRegion(CellRangeAddress.valueOf(cell.getAddress().A1))
 			
-			workbook.write(out);
+			wb.write(out);
 						
 			return XlsUtil.addToCache(new ByteArrayInputStream(out.toByteArray()));
 		} // END - try block

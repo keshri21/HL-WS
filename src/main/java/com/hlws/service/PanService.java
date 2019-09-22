@@ -34,7 +34,7 @@ public class PanService {
         /*if(CollectionUtils.isEmpty(pan.getVehicles())){
             throw new Exception("Vehicle number is mandatory with pan registration");
         }*/
-        if(createFlag && getOne(pan.getPanNo()) != null) {
+        if(createFlag && getPAN(pan.getPanNo()) != null) {
             throw new Exception("PAN already registered");
         }
         //List<Vehicle> vehicles = pan.getVehicles();
@@ -50,8 +50,8 @@ public class PanService {
         return panRepository.save(pan);
     }
 
-    public Pan getOne(String panNo){
-        return panRepository.getOne(panNo.toUpperCase());
+    public Pan getPAN(String panNo){
+        return panRepository.getByPanNo(panNo.toUpperCase());
     }
     
     public List<Pan> getAll(){
