@@ -1,5 +1,6 @@
 package com.hlws.model;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -7,7 +8,9 @@ import java.util.Set;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.hlws.util.AppConstants;
 import com.hlws.util.AppUtil;
 
 @Document
@@ -26,6 +29,8 @@ public class Pan {
 	private Set<Vehicle> vehicles;
 	private Account primaryAccount;
 	private Double extraPayment;
+	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern=AppConstants.DATE_FORMAT, timezone="IST")
+	private Date registrationDate;
 	
 	public String getPanNo() {
 		return panNo;
@@ -123,6 +128,14 @@ public class Pan {
 	public void setPrimaryAccount(Account primaryAccount) {
 		this.primaryAccount = primaryAccount;
 	}
+		
+	public Date getRegistrationDate() {
+		return registrationDate;
+	}
+	public void setRegistrationDate(Date registrationDate) {
+		this.registrationDate = registrationDate;
+	}
+	
 	@Override
 	public String toString() {
 		return "Pan [id=" + id + ", panNo=" + panNo + ", panHolderName=" + panHolderName + ", tds=" + tds
